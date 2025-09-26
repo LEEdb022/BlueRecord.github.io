@@ -1,0 +1,17 @@
+[
+  {
+    "name": "홍길동",
+    "page": "hong.html",
+    "image": "images/hong.png"
+  },
+  {
+    "name": "임꺽정",
+    "page": "lim.html",
+    "image": "images/lim.png"
+  },
+  {
+    "name": "이몽룡",
+    "page": "lee.html",
+    "image": "images/lee.png"
+  }
+]
