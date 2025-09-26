@@ -1,0 +1,21 @@
+<div id="character-detail"></div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const charName = params.get("name");  // ?name=hong
+
+fetch("characters.json")
+  .then(res => res.json())
+  .then(data => {
+    const char = data.find(c => c.name === charName);
+    if (!char) {
+      document.getElementById("character-detail").innerText = "캐릭터 없음";
+      return;
+    }
+    document.getElementById("character-detail").innerHTML = `
+      <h2>${char.name}</h2>
+      <img src="${char.image}" alt="${char.name}">
+      <p>여기에 캐릭터 상세정보</p>
+    `;
+  });
+</script>
