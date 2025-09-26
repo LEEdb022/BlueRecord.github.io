@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>캐릭터 목록</title>
+  <style>
+    .character-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .character {
+      width: 150px;
+      text-align: center;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      transition: transform 0.2s;
+    }
+    .character img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .character:hover {
+      transform: scale(1.05);
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>캐릭터 목록</h1>
+  <div id="character-list" class="character-list"></div>
+
+  <script>
+    fetch("characters.json")
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById("character-list");
+        data.forEach(char => {
+          const div = document.createElement("div");
+          div.className = "character";
+          div.innerHTML = `
+            <a href="${char.page}">
+              <img src="${char.image}" alt="${char.name}">
+              <div>${char.name}</div>
+            </a>
+          `;
+          list.appendChild(div);
+        });
+      });
+  </script>
+</body>
+</html>
