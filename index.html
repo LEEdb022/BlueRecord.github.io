@@ -4,11 +4,7 @@
   <meta charset="UTF-8">
   <title>캐릭터 목록</title>
   <style>
-    .character-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
+    .character-list { display: flex; flex-wrap: wrap; gap: 20px; }
     .character {
       width: 150px;
       text-align: center;
@@ -17,16 +13,8 @@
       border-radius: 8px;
       transition: transform 0.2s;
     }
-    .character img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-    .character:hover {
-      transform: scale(1.05);
-      background: #f9f9f9;
-    }
+    .character img { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; }
+    .character:hover { transform: scale(1.05); background: #f9f9f9; }
   </style>
 </head>
 <body>
@@ -35,14 +23,14 @@
 
   <script>
     fetch("characters.json")
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
         const list = document.getElementById("character-list");
         data.forEach(char => {
           const div = document.createElement("div");
           div.className = "character";
           div.innerHTML = `
-            <a href="${char.page}">
+            <a href="character.html?id=${char.id}">
               <img src="${char.image}" alt="${char.name}">
               <div>${char.name}</div>
             </a>
