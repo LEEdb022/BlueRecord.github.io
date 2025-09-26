@@ -1,17 +1,20 @@
 [
   {
+    "id": "hong",
     "name": "홍길동",
-    "page": "hong.html",
-    "image": "images/hong.png"
+    "image": "images/hong.png",
+    "description": "홍길동의 상세 설명이 들어가는 곳입니다."
   },
   {
+    "id": "lim",
     "name": "임꺽정",
-    "page": "lim.html",
-    "image": "images/lim.png"
+    "image": "images/lim.png",
+    "description": "임꺽정의 상세 설명이 들어가는 곳입니다."
   },
   {
+    "id": "lee",
     "name": "이몽룡",
-    "page": "lee.html",
-    "image": "images/lee.png"
+    "image": "images/lee.png",
+    "description": "이몽룡의 상세 설명이 들어가는 곳입니다."
   }
 ]
