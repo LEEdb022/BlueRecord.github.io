@@ -144,11 +144,12 @@ h2 {
 
 /* 이미지 */
 .character img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 8px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    filter: blur(100px);
 }
 
 /* 이름 */
@@ -200,3 +201,4 @@ h2 {
   font-size: 14px;
   margin-top: 4px;
 }
+
