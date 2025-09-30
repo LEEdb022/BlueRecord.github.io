@@ -3,21 +3,21 @@
     "id": "char1",
     "name": "라구스",
     "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FuIbcQ%2FbtsFoDjGwi8%2FJqzN9vFu0YpzZCGTqlrIok%2Fimg.png",
-    "html": "/charcons/char1.html",
+    "html": "charcons/char1.html",
     "tag": "SV"
   },
   {
     "id": "char2",
     "name": "판크리",
     "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F38QzC%2FbtsFmmQth3A%2FXkKyMbdpgZJMVdy0TqvjiK%2Fimg.png",
-    "html": "/charcons/char2.html",
+    "html": "charcons/char2.html",
     "tag": "SV"
   },
   {
     "id": "char3",
     "name": "비터",
     "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F74fLQ%2FbtsK3uOzJm4%2FNAnvykI2cqYvjyjPK7Q4hk%2Fimg.png",
-    "html": "/charcons/char3.html",
+    "html": "charcons/char3.html",
     "tag": "SV"
   },
   {
@@ -257,5 +257,6 @@
     "image": "images/lim.png",
   "html": "/charcons/char37.html"
   }
+
 
 ]
