@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 상세</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { max-width: 800px; margin: 40px auto; font-family: 'Galmuri9', sans-serif; }
+    img { max-width: 100%; margin-bottom: 20px; }
+    pre { background: #222831; color: #FFD369; padding: 10px; border-radius: 6px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <div id="post-detail"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get("id");
+
+    // markdown 대신 html 파일 경로를 지정
+    const posts = [
+      { id: "article1", title: "첫 번째 글", html: "markdown/Ragus.html", thumb: "images/thumb1.png" },
+    ];
+
+    const post = posts.find(p => p.id === postId);
+    const container = document.getElementById("post-detail");
+
+    if (!post) {
+      container.innerText = "게시글을 찾을 수 없습니다.";
+    } else {
+      let html = `<h2>${post.title}</h2>`;
+      if (post.thumb) html += `<img src="${post.thumb}" alt="${post.title}">`;
+
+      fetch(post.html)
+        .then(res => res.text())
+        .then(content => {
+          html += `<div>${content}</div>`;
+          html += `<a href="universe.html">← 목록으로 돌아가기</a>`;
+          container.innerHTML = html;
+        });
+    }
+  </script>
+</body>
+</html>
