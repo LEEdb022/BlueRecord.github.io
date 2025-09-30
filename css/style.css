@@ -149,7 +149,7 @@ h2 {
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 8px;
-    filter: blur(100px);
+    filter: blur(10px);
 }
 
 /* 이름 */
@@ -201,4 +201,5 @@ h2 {
   font-size: 14px;
   margin-top: 4px;
 }
+
 
