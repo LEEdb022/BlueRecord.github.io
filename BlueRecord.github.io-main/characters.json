@@ -1,0 +1,14 @@
+[
+  {
+    "id": "char1",
+    "name": "XX",
+    "image": "",
+    "html": "charcons/char1.html"
+  },
+  {
+    "id": "char2",
+    "name": "OO",
+    "image": "",
+    "html": "charcons/char2.html"
+  }
+]
