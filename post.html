@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>게시글 상세</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="/css/style.css">
   <style>
     body { max-width: 800px; margin: 40px auto; font-family: 'Galmuri9', sans-serif; }
@@ -18,8 +17,9 @@
     const params = new URLSearchParams(window.location.search);
     const postId = params.get("id");
 
+    // markdown 대신 html 파일 경로를 지정
     const posts = [
-      { id: "article1", title: "첫 번째 글", markdown: "markdown/Ragus.md", thumb: "images/thumb1.png" },
+      { id: "article1", title: "첫 번째 글", html: "markdown/Ragus.html", thumb: "images/thumb1.png" },
     ];
 
     const post = posts.find(p => p.id === postId);
@@ -31,10 +31,10 @@
       let html = `<h2>${post.title}</h2>`;
       if (post.thumb) html += `<img src="${post.thumb}" alt="${post.title}">`;
 
-      fetch(post.markdown)
+      fetch(post.html)
         .then(res => res.text())
-        .then(md => {
-          html += `<div>${marked.parse(md)}</div>`;
+        .then(content => {
+          html += `<div>${content}</div>`;
           html += `<a href="universe.html">← 목록으로 돌아가기</a>`;
           container.innerHTML = html;
         });

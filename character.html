@@ -9,7 +9,6 @@
   </style>
 </head>
 <body>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <div id="character-detail"></div>
 
 <script>
@@ -30,23 +29,21 @@ fetch("characters.json")
     container.innerHTML = `
       <h2>${char.name}</h2>
       <img src="${char.image}" alt="${char.name}">
-      <div id="markdown-content">불러오는 중...</div>
+      <div id="html-content">불러오는 중...</div>
       <a href="index.html">← 목록으로 돌아가기</a>
     `;
 
-    // 마크다운 파일 fetch
-    fetch(char.markdown)
+    // HTML 파일 fetch
+    fetch(char.html)
       .then(res => res.text())
-      .then(md => {
-        document.getElementById("markdown-content").innerHTML = marked.parse(md);
+      .then(content => {
+        document.getElementById("html-content").innerHTML = content;
       })
       .catch(err => {
-        document.getElementById("markdown-content").innerText = "마크다운 불러오기 실패";
+        document.getElementById("html-content").innerText = "HTML 불러오기 실패";
         console.error(err);
       });
   });
 </script>
-
-
 </body>
 </html>
