@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/chardocstyle.css">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
 </head>
 <body>
   <div class="wrap">
@@ -14,33 +15,55 @@
         <div class="profile">
           <!-- 여기에 아바타 이미지 경로 넣거나 유지하세요 -->
           <img src="XX" alt="XX">
-        </div>
-
+        </div><!-- .profile -->
         <div class="meta">
           <h1 class="name">XX</h1>
-          <div class="subtitle">직업 / 직위 / 짧은 한줄 소개 XX</div>
-          <div class="badges">
-            <span class="badge">나이: XX</span>
-            <span class="badge">성별: XX</span>
-            <span class="badge">출신: XX</span>
-            <span class="badge">진영: XX</span>
-          </div>
-        </div>
-      </div>
+          <div class="subtitle">XX</div>
+            <table class="table">
+              <tr>
+                <th>표테스트</th>
+                <td>표테스트</td>
+              </tr>
+              <tr>
+                <th>표테스트</th>
+                <td>표테스트</td>
+              </tr>
+              <tr>
+                <th>표테스트</th>
+                <td>표테스트</td>
+              </tr>
+              <tr>
+                <th>표테스트</th>
+                <td>표테스트</td>
+              </tr>
+              <tr>
+                <th>표테스트</th>
+                <td>표테스트</td>
+              </tr>
+              <tr>
+                <th>표테스트</th>
+                <td>표테스트</td>
+              </tr>
+            </table>
+        </div><!-- .meta -->
+
+      </div><!-- .header -->
 
       <!-- 본문: 좌측-설명 우측-기본정보 -->
       <div class="grid">
         <!-- 좌측: 소개 / 스토리 / 능력 -->
         <div>
+
           <div class="panel">
             <div class="section-title">개요</div>
             <div class="bio">
               XX
               <!-- 길게 쓸 때는 이 영역을 채우세요. 예: 배경, 성격, 주요 사건 등 -->
-            </div>
-          </div>
+            </div><!-- .bio -->
+          </div><!-- .panel -->
 
           <div style="height:12px"></div>
+
 
           <div class="panel">
             <div class="section-title">능력 / 스킬</div>
@@ -49,23 +72,23 @@
                 <h4>스킬명 XX</h4>
                 <div>설명: XX</div>
                 <div style="margin-top:6px;color:var(--muted);font-size:13px;">쿨다운: XX / 위력: XX / 기타: XX</div>
-              </div>
+              </div><!-- .ability -->
 
               <div class="ability">
                 <h4>스킬명 XX</h4>
                 <div>설명: XX</div>
                 <div style="margin-top:6px;color:var(--muted);font-size:13px;">쿨다운: XX / 위력: XX / 기타: XX</div>
-              </div>
-            </div>
-          </div>
+              </div><!-- .ability -->
+            </div><!-- .abilities -->
+          </div><!-- .panel -->
 
           <div style="height:12px"></div>
 
           <div class="panel">
             <div class="section-title">추가 메모</div>
-            <div class="bio">XX</div>
-          </div>
-        </div>
+            <div class="bio">XX</div><!-- .bio -->
+          </div><!-- .panel -->
+  </div><!-- 좌측: 소개/스토리/능력 영역 -->
 
         <!-- 우측: 핵심 정보 박스 -->
         <aside>
@@ -78,8 +101,8 @@
               <div class="info-item"><div class="info-key">신체</div><div class="info-val">XX</div></div>
               <div class="info-item"><div class="info-key">직업</div><div class="info-val">XX</div></div>
               <div class="info-item"><div class="info-key">능력치</div><div class="info-val">STR XX / AGI XX / INT XX</div></div>
-            </div>
-          </div>
+            </div><!-- .info-list -->
+          </div><!-- .panel -->
 
           <div class="panel" style="margin-bottom:12px;">
             <div class="section-title">관계</div>
@@ -87,8 +110,8 @@
               <div class="info-item"><div class="info-key">가까운 인물</div><div class="info-val">XX</div></div>
               <div class="info-item"><div class="info-key">적대 인물</div><div class="info-val">XX</div></div>
               <div class="info-item"><div class="info-key">그룹/소속</div><div class="info-val">XX</div></div>
-            </div>
-          </div>
+            </div><!-- .info-list -->
+          </div><!-- .panel -->
 
           <div class="panel">
             <div class="section-title">갤러리</div>
@@ -97,9 +120,9 @@
               <img src="XX" alt="XX">
               <img src="XX" alt="XX">
               <img src="XX" alt="XX">
-            </div>
-          </div>
-        </aside>
+            </div><!-- .gallery -->
+          </div><!-- .panel -->
+        </aside><!-- 우측: 핵심 정보 박스 -->
       </div>
 
         <!-- 다음 캐릭터 버튼 -->
@@ -107,9 +130,7 @@
 
       <div class="footer">
         <a class="back" href="../index.html">← 목록으로 돌아가기</a>
-      </div>
-
-
+      </div><!-- .footer -->
   <script>
   // 페이지 로드 시 페이드 인
   window.addEventListener("DOMContentLoaded", () => {
