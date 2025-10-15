@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KakaoTalk 스타일 UI (HTML + CSS)</title>
+  <!-- 가독성을 위해 구글 폰트 연결 (인터넷 연결 필요) -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/talk.css">
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="top">
+        <div class="logo">카</div>
+        <div class="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-4.35-4.35" stroke="#bdbdbd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="#bdbdbd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input placeholder="검색 또는 새 채팅" aria-label="search">
+        </div>
+      </div>
+
+      <div class="chat-list">
+        <div class="chat-item active">
+          <div class="avatar">A</div>
+          <div class="meta">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+              <div class="name">A</div>
+              <div class="meta time" style="font-size:12px;color:var(--muted)">오후 3:22</div>
+            </div>
+            <div class="preview">어제 그거 했어? 진짜 재밌었어!</div>
+          </div>
+          <div style="margin-left:8px"><span class="badge">2</span></div>
+        </div>
+
+        <div class="chat-item">
+          <div class="avatar">B</div>
+          <div class="meta">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+              <div class="name">C</div>
+              <div class="meta time">오전 11:05</div>
+            </div>
+            <div class="preview">확인했어. 내일 보자.</div>
+          </div>
+        </div>
+
+        <div class="chat-item">
+          <div class="avatar">C</div>
+          <div class="meta">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+              <div class="name">B</div>
+              <div class="meta time">10/10</div>
+            </div>
+            <div class="preview">그거 무슨 장르였지..? 내가 찾을게</div>
+          </div>
+        </div>
+
+        <!-- 더미 아이템 여러개 -->
+        <div class="chat-item">
+          <div class="avatar">D</div>
+          <div class="meta">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+              <div class="name">동아리 공지</div>
+              <div class="meta time">10/05</div>
+            </div>
+            <div class="preview">오늘 회식은 7시입니다 — 장소: OO식당</div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <main class="content">
+      <div class="header">
+        <div class="avatar" style="width:44px;height:44px;border-radius:10px">A</div>
+        <div>
+          <div class="name">1</div>
+          <div class="sub">온라인</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+          <button class="btn">더보기</button>
+        </div>
+      </div>
+
+      <div class="messages">
+        <div class="msg you">
+          안녕! 오늘 뭐해?
+          <span class="time">오후 3:18</span>
+        </div>
+
+        <div class="msg me">
+          나 지금 작업중이야. 끝나고 연락할게~
+          <span class="time">오후 3:20</span>
+        </div>
+
+        <div class="msg you small">
+          오케이! 그럼 우리 8시에 볼래?
+          <span class="time">오후 3:21</span>
+        </div>
+
+        <div class="msg me">
+          좋아! 장소는 어디가 좋을까?
+          <span class="time">오후 3:22</span>
+        </div>
+
+      </div>
+
+      <div class="input-area">
+        <div class="btn">＋</div>
+        <div class="input">
+          <textarea placeholder="메시지 입력"></textarea>
+          <div style="width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700">😊</div>
+        </div>
+        <button class="send">전송</button>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

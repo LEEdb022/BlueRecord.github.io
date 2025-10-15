@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+body {
+      background-color: #000;
+      font-family: 'Malgun Gothic', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+
+    #dialog-box {
+      position: relative;
+      width: 600px;
+      background: rgba(20, 20, 20, 0.95);
+      border: 2px solid #555;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    #character-name {
+      font-weight: bold;
+      color: #c7a34d;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    #dialog-text {
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 80px;
+      max-width: 500px;
+      white-space: pre-line;
+    }
+
+    #hint {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 14px;
+      color: #bbb;
+      background: rgba(0,0,0,0.2);
+      padding: 4px 8px;
+      border-radius: 6px;
+      pointer-events: none; /* 클릭은 박스 전체가 받도록 */
+    }
+
+    #facechip {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      width: 80px;
+      height: 80px;
+      background-color: #222;
+      border: 2px solid #555;
+      border-radius: 8px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* 메인으로 돌아가기 버튼 */
+    #back-to-main {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 24px;
+      background: rgba(255, 215, 105, 0.95);
+      color: #111;
+      padding: 10px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      z-index: 1000;
+    }
+
+    #back-to-main:hover {
+      transform: translateX(-50%) translateY(-3px);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.55);
+    }

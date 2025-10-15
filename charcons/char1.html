@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/chardocstyle.css">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+</head>
+<body>
+  <!-- 갤러리 이미지 확대 모달 -->
+  <div id="galleryModal" class="gallery-modal">
+    <div class="gallery-modal-overlay" id="galleryModalOverlay"></div>
+    <img id="galleryModalImg" class="gallery-modal-img" src="" alt="Gallery Zoom">
+    <button id="galleryModalClose" class="gallery-modal-close" aria-label="닫기">×</button>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <!-- 헤더: 아바타 + 기본 메타 -->
+      <div class="header">
+
+    <!-- 관련문서 모음: 접기/펼치기 기능 포함 (wrap 내부, card 위) -->
+    <div id="relatedDocsContainer" class="related-docs">
+      <button id="toggleRelatedDocs" class="related-toggle">관련 문서 보기 ▼</button>
+      <div id="relatedDocsContent" class="related-content" style="display:none;">
+        <ul>
+          <a href="#">문서 예시 1</a><a href="#">문서 예시 2</a><a href="#">문서 예시 3</a>
+          <!-- 필요에 따라 문서 추가 -->
+        </ul>
+      </div>
+    </div>
+
+    <h1 class="name">라구스</h1>
+    <div class="subtitle"></div>
+    <div class="header-grid">
+      <div class="toc-area">
+        <div class="toc-title">목차</div>
+        <ol class="toc-list">
+          <li><a href="#section-one">개요</a></li>
+          <li>
+            <a href="#section-two">특징</a>
+            <ul>
+              <li><a href="#section-appearance">외모</a></li>
+              <li><a href="#section-details">세부요소</a></li>
+            </ul>
+          </li>
+          <li><a href="#section-thre">성격</a></li>
+          <li><a href="#section-four">작중행적</a></li>
+          <li><a href="#section-five">관계</a></li>
+          <li><a href="#section-meta">메타정보</a></li>
+          <li><a href="#section-gallery">갤러리</a></li>
+        </ol>
+      </div>
+      <div class="profile-meta-area">
+        <div class="profile">
+          
+        </div><!-- .profile -->
+      </div>
+      <div class="table-area">
+        <table class="table">
+          <tr>
+            <th colspan="2" style="text-align:center; font-weight:100%; font-size:17px;background:#23272f;color:#ffffff;">
+              라구스<br> <span style="font-size: small; font-weight:0%">Ragus</span></th>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align:center;background:#181c22;">
+              <img src="XX" alt="캐릭터 이미지" style="max-width:90px;max-height:90px;border-radius:6px;box-shadow:0 1px 4px #222;">
+            </td>
+          </tr>
+          <tr>
+            <th>성별</th>
+            <td>여자</td>
+          </tr>
+          <tr>
+            <th>종족</th>
+            <td></td>
+          </tr>
+          <tr>
+            <th>출신</th>
+            <td>이갈리븐 우드</td>
+          </tr>
+          <tr>
+            <th>좋아하는것</th>
+            <td>디저트, 친구들, 모험</td>
+          </tr>
+          <tr>
+            <th>싫어하는것</th>
+            <td>어려운 글 읽기</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+      </div><!-- .header -->
+
+      <!-- 본문: 좌측-설명 우측-기본정보 -->
+      <div class="grid">
+        <!-- 좌측: 소개 / 스토리 / 능력 -->
+        <div>
+          <!-- 개요 -->
+          <div class="panel">
+            <div class="section-title" id="section-one">개요</div>
+            <span class="quote-line">"달콤한 디저트 냄새~"</span>
+            <div class="bio">아랫마을에 사는 귀여운 소녀 , 디저트를 만드는 걸 아주 좋아한다. 
+              자신이 직접 디저트 샵을 차려서 친구들과 마을 사람들에게 날마다 행복을 주고 있다.
+              활기차고 긍정적인 성격이며 기분 변화가 빠르다. 
+              책 읽는걸 별로 안 좋아 한다. 글을 잘 못 읽기 때문. <!-- 배경, 세계관, 기본 설명 등 --></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 특징 -->
+          <div class="panel">
+            <div class="section-title" id="section-two">특징</div>
+            <div class="panel" style="margin-bottom:8px;">
+              <div class="section-title" id="section-appearance" style="font-size:17px;margin-bottom:4px;">외모</div>
+              <div>항상 삐쭉빼쭉한 요리사 모자와 붉은 앞치마를 매고 있다.
+                 말로는 항상 언제나 디저트를 만들 준비가 되어있어서라고.
+                그려진 문양은 무얼 뜻하는지 그 누구도 모른다.</div>
+            </div>
+            <div class="panel" style="margin-bottom:8px;">
+              <div class="section-title" id="section-details" style="font-size:17px;margin-bottom:4px;">세부요소</div>
+              <div>세부요소에 대한 설명을 여기에 작성하세요.</div>
+            </div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 성격 -->
+          <div class="panel">
+            <div class="section-title" id="section-thre">성격</div>
+            <div class="bio">성격에 대한 설명을 여기에 작성하세요.</div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 작중행적 -->
+          <div class="panel">
+            <div class="section-title" id="section-four">작중행적</div>
+            <div class="bio">작중행적에 대한 설명을 여기에 작성하세요.</div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 관계 -->
+          <div class="panel">
+            <div class="section-title" id="section-five">관계</div>
+            <div class="bio">관계에 대한 설명을 여기에 작성하세요.</div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 메타정보 -->
+          <div class="panel">
+            <div class="section-title" id="section-meta">메타정보</div>
+            <div class="bio">메타정보(제작 비화, 기타 등등)를 여기에 작성하세요.</div>
+          </div>
+        </div><!-- 좌측: 본문 영역 -->
+
+        <aside>
+          <div class="panel">
+            <div class="section-title" id="section-gallery">갤러리</div>
+            <div class="gallery">
+              <img src="https://i.namu.wiki/i/eO46Cop5oqBCK4jQxuufCVPFBdsnswVNlXN_S7Ja5_kb7hYd8qpMJEAnpO5ko-ilUgrES_2vSXAmwlklls-GxQ.webp" alt="XX">
+              <img src="XX" alt="XX">
+              <img src="XX" alt="XX">
+              <img src="XX" alt="XX">
+              <img src="XX" alt="XX">
+              <img src="XX" alt="XX">
+            </div><!-- .gallery -->
+          </div><!-- .panel -->
+        </aside>
+      </div>
+
+        <!-- 다음 캐릭터 버튼 -->
+      <a href="char.html" class="next-button" id="nextCharacterBtn">다음 캐릭터 →</a>
+
+      <div class="footer">
+        <a class="back" href="../index.html">← 목록으로 돌아가기</a>
+      </div><!-- .footer -->
+  <script>
+  // 갤러리 이미지 클릭 확대 기능
+  document.addEventListener("DOMContentLoaded", function() {
+    const galleryImgs = document.querySelectorAll('.gallery img');
+    const modal = document.getElementById('galleryModal');
+    const modalImg = document.getElementById('galleryModalImg');
+    const modalOverlay = document.getElementById('galleryModalOverlay');
+    const modalClose = document.getElementById('galleryModalClose');
+    function openModal(src, alt) {
+      modalImg.src = src;
+      modalImg.alt = alt || '';
+      modal.classList.add('show');
+      setTimeout(()=>{modal.classList.add('visible');}, 10);
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modal.classList.remove('visible');
+      setTimeout(()=>{
+        modal.classList.remove('show');
+        modalImg.src = '';
+        document.body.style.overflow = '';
+      }, 250);
+    }
+    galleryImgs.forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function() {
+        openModal(this.src, this.alt);
+      });
+    });
+    modalOverlay.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', closeModal);
+    document.addEventListener('keydown', function(e) {
+      if (modal.classList.contains('show') && (e.key === 'Escape' || e.key === 'Esc')) closeModal();
+    });
+  });
+
+  // 페이지 로드 시 페이드 인
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+    // 관련문서 접기/펼치기 기능
+    const toggleBtn = document.getElementById("toggleRelatedDocs");
+    const content = document.getElementById("relatedDocsContent");
+    let opened = false;
+    if (toggleBtn && content) {
+      toggleBtn.addEventListener("click", function() {
+        opened = !opened;
+        content.style.display = opened ? "block" : "none";
+        toggleBtn.innerText = opened ? "관련 문서 접기 ▲" : "관련 문서 보기 ▼";
+      });
+    }
+  });
+
+  (function() {
+    const nextBtn = document.getElementById("nextCharacterBtn");
+    if (!nextBtn) return;
+
+    // 현재 페이지 파일명 추출
+    const path = window.location.pathname;
+    const filename = path.substring(path.lastIndexOf("/") + 1); // 예: "char1.html"
+    
+    // 파일명에서 숫자 추출 (char숫자.html)
+    const match = filename.match(/^char(\d+)\.html$/);
+
+    if (!match) {
+      nextBtn.style.display = "none"; // 형식이 맞지 않으면 버튼 숨김
+      return;
+    }
+
+    const currentNum = parseInt(match[1], 10); // 현재 번호
+    const nextNum = currentNum + 1;             // 다음 번호
+    const nextFile = `char${nextNum}.html`;     // 다음 파일명
+
+    // 버튼 href 설정
+    nextBtn.href = nextFile;
+
+    // 클릭 시 페이드 아웃 후 이동
+    nextBtn.addEventListener("click", function(e){
+      e.preventDefault();
+      const url = this.href;
+      document.body.classList.remove("fade-in");
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = url;
+      }, 500);
+    });
+  })();
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+

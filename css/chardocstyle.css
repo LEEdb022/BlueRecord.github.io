@@ -1,0 +1,428 @@
+/* 캐릭터 대사 인용문 (한줄용) */
+.quote-line {
+  display: block;
+  font-family: 'DoolgiMayoGothic', 'NanumSquare', sans-serif;
+  font-size: 18px;
+  color: #8ec3ff;
+  background: rgba(40,60,100,0.13);
+  border-left: 4px solid #53a3ee;
+  padding: 7px 16px;
+  margin: 12px 0 18px 0;
+  border-radius: 5px;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+/* 갤러리 이미지 확대 모달 */
+.gallery-modal {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s cubic-bezier(.4,0,.2,1);
+}
+.gallery-modal.show {
+  pointer-events: auto;
+}
+.gallery-modal.visible {
+  opacity: 1;
+}
+.gallery-modal-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.65);
+  cursor: zoom-out;
+  z-index: 1;
+  transition: background 0.25s;
+}
+.gallery-modal-img {
+  position: relative;
+  z-index: 2;
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  background: #222;
+  transition: transform 0.25s cubic-bezier(.4,0,.2,1);
+  transform: scale(0.96);
+  opacity: 0.7;
+}
+.gallery-modal.visible .gallery-modal-img {
+  transform: scale(1);
+  opacity: 1;
+}
+.gallery-modal-close {
+  position: absolute;
+  top: 32px;
+  right: 48px;
+  z-index: 3;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.5rem;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.gallery-modal-close:hover {
+  opacity: 1;
+}
+@media (max-width: 700px) {
+  .gallery-modal-img {
+    max-width: 98vw;
+    max-height: 60vh;
+  }
+  .gallery-modal-close {
+    top: 12px;
+    right: 16px;
+    font-size: 2rem;
+  }
+}
+/* 헤더 그리드 레이아웃 및 목차/표 영역 스타일 */
+.header-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr 220px;
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 18px;
+}
+.toc-area {
+  background: #181c22;
+  border: 1px solid #292e36;
+  border-radius: 8px;
+  padding: 12px 10px 10px 10px;
+  font-size: 15px;
+  min-width: 90px;
+  max-width: 120px;
+  color: #b0c4de;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.toc-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #53a3ee;
+}
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.toc-list li {
+  margin-bottom: 6px;
+}
+.toc-list a {
+  color: #b0c4de;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+.toc-list a:hover {
+  color: #53a3ee;
+}
+.profile-meta-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.table-area {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.table-area .table {
+  margin: 0;
+  min-width: 180px;
+  max-width: 220px;
+  font-size: 14px;
+}
+@media (max-width: 700px) {
+  .header-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .toc-area, .table-area {
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+  .table-area {
+    justify-content: flex-start;
+  }
+}
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+/*font-family: 'NanumSquareLight';
+font-family: 'NanumSquare';
+font-family: 'NanumSquareBold';
+font-family: 'NanumSquareExtraBold';
+font-family: 'NanumSquareAcb';
+font-family: 'NanumSquareAceb';
+font-family: 'NanumSquareAcl';
+font-family: 'NanumSquareAcr';*/
+
+@font-face {
+    font-family: 'DoolgiMayoGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 다크모드 위키 스타일 캐릭터 페이지 */
+body {
+  font-family: 'NanumSquareLight';
+  margin: 0;
+  background-color: #111; /* 전체 배경 */
+  color: #f0f0f0; /* 기본 텍스트 */
+  line-height: 1.6;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+  .related-docs {
+    background: #222;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 10px 16px 4px 16px;
+    margin: 0 auto 18px auto;
+    max-width: 700px;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .related-toggle {
+    background: #ebebeb;
+    border: none;
+    color: #222;
+    font-size: 15px;
+    padding: 4px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 4px;
+    transition: background 0.2s;
+  }
+  .related-toggle:hover {
+    background: #53a3ee;
+  }
+  .related-content {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 8px 14px 8px 18px;
+    margin-bottom: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+  }
+  .related-content ul {
+    margin: 0;
+    padding: 0 0 0 12px;
+  }
+  .related-content li {
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+  .related-content a {
+    color: #3b5bdb;
+    text-decoration: underline;
+    transition: color 0.2s;
+  }
+  .related-content a:hover {
+    color: #1c3faa;
+  }
+
+
+.bold {
+  font-family: 'NanumSquareBold';
+}
+
+.quote {
+  font-family: 'DoolgiMayoGothic';
+}
+.wrap {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.card {
+  background-color: #222; /* 카드 배경 */
+  border: 1px solid #333; /* 메인 컬러 */
+  border-radius: 6px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+/* 캐릭터 이름 */
+.name {
+  font-size: 30px;
+  font-weight: 700;
+  border-bottom: 2px solid #53a3ee; /* 포인트 컬러 */
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+  color: #f0f0f0;
+}
+
+/* 좌측 프로필 박스 */
+.profile-box {
+  float: left;
+  width: 260px;
+  margin: 0 20px 20px 0;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.profile-box img {
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  border: 1px solid #444;
+}
+
+.profile-box .info-item {
+  margin: 6px 0;
+  border-bottom: 1px dotted #444;
+  padding-bottom: 4px;
+}
+
+.profile-box .info-key {
+  font-weight: bold;
+  color: #ccc;
+}
+
+.profile-box .info-val {
+  float: right;
+  color: #53a3ee; /* 포인트 */
+}
+
+/* 본문 섹션 */
+.section {
+  margin-bottom: 28px;
+  clear: both;
+}
+
+.section-title {
+  font-size: 25px;
+  font-weight: 600;
+  border-bottom: 2px solid #53a3ee; /* 포인트 */
+  margin-bottom: 10px;
+  padding-bottom: 4px;
+  color: #f0f0f0;
+}
+
+/* 능력/스킬 */
+.ability {
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #333;
+  border-left: 4px solid #53a3ee;
+  border-radius: 4px;
+  background-color: #1f1f1f;
+}
+
+.ability h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: #f0f0f0;
+}
+
+/* 갤러리 */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #333;
+  transition: 0.2s ease;
+}
+
+.gallery img:hover {
+  border-color: #53a3ee;
+}
+
+/* 푸터 */
+.footer {
+  margin-top: 30px;
+  font-size: 14px;
+  text-align: right;
+  color: #aaa;
+}
+
+.footer a {
+  color: #53a3ee;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+
+    body.fade-out {
+      opacity: 0;
+    }
+
+
+    body.fade-in {
+      opacity: 1;
+    }
+
+/* 캐릭터 표 스타일 */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  background-color: #181c22;
+  border: 1px solid #333;
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 15px;
+  color: #e0e6ed;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.table th, .table td {
+  padding: 7px 10px 7px 10px;
+  border-bottom: 1px solid #292e36;
+  text-align: left;
+}
+.table th {
+  width: 60px;
+  background-color: #23272f;
+  color: #53a3ee;
+  font-weight: 700;
+}
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+    .next-button {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #53a3ee;
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 20px;
+    }
+
+    .next-button:hover {
+      background-color: #3f8cd8;
+    }

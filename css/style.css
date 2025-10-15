@@ -1,0 +1,328 @@
+
+@import url('//fonts.googleapis.com/earlyaccess/notosanskr.css');
+@import url('//fonts.googleapis.com/css?family=Nanum+Myeongjo');
+@import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
+
+@font-face {
+    font-family: 'MapoGoldenPier';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoGoldenPierA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body { 
+    font-family: Galmuri9, sans-serif; 
+    margin: 0; 
+    padding: 0; 
+    background: #f5f5f5;
+}
+header { 
+    background: #333; 
+    color: #fff; 
+    padding: 20px; 
+    text-align: center; 
+}
+   
+.header-content {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center;
+  gap: 20px; /* 아이콘과 프로필 사이 간격 */
+}
+
+/* SNS 아이콘 */
+.social-links {
+  display: flex;
+  gap: 15px;
+}
+
+.social-links a {
+  color: #afdfff;
+  font-size: 22px;
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: #fff;
+}
+
+/* 프로필 이미지 */
+.profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* 동그라미 */
+  border: 2px solid #FFD369;
+  object-fit: cover;
+}
+
+    /* 검색창 컨테이너 */
+.search-bar {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 검색창 input */
+.search-bar input {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 2px solid #FFD369;
+  border-radius: 6px;
+  outline: none;
+  width: 180px;
+}
+
+/* 버튼 */
+.search-bar button {
+  padding: 6px 12px;
+  background-color: #FFD369;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-bar button:hover {
+  background-color: #e0b44f;
+}
+    
+nav { background: #444; }
+nav ul { display: flex; list-style: none; margin: 0; padding: 0; justify-content: center; }
+nav li { margin: 0 15px; }
+nav a { color: #fff; text-decoration: none; font-weight: bold; padding: 15px 0; display: block; }
+nav a:hover { text-decoration: underline; }
+    
+.announcement-box {
+  max-width: 480px;
+  margin: 32px auto 24px auto;
+  background: #fffbe7;
+  border: 2px solid #FFD369;
+  border-radius: 10px;
+  color: #333;
+  padding: 16px 22px;
+  text-align: center;
+  font-size: 1.08rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* 섹션 스타일 */
+ section { padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+    
+h2 {
+    text-align: center;
+}
+
+/* 전체 판: 노란 테두리 + 검은 배경 */
+.character-list-container {
+  border: 5px solid #FFD369;
+  background-color: #333; /* 검은색 배경 */
+  padding: 20px;
+  margin: 20px 50px;
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+}
+
+/* 5x7 영역: 흰색 배경 */
+.character-list {
+  display: grid;
+  grid-template-columns: repeat(5, 120px);
+  grid-auto-rows: auto;
+  gap: 20px;
+  background-color: #ffffff; /* 흰색 배경 */
+  padding: 20px;
+}
+
+/* 각 캐릭터 칸 */
+.character {
+  border: 3px solid #000000;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Galmuri9';
+  transition: transform 0.2s, background 0.2s;
+}
+
+.character:hover {
+  transform: scale(1.05);
+  background-color: #f0f0f0;
+}
+
+/* 이미지 */
+.character img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+/* 이름 */
+.character div {
+  font-weight: bold;
+  color: #000000;
+  text-align: center;
+}
+
+/* 링크 */
+.character a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.post-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 20px;
+}
+
+.post-item {
+  width: 200px;
+  height: 120px;
+  border: 2px solid #FFD369;
+  border-radius: 6px;
+  padding: 6px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.post-item img {
+  width: 100%;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.post-item .post-title {
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/*////업데이트한거///////////////////////////////////////////////*/
+
+  .site-footer {
+    background: #333;
+    color: #f5f5f5;
+    text-align: center;
+    padding: 18px 0;
+    font-size: 1rem;
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+  }
+
+  /* 위로가기 버튼 기본 스타일 */
+  #back-to-top {
+    position: fixed;
+    bottom: 30px;       /* 화면 하단에서의 거리 */
+    right: 30px;        /* 화면 오른쪽에서의 거리 */
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;       /* 처음엔 숨김 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, opacity 0.3s;
+    z-index: 1000;       /* 다른 요소 위에 위치 */
+  }
+
+  /* 마우스 올렸을 때 */
+  #back-to-top:hover {
+    background-color: #555;
+  }
+
+  /* 스크롤 시 나타날 때의 부드러운 효과 */
+  #back-to-top.show {
+    display: block;
+    opacity: 0.9;
+  }
+
+
+
+/* 모바일 대응: 최대 600px */
+@media (max-width: 600px) {
+  header {
+    padding: 12px;
+    font-size: 16px;
+  }
+  .header-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .profile img {
+    width: 36px;
+    height: 36px;
+  }
+  .social-links a {
+    font-size: 18px;
+    gap: 8px;
+  }
+  .search-bar {
+    position: static;
+    margin: 12px auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .search-bar input {
+    width: 100%;
+    font-size: 13px;
+  }
+  .search-bar button {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px 0;
+  }
+  nav ul {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  nav li {
+    margin: 0 0 8px 0;
+  }
+  nav a {
+    padding: 10px 0;
+    font-size: 15px;
+  }
+  section {
+    padding: 18px 4px;
+    max-width: 100%;
+  }
+  .character-list-container {
+    margin: 8px 2px;
+    padding: 8px;
+  }
+  .character-list {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 4px;
+  }
+  .character {
+    font-size: 12px;
+    padding: 4px 1px;
+    min-width: 0;
+  }
+  .character img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 2px;
+  }
+}

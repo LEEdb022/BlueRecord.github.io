@@ -1,0 +1,129 @@
+    :root{
+      --bg:#f7f7f7;
+      --kakao-yellow:#FFEB00;
+      --kakao-dark:#3b2f2f;
+      --muted:#9b9b9b;
+      --bubble:#fff;
+      --accent:#ffe15a;
+      --shadow: 0 4px 14px rgba(17,17,17,0.08);
+      --container-width:1100px;
+      font-family: 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; background:var(--bg); color:var(--kakao-dark)}
+
+    /* 중앙 컨테이너 */
+    .wrap{
+      width:100%;
+      max-width:var(--container-width);
+      margin:28px auto;
+      background: #fff;
+      border-radius:12px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:flex;
+      min-height:640px;
+    }
+
+    /* 왼쪽: 채팅 목록 */
+    .sidebar{
+      width:320px;
+      border-right:1px solid #eee;
+      display:flex;
+      flex-direction:column;
+      background:linear-gradient(180deg, #fff 0%, #fff 100%);
+    }
+
+    .sidebar .top{
+      padding:18px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      border-bottom:1px solid #f0f0f0;
+    }
+
+    .logo{
+      width:40px; height:40px; border-radius:8px;
+      background:linear-gradient(180deg,#ffd700,#ffeb3b);
+      display:flex;align-items:center;justify-content:center;font-weight:700;color:#3b2f2f;font-size:18px;
+      box-shadow:0 1px 0 rgba(0,0,0,0.04) inset;
+    }
+
+    .search{
+      flex:1;
+      display:flex;align-items:center;gap:8px;
+      background:#fafafa;border-radius:20px;padding:8px 12px;font-size:14px;color:var(--muted);
+    }
+
+    .search input{all:unset; width:100%;}
+
+    .chat-list{
+      overflow:auto; padding:10px 8px; flex:1;
+    }
+
+    .chat-item{
+      display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;cursor:pointer;
+      transition:background .15s ease;
+    }
+    .chat-item:hover{background:#fbfbfb}
+    .chat-item.active{background:var(--accent)}
+
+    .avatar{
+      width:48px;height:48px;border-radius:12px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-weight:700;color:#3b2f2f;background:#ffd84d;
+    }
+
+    .meta{flex:1;min-width:0}
+    .meta .name{font-weight:700;margin-bottom:4px}
+    .meta .preview{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+    .meta .time{font-size:12px;color:var(--muted);}
+
+    .badge{background:#ff3b30;color:#fff;font-size:12px;padding:3px 7px;border-radius:12px}
+
+    /* 오른쪽: 채팅 영역 */
+    .content{
+      flex:1;display:flex;flex-direction:column;background:linear-gradient(180deg,#fff,#fcfcfc);
+    }
+
+    .header{
+      border-bottom:1px solid #f0f0f0;padding:12px 18px;display:flex;align-items:center;gap:12px;
+    }
+    .header .name{font-weight:700}
+    .header .sub{color:var(--muted);font-size:13px}
+
+    .messages{
+      flex:1;padding:20px;overflow:auto;background:linear-gradient(180deg,#fff,#fbfbfb);
+      display:flex;flex-direction:column;gap:12px;
+    }
+
+    /* 말풍선 스타일 */
+    .msg{max-width:70%;padding:10px 12px;border-radius:14px;box-shadow:0 2px 8px rgba(12,12,12,0.04);line-height:1.4}
+    .msg.me{margin-left:auto;background:#fff; border:1px solid #f2f2f2}
+    .msg.you{margin-right:auto;background: #fff9c9;border:1px solid #ffeaa3}
+
+    .msg.small{font-size:13px;padding:8px 10px}
+    .msg .time{display:block;font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+
+    .input-area{
+      padding:12px;border-top:1px solid #eee;display:flex;gap:10px;align-items:center;background:#fff;
+    }
+
+    .input-area .btn{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#f6f6f6;border:1px solid #eee}
+
+    .input{flex:1;display:flex;align-items:center;background:#fafafa;border-radius:12px;padding:10px 12px;gap:10px}
+    .input textarea{resize:none;border:0;background:transparent;width:100%;height:36px;font-size:14px;outline:none}
+
+    .send{background:var(--kakao-yellow);padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;border:0}
+
+    /* 반응형 */
+    @media (max-width:900px){
+      .wrap{flex-direction:column;min-height:700px}
+      .sidebar{width:100%;order:2}
+      .content{order:1}
+    }
+
+    /* 스크롤바 간단 설정 */
+    .chat-list::-webkit-scrollbar, .messages::-webkit-scrollbar{width:8px}
+    .chat-list::-webkit-scrollbar-thumb, .messages::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.06);border-radius:6px}

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>화살표 키 누르기 게임</title>
+  <style>
+    body {
+      background: #0f1724;
+      color: #fff;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .game {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 280px;
+    }
+    .arrow-display {
+      font-size: 100px;
+      margin: 20px 0;
+      user-select: none;
+      transition: transform 0.1s ease;
+    }
+    .arrow-display.hit {
+      transform: scale(1.3);
+      color: #22c55e;
+    }
+    .arrow-display.miss {
+      transform: scale(0.8);
+      color: #ef4444;
+    }
+    .timer {
+      height: 10px;
+      background: #334155;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    .bar {
+      height: 100%;
+      background: linear-gradient(90deg,#22c55e,#6ee7b7);
+      width: 100%;
+      transform-origin: left;
+    }
+    .score {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    button {
+      background: #0f172a;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      margin: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <div>
+      <button id="startBtn">시작</button>
+      <button id="stopBtn">중단</button>
+    </div>
+    <div class="arrow-display" id="target">-</div>
+    <div class="timer"><div class="bar" id="timerBar"></div></div>
+    <div class="score">점수: <span id="score">0</span></div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const targetEl = document.getElementById('target');
+    const timerBar = document.getElementById('timerBar');
+    const scoreEl = document.getElementById('score');
+
+    const POOLS = [
+      {key:'ArrowUp', sym:'↑'},
+      {key:'ArrowLeft', sym:'←'},
+      {key:'ArrowRight', sym:'→'},
+      {key:'ArrowDown', sym:'↓'},
+      {key:'Space', sym:'⎵'}
+    ];
+
+    let score = 0;
+    let running = false;
+    let current = null;
+    let timeLimit = 20;
+    let timerStart = 0;
+    let timerRAF;
+
+    function pick(){
+      return POOLS[Math.floor(Math.random()*POOLS.length)];
+    }
+
+    function nextArrow(){
+      if(!running) return;
+      current = pick();
+      targetEl.textContent = current.sym;
+      targetEl.style.color = '#fff';
+    }
+
+    function startGame(){
+      if(running) return;
+      running = true;
+      score = 0;
+      scoreEl.textContent = score;
+      nextArrow();
+      timerStart = performance.now();
+      timerRAF = requestAnimationFrame(updateTimer);
+    }
+
+    function stopGame(){
+      running = false;
+      cancelAnimationFrame(timerRAF);
+      targetEl.textContent = '-';
+    }
+
+    function updateTimer(){
+      const elapsed = (performance.now() - timerStart)/1000;
+      const ratio = Math.max(0, 1 - elapsed/timeLimit);
+      timerBar.style.width = (ratio*100)+'%';
+      if(ratio<=0){
+        stopGame();
+        return;
+      }
+      timerRAF = requestAnimationFrame(updateTimer);
+    }
+
+    function flashHit(type){
+      targetEl.classList.add(type);
+      setTimeout(()=>{
+        targetEl.classList.remove(type);
+        if(type==='hit') nextArrow();
+      },100);
+    }
+
+    window.addEventListener('keydown', e => {
+      if(!running) return;
+      const pressed = (e.code === 'Space') ? 'Space' : e.key;
+      if(pressed === current.key){
+        score += 100;
+        scoreEl.textContent = score;
+        flashHit('hit');
+      } else {
+        score = Math.max(0, score - 50);
+        scoreEl.textContent = score;
+        flashHit('miss');
+      }
+    });
+
+    startBtn.addEventListener('click', startGame);
+    stopBtn.addEventListener('click', stopGame);
+  </script>
+</body>
+</html>

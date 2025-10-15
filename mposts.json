@@ -1,0 +1,21 @@
+[
+  {
+    "title": "첫 번째 글",
+    "date": "2025-10-14",
+    "content": "이건 기본 텍스트입니다.\n<span style='color:red; font-size:24px;'>이건 빨갛고 크게!</span>\n<span style='color:#1E90FF; font-size:14px;'>이건 파랗고 작게!</span>",
+    "image": "images/duc.jpg",
+    "audio": "audio/emot.mp3"
+  },
+  {
+    "title": "m 번째 글",
+    "date": "2025-10-15",
+    "content": "이것은 두 번째 글의 내용입니다.",
+    "image": "images/sample2.png",
+    "audio": "audio/sample2.mp3"
+  },
+  {
+    "title": "세 번째 글",
+    "date": "2025-10-14",
+    "content": "세 번째 글의 내용입니다."
+  }
+]

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/chardocstyle.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <!-- 헤더: 아바타 + 기본 메타 -->
+      <div class="header">
+        <div class="profile">
+          <!-- 여기에 아바타 이미지 경로 넣거나 유지하세요 -->
+          <img src="XX" alt="XX">
+        </div>
+
+        <div class="meta">
+          <h1 class="name">XX</h1>
+          <div class="subtitle">직업 / 직위 / 짧은 한줄 소개 XX</div>
+          <div class="badges">
+            <span class="badge">나이: XX</span>
+            <span class="badge">성별: XX</span>
+            <span class="badge">출신: XX</span>
+            <span class="badge">진영: XX</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 본문: 좌측-설명 우측-기본정보 -->
+      <div class="grid">
+        <!-- 좌측: 소개 / 스토리 / 능력 -->
+        <div>
+          <div class="panel">
+            <div class="section-title">개요</div>
+            <div class="bio">
+              XX
+              <!-- 길게 쓸 때는 이 영역을 채우세요. 예: 배경, 성격, 주요 사건 등 -->
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel">
+            <div class="section-title">능력 / 스킬</div>
+            <div class="abilities">
+              <div class="ability">
+                <h4>스킬명 XX</h4>
+                <div>설명: XX</div>
+                <div style="margin-top:6px;color:var(--muted);font-size:13px;">쿨다운: XX / 위력: XX / 기타: XX</div>
+              </div>
+
+              <div class="ability">
+                <h4>스킬명 XX</h4>
+                <div>설명: XX</div>
+                <div style="margin-top:6px;color:var(--muted);font-size:13px;">쿨다운: XX / 위력: XX / 기타: XX</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel">
+            <div class="section-title">추가 메모</div>
+            <div class="bio">XX</div>
+          </div>
+        </div>
+
+        <!-- 우측: 핵심 정보 박스 -->
+        <aside>
+          <div class="panel" style="margin-bottom:12px;">
+            <div class="section-title">기본 정보</div>
+            <div class="info-list">
+              <div class="info-item"><div class="info-key">이름</div><div class="info-val">XX</div></div>
+              <div class="info-item"><div class="info-key">아이디</div><div class="info-val">XX</div></div>
+              <div class="info-item"><div class="info-key">생일</div><div class="info-val">XX</div></div>
+              <div class="info-item"><div class="info-key">신체</div><div class="info-val">XX</div></div>
+              <div class="info-item"><div class="info-key">직업</div><div class="info-val">XX</div></div>
+              <div class="info-item"><div class="info-key">능력치</div><div class="info-val">STR XX / AGI XX / INT XX</div></div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-bottom:12px;">
+            <div class="section-title">관계</div>
+            <div class="info-list">
+              <div class="info-item"><div class="info-key">가까운 인물</div><div class="info-val">XX</div></div>
+              <div class="info-item"><div class="info-key">적대 인물</div><div class="info-val">XX</div></div>
+              <div class="info-item"><div class="info-key">그룹/소속</div><div class="info-val">XX</div></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="section-title">갤러리</div>
+            <div class="gallery">
+              <img src="XX" alt="XX">
+              <img src="XX" alt="XX">
+              <img src="XX" alt="XX">
+              <img src="XX" alt="XX">
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="footer">
+        <a class="back" href="/index.html">← 목록으로 돌아가기</a>
+      </div>
+    </div>
+  </div>
+
+        <!-- 다음 캐릭터 버튼 -->
+      <a href="char.html" class="next-button" id="nextCharacterBtn">다음 캐릭터 →</a>
+
+      <div class="footer">
+        <a class="back" href="index.html">← 목록으로 돌아가기</a>
+      </div>
+
+
+<script>
+  // 페이지 로드 시 페이드 인
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+  });
+
+  (function() {
+    const nextBtn = document.getElementById("nextCharacterBtn");
+    if (!nextBtn) return;
+
+    // 현재 페이지 파일명 추출
+    const path = window.location.pathname;
+    const filename = path.substring(path.lastIndexOf("/") + 1); // 예: "char2.html"
+    
+    // 파일명에서 숫자 추출 (char숫자.html)
+    const match = filename.match(/^char(\d+)\.html$/);
+
+    if (!match) {
+      nextBtn.style.display = "none"; // 형식이 맞지 않으면 버튼 숨김
+      return;
+    }
+
+    const currentNum = parseInt(match[1], 10); // 현재 번호
+    const nextNum = currentNum + 1;             // 다음 번호
+    const nextFile = `char${nextNum}.html`;     // 다음 파일명
+
+    // 버튼 href 설정
+    nextBtn.href = nextFile;
+
+    // 클릭 시 페이드 아웃 후 이동
+    nextBtn.addEventListener("click", function(e){
+      e.preventDefault();
+      const url = this.href;
+      document.body.classList.remove("fade-in");
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = url;
+      }, 500);
+    });
+  })();
+</script>
+
+
+</body>
+</html>
+
