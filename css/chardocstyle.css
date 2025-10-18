@@ -1,7 +1,7 @@
 /* 캐릭터 대사 인용문 (한줄용) */
 .quote-line {
   display: block;
-  font-family: 'DoolgiMayoGothic', 'NanumSquare', sans-serif;
+  font-family: 'NanumMyeongjo', 'NanumSquare', sans-serif;
   font-size: 18px;
   color: #8ec3ff;
   background: rgba(40,60,100,0.13);
@@ -85,7 +85,7 @@
 /* 헤더 그리드 레이아웃 및 목차/표 영역 스타일 */
 .header-grid {
   display: grid;
-  grid-template-columns: 120px 1fr 220px;
+  grid-template-columns: 200px 1fr 220px;
   gap: 18px;
   align-items: start;
   margin-bottom: 18px;
@@ -94,15 +94,15 @@
   background: #181c22;
   border: 1px solid #292e36;
   border-radius: 8px;
-  padding: 12px 10px 10px 10px;
+  padding: 12px 12px 10px 10px;
   font-size: 15px;
   min-width: 90px;
-  max-width: 120px;
+  max-width: 200px;
   color: #b0c4de;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
 .toc-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   margin-bottom: 8px;
   color: #53a3ee;
@@ -118,7 +118,7 @@
 .toc-list a {
   color: #b0c4de;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 16px;
   transition: color 0.2s;
 }
 .toc-list a:hover {
@@ -141,20 +141,6 @@
   max-width: 220px;
   font-size: 14px;
 }
-@media (max-width: 700px) {
-  .header-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-  .toc-area, .table-area {
-    max-width: 100%;
-    min-width: 0;
-    width: 100%;
-  }
-  .table-area {
-    justify-content: flex-start;
-  }
-}
 @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
 /*font-family: 'NanumSquareLight';
 font-family: 'NanumSquare';
@@ -172,7 +158,8 @@ font-family: 'NanumSquareAcr';*/
     font-display: swap;
 }
 
-/* 다크모드 위키 스타일 캐릭터 페이지 */
+@import url('//fonts.googleapis.com/earlyaccess/nanummyeongjo.css');
+
 body {
   font-family: 'NanumSquareLight';
   margin: 0;
@@ -320,32 +307,9 @@ body {
   color: #f0f0f0;
 }
 
-/* 능력/스킬 */
-.ability {
-  margin-bottom: 12px;
-  padding: 10px;
-  border: 1px solid #333;
-  border-left: 4px solid #53a3ee;
-  border-radius: 4px;
-  background-color: #1f1f1f;
-}
-
-.ability h4 {
-  margin: 0 0 4px 0;
-  font-size: 16px;
-  color: #f0f0f0;
-}
-
-/* 갤러리 */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 10px;
-}
-
 .gallery img {
   width: 100%;
-  height: 120px;
+  height: 80px; /* 가로로 긴 비율을 위해 높이를 낮춤 */
   object-fit: cover;
   border-radius: 4px;
   border: 1px solid #333;
@@ -354,6 +318,44 @@ body {
 
 .gallery img:hover {
   border-color: #53a3ee;
+}
+
+/* 갤러리 캡션 (figure, figcaption) */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 더 넓은 칸으로 설정 */
+  gap: 6px; /* 간격 유지 */
+  align-items: start;
+}
+.gallery-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* 캡션과 이미지 사이 간격 축소 */
+}
+.gallery-item img {
+  width: 100%;
+  height: 80px; /* 가로형 비율 유지 */
+  object-fit: cover;
+  border-radius: 4px;
+}
+.gallery-item figcaption {
+  font-size: 12px;
+  color: #cfcfcf;
+  text-align: center;
+  line-height: 1.1;
+  margin: 0;
+}
+
+/* 컬러 스와치 (테이블의 색상 미리보기) */
+.color-swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid rgba(0,0,0,0.4);
+  margin-right: 8px;
+  vertical-align: -2px;
+  background-color: #f2f8ff; /* 기본값, data-color로 채울 수 있음 */
 }
 
 /* 푸터 */

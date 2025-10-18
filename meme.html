@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>힐링 물방울 애니메이션</title>
+  <style>
+    :root{
+      --bg: #0b1220;      /* 색상 1 — 배경 */
+      --accent: #8dd3bf;  /* 색상 2 — 물/그릇/방울 */
+    }
+    /* 페이지 전체: 단색 두 가지만 사용 (그라데이션 없음) */
+    html,body{
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      color:var(--accent);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Helvetica Neue", Arial;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* 컨테이너로 중앙 배치 */
+    .stage{
+      width:520px;
+      height:420px;
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* 물그릇 */
+    .bowl{
+      width:320px;
+      height:160px;
+      border-radius:160px 160px 80px 80px / 100px 100px 60px 60px;
+      background:var(--accent); /* 그릇 내부 — 색상 2 */
+      position:relative;
+      box-shadow: 0 10px 30px rgba(11,18,32,0.6);
+      transition: transform 300ms ease, box-shadow 300ms ease; /* 트랜지션 포함 */
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding-top:34px; /* 방울이 떨어지는 위치 여유 */
+    }
+
+    /* 그릇 위쪽 테두리 강조 (같은 두 색을 이용해 음영 효과 없이만듦) */
+    .bowl::after{
+      content:"";
+      position:absolute;
+      left:6px; right:6px; top:6px;
+      height:38px;
+      border-radius:120px 120px 30px 30px / 60px 60px 18px 18px;
+      background:var(--bg); /* 같은 두 색만 사용 — 여기선 배경색을 덧대는 방식으로 단색 표현 */
+      pointer-events:none;
+    }
+
+    /* 물결(리플) */
+    .ripple{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%) scale(0);
+      top:72%; /* 그릇 안쪽 중심에 위치시키기 위한 값 */
+      width:40px;
+      height:10px;
+      border-radius:50%;
+      box-sizing:border-box;
+      border:3px solid var(--bg); /* 물결은 배경색으로 그릇 위에 드러나게 함 */
+      opacity:0.95;
+      pointer-events:none;
+      animation: ripple 900ms ease-out forwards;
+    }
+
+    @keyframes ripple{
+      0%{ transform:translateX(-50%) scale(0.35); opacity:0.95; }
+      60%{ opacity:0.65; }
+      100%{ transform:translateX(-50%) scale(3.2); opacity:0; }
+    }
+
+    /* 방울 */
+    .drop{
+      position:absolute;
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:var(--accent);
+      top:18px; /* stage 안에서 떨어지는 시작 높이(그릇 위) */
+      opacity:0.95;
+      transform:translateY(-10px);
+      animation: fall 760ms cubic-bezier(.2,.8,.2,1) forwards;
+      pointer-events:none;
+    }
+
+    @keyframes fall{
+      0%{ transform: translateY(-18px) scale(0.9); }
+      80%{ transform: translateY(220px) scale(1); }
+      95%{ transform: translateY(230px) scale(0.98); }
+      100%{ transform: translateY(240px) scale(0.96); opacity:0; }
+    }
+
+    /* 그릇이 방울 충돌시 살짝 튕기는 효과 */
+    .bowl.ripple-active{
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 18px 36px rgba(11,18,32,0.75);
+    }
+
+    /* 화면이 작을 때 크기 줄이기 (단순 반응형) */
+    @media (max-width:560px){
+      .stage{ width:92vw; height:56vw; }
+      .bowl{ width:76vw; height:38vw; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="stage" aria-hidden="true">
+    <div class="bowl" id="bowl"></div>
+  </div>
+
+  <script>
+    (function(){
+      const stage = document.querySelector('.stage');
+      const bowl = document.getElementById('bowl');
+
+      // 폭과 중심 구역 범위: 그릇 중앙을 기준으로 x좌표를 조금씩 랜덤하게 뿌림
+      const centerX = stage.clientWidth/2;
+      const range = 160; // 떨어지는 x 범위(픽셀)
+
+      // 드롭을 무작위 간격으로 생성
+      function spawnDrop(){
+        const d = document.createElement('div');
+        d.className = 'drop';
+
+        // 랜덤 x 위치(무대 안에서), 중앙 부근에 집중되게 분포
+        const offset = (Math.random() - 0.5) * range;
+        const left = centerX + offset;
+        d.style.left = Math.max(12, Math.min(stage.clientWidth-24, left)) + 'px';
+
+        stage.appendChild(d);
+
+        // 애니메이션 끝나면 제거하고 리플 생성
+        d.addEventListener('animationend', ()=>{
+          d.remove();
+          createRipple();
+        });
+
+        // 다음 드롭 예약(랜덤 간격)
+        const next = 300 + Math.random()*1200;
+        setTimeout(spawnDrop, next);
+      }
+
+      // 그릇 중앙에 리플 추가
+      function createRipple(){
+        // 활성화 트랜지션: 그릇에 클래스를 붙였다가 떼서 살짝 튕김 효과
+        bowl.classList.add('ripple-active');
+        setTimeout(()=> bowl.classList.remove('ripple-active'), 220);
+
+        const r = document.createElement('div');
+        r.className = 'ripple';
+
+        // 리플의 가로 크기/두께를 약간 랜덤화
+        const w = 30 + Math.floor(Math.random()*40);
+        const h = Math.max(8, Math.floor(w/6));
+        r.style.width = w + 'px';
+        r.style.height = h + 'px';
+        r.style.top = '72%';
+
+        // 제거 타이밍
+        r.addEventListener('animationend', ()=> r.remove());
+        bowl.appendChild(r);
+      }
+
+      // 시작: 약간의 초기 딜레이 후 드롭 생성 루프 시작
+      setTimeout(spawnDrop, 700);
+
+      // 리사이즈 시 중심 재계산
+      window.addEventListener('resize', ()=>{
+        const rect = stage.getBoundingClientRect();
+        centerX = rect.width/2; // 재할당 시 let/var와 함께 쓰면 안전, 여기선 단순 재계산으로 덮어씀
+      });
+
+    })();
+  </script>
+</body>
+</html>

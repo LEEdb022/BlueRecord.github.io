@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>캐릭터 챗봇</title>
+  <style>
+    body { font-family: "Noto Sans KR", sans-serif; background:#f3f3f3; }
+    #chatbox { width: 400px; margin: 50px auto; background: #fff; padding: 15px; border-radius: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+    #messages { height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 10px; }
+    .user, .bot { margin: 8px 0; padding: 8px 12px; border-radius: 10px; max-width: 80%; word-break: break-word; }
+    .user { background: #aee1f9; margin-left: auto; text-align: right; }
+    .bot { background: #e0e0e0; text-align: left; }
+    #inputArea { display: flex; margin-top: 10px; }
+    #userInput { flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+    button { padding: 8px 12px; margin-left: 5px; background: #4da3ff; color: white; border: none; border-radius: 5px; cursor: pointer;}
+    button:hover { background: #1c7fff; }
+  </style>
+</head>
+<body>
+  <div id="chatbox">
+    <div id="messages"></div>
+    <div id="inputArea">
+      <input type="text" id="userInput" placeholder="메시지를 입력하세요" onkeypress="if(event.key==='Enter') sendMessage()">
+      <button onclick="sendMessage()">보내기</button>
+    </div>
+  </div>
+
+  <script>
+    // 🎭 캐릭터 설정
+    const character = {
+      name: "임은아",
+      personality: "집착광공",
+      greeting: "…또 나한테 말을 거네? 좋아. 아주 좋아. 너만 바라볼 거야.",
+      rules: [
+        { key: ["안녕", "hello", "ㅎㅇ"], reply: "…또 왔네. 기다리고 있었어." },
+        { key: ["이름", "누구"], reply: "내 이름은 임은아. 널 좋아하는 사람이지." },
+        { key: ["좋아해", "사랑"], reply: "하… 다시 말해줘. 방금 그 말… 너무 좋아." },
+        { key: ["싫어", "그만"], reply: "그런 말… 하지마. 나한테 그런 거 말하지 말라고 했잖아." },
+        { key: ["뭐해", "지금"], reply: "너 생각하고 있었어. 아니, 항상 그래." },
+      ],
+      defaultReply: "그 말… 나한텐 조금 낯설어. 하지만 천천히 익혀볼게."
+    };
+
+    // 🧠 캐릭터의 말 처리 함수
+    function botReply(input) {
+      input = input.toLowerCase();
+      for (const rule of character.rules) {
+        if (rule.key.some(keyword => input.includes(keyword))) {
+          return rule.reply;
+        }
+      }
+      return character.defaultReply;
+    }
+
+    // 💬 대화 출력
+    function sendMessage() {
+      const userInput = document.getElementById("userInput");
+      const messages = document.getElementById("messages");
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      const userMsg = document.createElement("div");
+      userMsg.className = "user";
+      userMsg.textContent = text;
+      messages.appendChild(userMsg);
+
+      const botMsg = document.createElement("div");
+      botMsg.className = "bot";
+      botMsg.textContent = botReply(text);
+      messages.appendChild(botMsg);
+
+      userInput.value = "";
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // 시작 인사
+    window.onload = () => {
+      const messages = document.getElementById("messages");
+      const botMsg = document.createElement("div");
+      botMsg.className = "bot";
+      botMsg.textContent = character.greeting;
+      messages.appendChild(botMsg);
+    }
+  </script>
+</body>
+</html>
