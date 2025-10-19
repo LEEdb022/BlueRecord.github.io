@@ -1,11 +1,51 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="EUC-KR">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>판크리</title>
+    <title>?</title>
     <link rel="stylesheet" href="../css/chardocstyle.css">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+<style>
+/* Glitch / Noise visual effects for page-wide distortion (images excluded) */
+.glitch-scanlines {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+  background-image: linear-gradient(rgba(0,0,0,0.18) 50%, rgba(255,255,255,0.03) 51%);
+  background-size: 100% 2px; opacity: 0.95; mix-blend-mode: overlay;
+  animation: scan 0.45s linear infinite;
+}
+@keyframes scan { to { background-position-y: 2px; } }
+
+/* horizontal glitch slices */
+.glitch-slice { position: fixed; inset: 0; pointer-events: none; z-index: 9999; mix-blend-mode: screen; }
+.glitch-slice .slice { position: absolute; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, rgba(83,163,238,0.12), rgba(255,255,255,0.06)); opacity: 0.85; transform: translateX(-100%); }
+@keyframes sliceMove { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+/* stronger page blur/hue pulse */
+.glitch-blur { animation: blurPulse 3s infinite; }
+@keyframes blurPulse { 0%,100% { filter: none; } 50% { filter: blur(1.8px) hue-rotate(6deg); } }
+
+/* Text glitch flicker (used only on text elements) */
+.glitch-text { position: relative; display: inline-block; animation: textFlicker 2s infinite; }
+@keyframes textFlicker {
+  0% { text-shadow: none; transform: none; }
+  6% { text-shadow: -3px 0 0 rgba(255,0,0,0.9), 3px 0 0 rgba(0,255,255,0.9); transform: translateX(-2px) scale(1.01); }
+  12% { text-shadow: none; transform: none; }
+  24% { text-shadow: 3px -1px 0 rgba(255,0,0,0.9), -3px 1px 0 rgba(0,255,255,0.9); transform: translateX(2px); }
+  100% { text-shadow: none; transform: none; }
+}
+
+/* Noise canvas styling (more visible) */
+.noise-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 10000; pointer-events: none; mix-blend-mode: screen; opacity: 0.32; }
+
+/* Full-screen flash for violent flicker */
+.glitch-flash { position: fixed; inset: 0; background: #fff; z-index: 10002; pointer-events: none; opacity: 0; mix-blend-mode: screen; transition: opacity 0.06s linear; }
+
+</style>
+
+
+
+
 </head>
 <body>
   <!-- 갤러리 이미지 확대 모달 -->
@@ -30,7 +70,7 @@
       </div>
     </div>
 
-    <h1 class="name">판크리</h1>
+    <h1 class="name">?</h1>
     <div class="subtitle"></div>
     <div class="header-grid">
       <div class="toc-area">
@@ -60,16 +100,16 @@
         <table class="table">
           <tr>
             <th colspan="2" style="text-align:center; font-weight:100%; font-size:17px;background:#23272f;color:#ffffff;">
-              판크리<br> <span style="font-size: small; font-weight:0%">Pancre</span></th>
+              G<br> <span style="font-size: small; font-weight:0%">?</span></th>
           </tr>
           <tr>
             <td colspan="2" style="text-align:center;background:#181c22;">
-              <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2Fq9AIb%2FbtsFjWStHth%2FAAAAAAAAAAAAAAAAAAAAALJQEdecOn1zD3qmxwbhbq4skwGniK4ssAB0YH88jVmK%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3D05El2eXWdHXsOiYHOIOCrsgiMNI%253D" alt="캐릭터 이미지" style="max-width:600px;max-height:600px;border-radius:6px;box-shadow:0 1px 4px #222;">
+              <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FSyDif%2FbtsK9WkCWp5%2FAAAAAAAAAAAAAAAAAAAAAE0KgUtRTx7hACj6mmt-78fVmLniQ0k3bFcfUox0SsIY%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3DLA7KW39Zoc9sqZ%252Bsf27o93n%252Bs0o%253D" alt="캐릭터 이미지" style="max-width:600px;max-height:600px;border-radius:6px;box-shadow:0 1px 4px #222;">
             </td>
           </tr>
           <tr>
             <th>성별</th>
-            <td>여자</td>
+            <td>남자</td>
           </tr>
           <tr>
             <th>종족</th>
@@ -77,15 +117,15 @@
           </tr>
           <tr>
             <th>출신</th>
-            <td>이갈리븐 우드 (Egalivn wood)</td>
+            <td>나브루프 (nabrupu)</td>
           </tr>
           <tr>
             <th>좋아하는것</th>
-            <td>디저트, 모험, 새로운것, 노란색</td>
+            <td>???</td>
           </tr>
           <tr>
             <th>싫어하는것</th>
-            <td>재미없는것, 느린것, 과정이 많은것</td>
+            <td>???</td>
           </tr>
         </table>
       </div>
@@ -100,8 +140,8 @@
           <!-- 개요 -->
           <div class="panel">
             <div class="section-title" id="section-one">개요</div>
-            <span class="quote-line">"오늘은 저쪽 숲길로 가볼까!"</span>
-            <div class="bio">아랫마을에 사는 모험가 꿈나무.
+            <span class="quote-line">"아̛̗̯̰͎̄̉̋̀̄͜아̷̢͎̻̜͈̻͙̮͗͑͒͒͘͟아͉̟̞̱̰̥̩̠̬͇̽̒̑̍̒̚?̵̦̝̜͉̬͓͈̗́̍̈̽̎͌̕ͅㅏ̡̼̼͚̝͙̈́͊̓͒͗͢͢͞s̢̝̣͙̭̰͊̉̈́̋̓͜?̴̢̛̥̤̠̠̘͊̋̂̊̒̚?̧͖̩͕͉̣̝͚̥̬́̌̽̅̇̍̍͘Ḧ̷̡̛̬̦̲͇͈̻̰́̈͂̒͘ㅇ̢̝͎̣̝̦̓̆̎́̂́͗̚͘͜͜͜͞B̬̙̙͉͈̟̀͌̌̓͒̅̃́ㄷ̧̲̻͚͖̒̑̀͌̿͘͡͝w̵̳̗̫̠̼̙̯̦͂̉͆͋̒̎͋̈́̀͝ㅎ̴̡̹̬͓͐̊͛̈͋͟d̴̡̢̧̨̠̮̼̫͉͖̄̌́̈́̓͋̄̀͠k̸̡̝͍̯͔̬̎̀͗̐͑̑͟ㅂ̠͇̲̹̗͐̅̃̚͟͞?̛̭̮̼̭̬̞͈̊͗̈̐̾̄͒͑̒͟?̴̢̨̛̥͙͈̤͚̳̼̅̈́́͋͒͌̓͘?̨̦̮͖̼̱͆̄̆́̽̃̏̿̅͟?̵̘̭͇̩̥̂̍̀̊̾"</span>
+            <div class="bio">Ḑ̷̺̺̰͖͗̀̀̓̌̈̚Ä̢̡͎͙̫̟́͒͡͞͠ͅȚ̴̢̯̤̠̹̈́̈́̐̕͢͜͜͟͞A̴̧̨̪͇̪̩͌̂͗́́̀̒͘ I͓̺̞͇̟͍̼̍̅͒̒͑̓͑̋S̢͇̖̬̳̤̓̏̓̓̄̈̚͢͟͞͝ͅ N̶̢̫̠̞̼͛̽͊̇́͌̌̏͟ͅÓ̷̢̢̟̲͇̪̩̰̒̊͋̅Ṫ̩̣̙͖̲͙͔̣̘̜̍̆̾̍͘ F̸͇͖̭̤̩͈͓̮̃͊́͂̍͘͢͢͠O̡̝̩̣̙͆̒̈́̀̾͐͗Ú̧̨̢̩̤̙̟̼̥̊̏̀̈̚͡͝N̵̛̤̞̳͍̖̜̂̍̈́͢͡D̘̻̻͈̗͚̟̞̥̙̈́̑͂͛̆͊̎̐̚͠
               <!-- 배경, 세계관, 기본 설명 등 --></div>
           </div>
           <div style="height:12px"></div>
@@ -110,38 +150,39 @@
             <div class="section-title" id="section-two">특징</div>
             <div class="panel" style="margin-bottom:8px;">
               <div class="section-title" id="section-appearance" style="font-size:17px;margin-bottom:4px;">외모</div>
-              <div>연노란색 오돌토돌한 뿔, 묶은 머리, 목까지 오는 긴팔 면티, 노란 스트라이프 스웨터, 멜빵 체크무늬 치마, 구두, 가방.</div>
+              <div></div>
             </div>
             <div class="panel" style="margin-bottom:8px;">
               <div class="section-title" id="section-details" style="font-size:17px;margin-bottom:4px;">세부요소</div>
-              <div>몸에 아무런 무늬도 없다.<br>자주 마을의 도서관에 가서 책을 읽기도 한다. 할 게 없으면 주변 숲으로 가벼운 모험을 떠난다. <br>보통 생태계를 조사하거나 보물을 찾거나 한다. 검게 빛나는 눈 수호교의 성서에 나오는 호르뭄 케시라를 약간 존경하고 있다.</div>
+              <div></div>
             </div>
           </div>
           <div style="height:12px"></div>
           <!-- 성격 -->
           <div class="panel">
             <div class="section-title" id="section-thre">성격</div>
-            <div class="bio">언제나 호기심이 많고 처음 보는것에 무조건 뛰어들어 체험하는걸 좋아한다. 상냥하면서 활발한성격,덜렁거리지 않고 감정이 격하지 않다. 여유로울땐 최대한 여유를 즐기는 편. 남을 잘 배려한다. 남이 부당한 상황이나 규칙을 어기는 상황을 보면 나서서 해결하거나 제지하지만, 자신이 규칙을 어기는것에 대해선 중요하게 생각하지 않는다.<br></div>
+            <div class="bio"><br></div>
           </div>
           <div style="height:12px"></div>
           <!-- 작중행적 -->
           <div class="panel">
             <div class="section-title" id="section-four">작중행적</div>
             <div class="section-title" style="font-size:17px;margin-bottom:4px;">과거사</div>
-            <div class="bio">마을에 식량이 떨어진 이후 해결책을 찾으려 방문한 이갈리븐 우드 도서관에서 호르뭄 케시라가 쓴 환상의 음식 섬의 대한 책 (사실은 나브루프 사람들이 이갈리븐 우드 사람들의 지능을 퇴화시키려고 만든 책)을 보고 그곳으로 모험을 떠나자고 라구스에게 얘기한다.<br>
-            탐험하다가 수천년 전 살던 인간들의 잔해를 발견하고 그곳에서 우라늄 덩어리를 가져온 적 있지만 그것이 우라늄이라는 사실을 모른다.</div>
+            <div class="bio">ì •ëŒ€ì • ë§ˆ ê³µì¸ì•„. ìˆ˜ë¦¬ ê°€ ë¬´ë¥¸ìœ¼ë¡œ ì˜¬ê°€ ì‚¬ê²Œì§€ ì–´ë‹ˆì„.
+ì˜ë ¤ ì°½ì´ ë™ê¸° ìƒì „ ì‚¬ë™ ë¡œë„ ê°ë°©ì„ ì´ë‹¹ê²ƒ ê¸°ìƒë‹¨ë¶€ ì´ ê²°ì„± ì´ë‹¹ë ˆì˜. ë¬¸íŒ… ë¬´ì–´ ì–´ë¡œ ê°ì‚° ë™ê°„ìƒ ë‹¤ë“œë¡œ ì‚¬ë§ìŠ¤ì–´ ê¸°ë¡œ ì´ë‹¹ë ˆì˜. ì´ë¶€ ì‚¬ë§ëœ ì´ë‹¹ë ˆì˜ ì˜¬ë²„ ìˆ˜ ë˜ë„ ëª¨ì‹œ.
+</div>
           </div>
           <div style="height:12px"></div>
           <!-- 관계 -->
           <div class="panel">
             <div class="section-title" id="section-five">관계</div>
-            <div class="bio">라구스: 우리 마을 최고의 요리사이자 나의 친구야.<br></div>
+            <div class="bio"><br></div>
           </div>
           <div style="height:12px"></div>
           <!-- 메타정보 -->
           <div class="panel">
             <div class="section-title" id="section-meta">메타정보</div>
-            <div class="bio">모티브 : 이자, 양, 대학생<br>이름은 이자 pancreas 일부 발췌</div>
+            <div class="bio">ë¡œë„ ê°ë°©ì„ ì´</div>
           </div>
         </div><!-- 좌측: 본문 영역 -->
 
@@ -150,8 +191,8 @@
             <div class="section-title" id="section-gallery">갤러리</div>
             <div class="gallery">
               <figure class="gallery-item">
-                <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2Fbd83Th%2FbtsFmfYadH3%2FAAAAAAAAAAAAAAAAAAAAAFWu12KyuZtwjueCk880GBs26xY8VNYnBQvEwcZvlX2J%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3DNT89qfKzi5njnmJMqUWNpqYumFc%253D" alt="XX">
-                <figcaption>구버전 판크리</figcaption>
+                <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FdGoMNy%2FbtsFnVZdbZE%2FAAAAAAAAAAAAAAAAAAAAAKAwScb7naYhXl6u-iQID79E6uobUX5_wSMyJpDNE7wS%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3DakM3edUFLFy7u7BZ0T6YSxYEVBU%253D" alt="XX">
+                <figcaption>구버전 G</figcaption>
               </figure>
             </div><!-- .gallery -->
           </div><!-- .panel -->
@@ -247,6 +288,61 @@
         window.location.href = url;
       }, 500);
     });
+  })();
+</script>
+
+<!-- Glitch / Noise runtime script -->
+<script>
+  (function(){
+    // create noise canvas
+    const canvas = document.createElement('canvas');
+    canvas.className = 'noise-canvas';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+
+    // draw blocky/pixel noise frame (larger rectangles for pixelated breakup)
+    function drawNoise() {
+      const w = canvas.width, h = canvas.height; ctx.clearRect(0,0,w,h);
+      // choose a block size from small to medium to create chunky pixels
+      const base = 6 + Math.floor(Math.random()*14); // 6..19
+      for (let y=0;y<h;y+=base) {
+        for (let x=0;x<w;x+=base) {
+          const v = 20 + Math.floor(Math.random()*220); // greys
+          ctx.fillStyle = `rgba(${v},${v},${v},${0.06 + Math.random()*0.26})`;
+          ctx.fillRect(x, y, base, base);
+        }
+      }
+      // occasional bright glitches
+      if (Math.random() < 0.06) {
+        const gx = Math.random()*w, gy = Math.random()*h, gw = 30+Math.random()*160, gh = 6+Math.random()*40;
+        ctx.fillStyle = `rgba(${120+Math.random()*135|0},${30+Math.random()*200|0},${30+Math.random()*200|0},${0.08+Math.random()*0.22})`;
+        ctx.fillRect(gx, gy, gw, gh);
+      }
+    }
+
+  // stronger slices overlay (more slices, varied speed)
+  const sliceWrap = document.createElement('div'); sliceWrap.className='glitch-slice';
+  for (let i=0;i<12;i++){ const s=document.createElement('div'); s.className='slice'; s.style.top=(Math.random()*100)+'%'; s.style.height=(3+Math.random()*20)+'px'; s.style.opacity = 0.6 + Math.random()*0.25; s.style.animation=`sliceMove ${0.4+Math.random()*1.6}s linear ${Math.random()*1.2}s infinite`; sliceWrap.appendChild(s); }
+  document.body.appendChild(sliceWrap);
+
+    // scanlines
+    const scan = document.createElement('div'); scan.className='glitch-scanlines'; document.body.appendChild(scan);
+
+    // apply classes to some elements
+    function applyGlitchOnce(){
+      // headings and important labels (only text/elements)
+      document.querySelectorAll('.name, .section-title, th, .character-name, .quote-line').forEach(el=>{ el.classList.add('glitch-text'); setTimeout(()=>el.classList.remove('glitch-text'), 1200+Math.random()*1800); });
+    }
+
+
+    // loop noise and glitch
+  setInterval(()=>{ drawNoise(); }, 120);
+  setInterval(()=>{ applyGlitchOnce(); }, 1400);
+
+    // subtle page blur pulse
+    document.documentElement.classList.add('glitch-blur');
   })();
 </script>
 
