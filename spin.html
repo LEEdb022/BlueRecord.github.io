@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>텍스트 룰렛</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+    /* 룰렛 항목의 높이. 룰렛 시각 효과에 중요합니다. */
+    --item-height: 50px;
+    /* 항목 간의 시각적 간격 */
+    --gap: 5px;
+    /* 룰렛이 보이는 원근감(Perspective) 깊이 설정 */
+    --perspective: 500px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f9;
+    font-family: Arial, sans-serif;
+}
+
+.roulette-container {
+    /* 3D 효과를 위한 원근감(Perspective) 설정 */
+    perspective: var(--perspective);
+    width: 250px;
+    height: calc(var(--item-height) + var(--gap));
+    overflow: hidden; /* 룰렛 바깥 항목 숨기기 */
+    margin-bottom: 20px;
+    border: 3px solid #333;
+    border-radius: 5px;
+}
+
+.roulette-wheel {
+    /* 3D 공간에서 자식 요소 배치 */
+    transform-style: preserve-3d;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    /* 초기 회전 설정 (JavaScript로 제어됩니다) */
+    transform: rotateX(0deg);
+}
+
+.roulette-item {
+    position: absolute;
+    width: 100%;
+    height: var(--item-height);
+    line-height: var(--item-height);
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    /* 텍스트 룰렛이므로 색상 관련 스타일은 최소화 */
+}
+
+/* 회전 애니메이션 정의 */
+@keyframes spin {
+    from { transform: rotateX(0deg); }
+    to { transform: rotateX(3600deg); /* 10바퀴 회전 예시 */ }
+}
+
+.spinning {
+    /* JavaScript에서 동적으로 추가될 애니메이션 클래스 */
+    animation: spin 5s ease-out forwards;
+}
+
+#spinButton {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#resultText {
+    margin-top: 15px;
+    font-size: 1.1em;
+}
+    </style>
+</head>
+<body>
+
+    <div class="roulette-container">
+        <div class="roulette-wheel" id="rouletteWheel">
+            </div>
+    </div>
+
+    <button id="spinButton">돌리기</button>
+    <p id="resultText">결과: 준비</p>
+
+    <script src="script3.js"></script>
+</body>
+</html>
