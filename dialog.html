@@ -1174,6 +1174,9 @@ document.addEventListener('keydown',e=>{
 });
 
 // ═══════════════════ NODE LIST ═══════════════════
+// 그룹 접힘 상태를 영구 보존 (렌더링 후에도 유지)
+const groupCollapsed = new Map(); // gid → true(접힘)
+
 function renderList(){
   const list=document.getElementById('node-list');
   if(!nodes.length){list.innerHTML='<div style="color:var(--text3);font-size:11px;text-align:center;padding:14px">노드가 없습니다</div>';return;}
@@ -1184,16 +1187,17 @@ function renderList(){
   // Group section
   const groupedIds=new Set(groups.flatMap(g=>g.nodeIds));
   groups.forEach(g=>{
-    const members=nodes.filter(n=>g.nodeIds.includes(n.id)&&(!q||nodeMatchesSearch(n)));
-    if(q&&!members.length)return;
     const allMembers=nodes.filter(n=>g.nodeIds.includes(n.id));
-    html+=`<div class="nli-group-header" onclick="toggleListGroup('lg-${g.id}',this)">
-      <span class="gh-arrow open">▶</span>
+    const visibleMembers=allMembers.filter(n=>!q||nodeMatchesSearch(n));
+    if(q&&!visibleMembers.length)return;
+    const collapsed=groupCollapsed.get(g.id)===true;
+    html+=`<div class="nli-group-header" onclick="toggleListGroup('${g.id}',this)">
+      <span class="gh-arrow${collapsed?'':' open'}">▶</span>
       <span style="color:${g.color}">▣</span>
       <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${h(g.name)}</span>
       <span style="font-size:9px;color:var(--text3)">${allMembers.length}</span>
     </div>
-    <div id="lg-${g.id}">`;
+    <div id="lg-${g.id}" style="display:${collapsed?'none':''}">`;
     allMembers.forEach(nd=>{
       if(q&&!nodeMatchesSearch(nd))return;
       const isSel=nd.id===selId,isMulti=multiSel.has(nd.id);
@@ -1220,12 +1224,13 @@ function renderList(){
   if(!html)html='<div style="color:var(--text3);font-size:11px;text-align:center;padding:14px">검색 결과 없음</div>';
   list.innerHTML=html;
 }
-function toggleListGroup(id,hdr){
-  const el=document.getElementById(id);
+function toggleListGroup(gid, hdr){
+  const collapsed = groupCollapsed.get(gid)===true;
+  groupCollapsed.set(gid, !collapsed);
+  const el=document.getElementById('lg-'+gid);
   const arr=hdr.querySelector('.gh-arrow');
-  const hidden=el.style.display==='none';
-  el.style.display=hidden?'':'none';
-  arr.classList.toggle('open',hidden);
+  if(el) el.style.display=collapsed?'':'none';
+  if(arr) arr.classList.toggle('open', collapsed);
 }
 function highlight(str,q){
   const s=h(str),ql=q.toLowerCase(),sl=s.toLowerCase();
