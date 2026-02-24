@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DialogueForge</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Bebas+Neue&display=swap');
+
+:root {
+  --bg:     #0c0e13;
+  --bg2:    #12151d;
+  --bg3:    #181c27;
+  --bg4:    #1e2233;
+  --bg5:    #252a3c;
+  --border: #272c3e;
+  --border2:#32394f;
+  --text:   #dde2f0;
+  --text2:  #7d8aa0;
+  --text3:  #48526a;
+  --accent: #4d8fff;
+  --red:    #f05c5c;
+  --green:  #4ecb82;
+  --yellow: #f0c94d;
+  --purple: #a06af0;
+  --teal:   #4dcbcb;
+  --shadow: 0 6px 28px rgba(0,0,0,0.55);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px;}
+
+/* TOPBAR */
+#topbar{height:46px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0;z-index:100;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--accent);text-shadow:0 0 18px rgba(77,143,255,.35);margin-right:4px;flex-shrink:0;}
+.logo em{color:var(--red);font-style:normal;}
+.sep-v{width:1px;height:22px;background:var(--border2);flex-shrink:0;}
+#proj-name{background:transparent;border:none;border-bottom:1px solid transparent;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:13px;outline:none;padding:2px 4px;width:170px;transition:border-color .2s;}
+#proj-name:focus{border-bottom-color:var(--accent);}
+.spacer{flex:1;}
+.btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:5px;border:1px solid var(--border2);background:var(--bg3);color:var(--text);cursor:pointer;font-size:12px;font-family:inherit;transition:all .15s;white-space:nowrap;flex-shrink:0;}
+.btn:hover{background:var(--bg4);border-color:var(--accent);color:var(--accent);}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+.btn.primary:hover{background:#3a7ae8;}
+.btn svg{width:13px;height:13px;flex-shrink:0;}
+
+/* MAIN */
+#main{display:flex;flex:1;overflow:hidden;}
+
+/* RESIZER */
+.resizer{width:5px;background:var(--border);flex-shrink:0;cursor:col-resize;transition:background .15s;z-index:10;}
+.resizer:hover,.resizer.dragging{background:var(--accent);}
+
+/* SIDEBAR */
+#sidebar{width:200px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;}
+.sb-title{padding:10px 12px 6px;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--text3);text-transform:uppercase;}
+.palette{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0 10px 10px;}
+.pal{padding:8px 4px 7px;border-radius:5px;border:1px solid;cursor:pointer;text-align:center;font-size:10px;font-weight:600;transition:all .15s;user-select:none;letter-spacing:.3px;}
+.pal:hover{opacity:.8;transform:translateY(-1px);}
+.pal .pi{font-size:14px;display:block;margin-bottom:3px;}
+.pal-root     {background:#141e14;border-color:#2a5a2a;color:#4ecb82;}
+.pal-dialog   {background:#141e2e;border-color:#2a4a7a;color:#6aacff;}
+.pal-choice   {background:#141e20;border-color:#1e5c2e;color:#4ecb82;}
+.pal-condition{background:#201a2e;border-color:#5c2a7a;color:#c07cf5;}
+.pal-flag     {background:#1e1a10;border-color:#7a6010;color:#f0c94d;}
+.pal-hub      {background:#0f1e20;border-color:#1a5c5c;color:#4dcbcb;}
+.pal-loop     {background:#1a1820;border-color:#4a3a70;color:#a06af0;}
+.pal-leaf     {background:#201414;border-color:#7a2a2a;color:#f07070;}
+
+.sb-divider{height:1px;background:var(--border);margin:0 10px;}
+#node-list{flex:1;overflow-y:auto;padding:6px;}
+.nli{padding:6px 8px;border-radius:4px;cursor:pointer;display:flex;align-items:center;gap:7px;font-size:11px;transition:background .1s;border:1px solid transparent;}
+.nli:hover{background:var(--bg3);}
+.nli.sel{background:var(--bg4);border-color:var(--accent);}
+.nli-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.nli-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+.nli-id{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);}
+
+/* CANVAS */
+#canvas-wrap{flex:1;position:relative;overflow:hidden;background:var(--bg);background-image:radial-gradient(var(--border) 1px,transparent 1px);background-size:26px 26px;}
+#canvas{position:absolute;top:0;left:0;width:0;height:0;transform-origin:0 0;}
+#canvas svg{position:absolute;top:0;left:0;width:8000px;height:8000px;pointer-events:none;overflow:visible;}
+
+/* float toolbar */
+#float-tb{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:4px;display:flex;gap:2px;z-index:20;box-shadow:var(--shadow);}
+.ftb{padding:5px 10px;border-radius:5px;border:none;background:transparent;color:var(--text2);font-size:11px;font-family:inherit;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.ftb:hover{background:var(--bg4);color:var(--text);}
+.ftb-sep{width:1px;background:var(--border);margin:4px 2px;}
+
+/* zoom */
+#zoom-bar{position:absolute;bottom:12px;left:12px;display:flex;gap:4px;z-index:20;}
+.zbtn{width:28px;height:28px;border-radius:5px;border:1px solid var(--border2);background:var(--bg2);color:var(--text2);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.zbtn:hover{background:var(--bg3);color:var(--text);}
+#zoom-label{height:28px;padding:0 9px;border-radius:5px;border:1px solid var(--border2);background:var(--bg2);color:var(--text3);font-size:10px;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;}
+
+/* minimap */
+#minimap-wrap{position:absolute;bottom:12px;right:12px;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;overflow:hidden;z-index:20;}
+
+/* NODE CARDS */
+.node-card{position:absolute;width:230px;border-radius:8px;border:1px solid;box-shadow:var(--shadow);cursor:default;user-select:none;transition:box-shadow .15s;}
+.node-card:hover{box-shadow:0 0 0 1px var(--accent),var(--shadow);}
+.node-card.sel{box-shadow:0 0 0 2px var(--accent),var(--shadow);}
+.nc-root     {background:#0e1c0e;border-color:#224822;}
+.nc-dialog   {background:#101b2c;border-color:#253d6a;}
+.nc-choice   {background:#101c12;border-color:#1e4e28;}
+.nc-condition{background:#1c1228;border-color:#4a2268;}
+.nc-flag     {background:#1c1a08;border-color:#5c4a08;}
+.nc-hub      {background:#081c1e;border-color:#145454;}
+.nc-loop     {background:#161228;border-color:#3e2a68;}
+.nc-leaf     {background:#1e1010;border-color:#6a2020;}
+.node-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:8px 0 0 8px;}
+.nc-root::before     {background:#4ecb82;}
+.nc-dialog::before   {background:#4d8fff;}
+.nc-choice::before   {background:#4ecb82;}
+.nc-condition::before{background:#a06af0;}
+.nc-flag::before     {background:#f0c94d;}
+.nc-hub::before      {background:#4dcbcb;}
+.nc-loop::before     {background:#a06af0;}
+.nc-leaf::before     {background:#f05c5c;}
+
+.nc-header{padding:7px 10px 7px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,.055);}
+.nc-badge{font-size:9px;font-family:'JetBrains Mono',monospace;padding:2px 6px;border-radius:3px;font-weight:600;letter-spacing:.5px;flex-shrink:0;}
+.b-root     {background:rgba(78,203,130,.15);color:#4ecb82;}
+.b-dialog   {background:rgba(77,143,255,.15);color:#4d8fff;}
+.b-choice   {background:rgba(78,203,130,.15);color:#4ecb82;}
+.b-condition{background:rgba(160,106,240,.15);color:#a06af0;}
+.b-flag     {background:rgba(240,201,77,.15);color:#f0c94d;}
+.b-hub      {background:rgba(77,203,203,.15);color:#4dcbcb;}
+.b-loop     {background:rgba(160,106,240,.15);color:#a06af0;}
+.b-leaf     {background:rgba(240,92,92,.15);color:#f05c5c;}
+
+.nc-speaker{font-size:12px;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nc-id{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);}
+.nc-body{padding:8px 10px 8px 14px;font-size:11px;color:var(--text2);line-height:1.55;display:-webkit-box;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;position:relative;}
+.nc-footer{padding:5px 10px 6px 14px;display:flex;flex-wrap:wrap;gap:4px;border-top:1px solid rgba(255,255,255,.04);}
+.nc-tag{font-size:9px;font-family:'JetBrains Mono',monospace;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.06);color:var(--text3);}
+
+/* ports */
+.port{position:absolute;width:11px;height:11px;border-radius:50%;border:2px solid var(--bg);cursor:crosshair;transition:transform .15s,background .15s;}
+.port-out{bottom:-6px;left:50%;margin-left:-5px;background:var(--border2);}
+.port-out:hover{transform:scale(1.4);background:var(--accent);}
+.port-in{top:-6px;left:50%;margin-left:-5px;background:var(--border2);}
+.port-in:hover{transform:scale(1.4);background:var(--green);}
+
+.nc-drag{cursor:grab;position:absolute;inset:0;border-radius:8px;z-index:0;}
+.nc-drag:active{cursor:grabbing;}
+.nc-header,.nc-body,.nc-footer,.port{position:relative;z-index:1;}
+.port{position:absolute;z-index:2;}
+
+/* INSPECTOR */
+#inspector{width:380px;background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;}
+#insp-top{padding:10px 14px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:8px;}
+#insp-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);flex:1;}
+#insp-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;}
+
+.field{display:flex;flex-direction:column;gap:5px;}
+.flabel{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);}
+.finput,.ftextarea,.fselect{background:var(--bg3);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-size:12px;font-family:'Noto Sans KR',sans-serif;padding:7px 9px;outline:none;transition:border-color .15s;width:100%;}
+.finput:focus,.ftextarea:focus,.fselect:focus{border-color:var(--accent);}
+.ftextarea{resize:vertical;min-height:80px;line-height:1.6;}
+.fselect option{background:var(--bg3);}
+
+/* addon (conditions / flags) */
+.addon{border:1px solid var(--border);border-radius:7px;overflow:visible;}
+.addon-head{padding:10px 14px;background:var(--bg3);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;transition:background .15s;border-radius:7px 7px 0 0;}
+.addon-head:hover{background:var(--bg4);}
+.addon-head.closed{border-radius:7px;}
+.ah-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text2);flex:1;}
+.ah-count{font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--text3);}
+.ah-arrow{font-size:9px;color:var(--text3);transition:transform .2s;display:inline-block;}
+.ah-arrow.open{transform:rotate(90deg);}
+.addon-body{padding:10px;display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--border);border-radius:0 0 7px 7px;overflow-y:auto;}
+.addon-body.hidden{display:none;}
+
+.crow,.frow{display:flex;align-items:center;gap:6px;background:var(--bg4);border-radius:5px;padding:7px 9px;}
+.crow input,.frow input{background:transparent;border:none;color:var(--text);font-size:12px;font-family:'JetBrains Mono',monospace;outline:none;flex:1;min-width:0;}
+.c-op{background:var(--bg5);border:none;color:var(--text2);font-size:11px;font-family:'JetBrains Mono',monospace;border-radius:3px;padding:2px 5px;cursor:pointer;flex-shrink:0;}
+.toggle{width:32px;height:18px;border-radius:9px;background:var(--bg5);position:relative;cursor:pointer;border:1px solid var(--border2);flex-shrink:0;transition:background .2s;}
+.toggle.on{background:var(--accent);}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:left .2s;}
+.toggle.on::after{left:16px;}
+.ic-btn{width:22px;height:22px;border-radius:4px;border:none;background:transparent;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.ic-btn:hover{background:var(--bg5);color:var(--red);}
+.ic-btn svg{width:11px;height:11px;}
+.add-btn{display:flex;align-items:center;gap:5px;padding:5px 8px;border-radius:4px;border:1px dashed var(--border2);background:transparent;color:var(--text3);font-size:11px;cursor:pointer;width:100%;font-family:inherit;transition:all .15s;}
+.add-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+.idivider{height:1px;background:var(--border);}
+.insp-empty{color:var(--text3);font-size:12px;text-align:center;padding:48px 16px;line-height:1.8;}
+.slider-row{display:flex;align-items:center;gap:8px;}
+.slider-row input[type=range]{flex:1;accent-color:var(--accent);}
+.sval{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);width:26px;text-align:right;}
+
+/* STATUS */
+#statusbar{height:24px;background:var(--accent);display:flex;align-items:center;padding:0 14px;gap:18px;flex-shrink:0;}
+.st{font-size:10px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:5px;}
+.st span{color:#fff;font-weight:600;}
+
+/* CTX MENU */
+#ctx{position:fixed;background:var(--bg2);border:1px solid var(--border2);border-radius:7px;padding:5px;z-index:1000;min-width:158px;display:none;box-shadow:var(--shadow);}
+#ctx.show{display:block;}
+.ci{padding:6px 10px;border-radius:4px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:8px;color:var(--text);transition:background .1s;}
+.ci:hover{background:var(--bg4);}
+.ci.danger{color:var(--red);}
+.ci svg{width:12px;height:12px;flex-shrink:0;}
+.csep{height:1px;background:var(--border);margin:3px 0;}
+
+/* MODALS */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:2000;display:none;align-items:center;justify-content:center;}
+.overlay.show{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:22px;width:480px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.8);}
+.modal h3{font-size:15px;margin-bottom:14px;}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+.json-pre{font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--bg);border-radius:6px;padding:14px;overflow-y:auto;max-height:360px;color:var(--green);white-space:pre;line-height:1.6;}
+
+/* TOAST */
+#toast{position:fixed;bottom:36px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:8px 18px;font-size:12px;box-shadow:var(--shadow);z-index:9999;opacity:0;pointer-events:none;transition:all .25s;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.ok{border-color:var(--green);color:var(--green);}
+#toast.err{border-color:var(--red);color:var(--red);}
+
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="logo">Dialogue<em>Forge</em></div>
+  <div class="sep-v"></div>
+  <input id="proj-name" value="새 프로젝트" placeholder="프로젝트 이름">
+  <div class="spacer"></div>
+  <button class="btn" onclick="autoLayout()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h5"/></svg>자동 정렬
+  </button>
+  <button class="btn" onclick="showPreview()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="4,2 14,8 4,14"/></svg>미리보기
+  </button>
+  <button class="btn" onclick="showJson()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2h8l3 3v9H2V2h2"/><path d="M9 2v4H5V2"/></svg>JSON
+  </button>
+  <button class="btn" onclick="saveJSON()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 2h7l3 3v9H3V2z"/><path d="M9 2v4H6V2"/><line x1="5" y1="11" x2="11" y2="11"/></svg>저장
+  </button>
+  <button class="btn primary" onclick="document.getElementById('file-in').click()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8M5 7l3 3 3-3M2 13h12"/></svg>불러오기
+  </button>
+  <input type="file" id="file-in" accept=".json" style="display:none" onchange="loadJSON(event)">
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="sb-title">노드 팔레트</div>
+    <div class="palette">
+      <div class="pal pal-root"      draggable="true" ondragstart="palDrag(event,'root')"      onclick="addNode('root')"><span class="pi">◎</span>루트</div>
+      <div class="pal pal-dialog"    draggable="true" ondragstart="palDrag(event,'dialog')"    onclick="addNode('dialog')"><span class="pi">💬</span>대사</div>
+      <div class="pal pal-choice"    draggable="true" ondragstart="palDrag(event,'choice')"    onclick="addNode('choice')"><span class="pi">☰</span>선택지</div>
+      <div class="pal pal-condition" draggable="true" ondragstart="palDrag(event,'condition')" onclick="addNode('condition')"><span class="pi">◇</span>조건</div>
+      <div class="pal pal-flag"      draggable="true" ondragstart="palDrag(event,'flag')"      onclick="addNode('flag')"><span class="pi">⚑</span>플래그</div>
+      <div class="pal pal-hub"       draggable="true" ondragstart="palDrag(event,'hub')"       onclick="addNode('hub')"><span class="pi">⊕</span>허브</div>
+      <div class="pal pal-loop"      draggable="true" ondragstart="palDrag(event,'loop')"      onclick="addNode('loop')"><span class="pi">↺</span>루프</div>
+      <div class="pal pal-leaf"      draggable="true" ondragstart="palDrag(event,'leaf')"      onclick="addNode('leaf')"><span class="pi">✕</span>엔딩</div>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-title" style="padding-top:10px">노드 목록</div>
+    <div id="node-list"></div>
+  </div>
+
+  <!-- SIDEBAR RESIZER -->
+  <div class="resizer" id="sidebar-resizer"></div>
+
+  <!-- CANVAS -->
+  <div id="canvas-wrap" ondragover="event.preventDefault()" ondrop="canvasDrop(event)" oncontextmenu="canvasCtx(event)">
+    <div id="canvas"><svg id="esvg"></svg></div>
+
+    <div id="float-tb">
+      <button class="ftb" onclick="addNode('root')">◎ 루트</button>
+      <button class="ftb" onclick="addNode('dialog')">💬 대사</button>
+      <button class="ftb" onclick="addNode('choice')">☰ 선택지</button>
+      <div class="ftb-sep"></div>
+      <button class="ftb" onclick="addNode('condition')">◇ 조건</button>
+      <button class="ftb" onclick="addNode('flag')">⚑ 플래그</button>
+      <button class="ftb" onclick="addNode('hub')">⊕ 허브</button>
+      <button class="ftb" onclick="addNode('loop')">↺ 루프</button>
+      <button class="ftb" onclick="addNode('leaf')">✕ 엔딩</button>
+    </div>
+
+    <div id="zoom-bar">
+      <button class="zbtn" onclick="doZoom(1.2)">+</button>
+      <div id="zoom-label">100%</div>
+      <button class="zbtn" onclick="doZoom(0.8)">−</button>
+      <button class="zbtn" onclick="resetView()" style="font-size:11px">⊡</button>
+    </div>
+
+    <div id="minimap-wrap"><canvas id="minimap" width="150" height="90"></canvas></div>
+  </div>
+
+  <!-- INSPECTOR RESIZER -->
+  <div class="resizer" id="inspector-resizer"></div>
+
+  <!-- INSPECTOR -->
+  <div id="inspector">
+    <div id="insp-top">
+      <div id="insp-title">인스펙터</div>
+      <button class="ic-btn" style="width:26px;height:26px" onclick="deleteSelected()" title="삭제">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10M6 4V2h4v2M5 4v8h6V4"/></svg>
+      </button>
+    </div>
+    <div id="insp-body"><div class="insp-empty">노드를 선택하면<br>여기서 편집합니다</div></div>
+  </div>
+</div>
+
+<!-- STATUS -->
+<div id="statusbar">
+  <div class="st">노드 <span id="st-n">0</span></div>
+  <div class="st">연결 <span id="st-e">0</span></div>
+  <div class="st">선택 <span id="st-s">—</span></div>
+  <div class="st" style="margin-left:auto">DialogueForge v2.0</div>
+</div>
+
+<!-- CTX MENU -->
+<div id="ctx">
+  <div class="ci" id="ci-child" onclick="ctxChild()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><line x1="8" y1="5" x2="8" y2="11"/><line x1="5" y1="8" x2="11" y2="8"/></svg>자식 노드 추가
+  </div>
+  <div class="ci" id="ci-conn" onclick="startConnect()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8h4M10 8h4M6 5l4 3-4 3"/></svg>연결 시작
+  </div>
+  <div class="csep"></div>
+  <div class="ci" onclick="duplicateNode()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="8" height="8" rx="1"/><path d="M3 11V3h8"/></svg>복제
+  </div>
+  <div class="csep"></div>
+  <div class="ci danger" onclick="deleteSelected()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10M6 4V2h4v2M5 4v8h6V4"/></svg>삭제
+  </div>
+</div>
+
+<!-- JSON MODAL -->
+<div class="overlay" id="json-modal">
+  <div class="modal" style="width:580px">
+    <h3>JSON 미리보기</h3>
+    <div class="json-pre" id="json-pre"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('json-modal')">닫기</button>
+      <button class="btn primary" onclick="saveJSON()">저장 (.json)</button>
+    </div>
+  </div>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="overlay" id="pv-modal">
+  <div class="modal">
+    <h3>대화 미리보기</h3>
+    <div id="pv-flags" style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-bottom:10px;min-height:14px"></div>
+    <div id="pv-content" style="min-height:90px;margin-bottom:12px"></div>
+    <div id="pv-choices" style="display:flex;flex-direction:column;gap:6px"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="restartPv()">처음부터</button>
+      <button class="btn" onclick="closeModal('pv-modal')">닫기</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════ STATE ═══════════════════
+let nodes = [];   // {id,type,x,y, speaker,text, portrait,textSpeed, conditions[],flags[], note, loopTarget}
+let edges = [];   // {id,from,to,label}
+let selId  = null;
+let nxtId  = 1;
+let vp = {x:60,y:60,s:1};
+
+let connecting   = null;   // node id source
+let connPrev     = null;   // {x,y}
+let dragging     = null;   // {id,ox,oy}
+let panning      = null;   // {mx,my,vx,vy}
+let palType      = null;
+
+const TM = {
+  root:      {label:'루트',    col:'#4ecb82'},
+  dialog:    {label:'대사',    col:'#4d8fff'},
+  choice:    {label:'선택지',  col:'#4ecb82'},
+  condition: {label:'조건',    col:'#a06af0'},
+  flag:      {label:'플래그',  col:'#f0c94d'},
+  hub:       {label:'허브',    col:'#4dcbcb'},
+  loop:      {label:'루프',    col:'#a06af0'},
+  leaf:      {label:'엔딩',    col:'#f05c5c'},
+};
+
+// ═══════════════════ FACTORY ═══════════════════
+function mkNode(type,x,y){
+  return {id:'N'+(nxtId++),type,x:Math.round(x),y:Math.round(y),
+    speaker:'',text:'',
+    portrait:'',textSpeed:30,
+    conditions:[],flags:[],
+    note:'',loopTarget:''};
+}
+
+function addNode(type){
+  const w=document.getElementById('canvas-wrap').getBoundingClientRect();
+  const x=(-vp.x+w.width/2)/vp.s-115, y=(-vp.y+w.height/2)/vp.s-60;
+  const nd=mkNode(type,x,y); nodes.push(nd);
+  renderAll(); selectNode(nd.id);
+  toast('노드 추가: '+TM[type].label,'ok');
+}
+
+// ═══════════════════ RENDER ALL ═══════════════════
+function renderAll(){
+  applyVP(); renderNodes(); renderEdges(); renderList(); renderMinimap(); updateSt();
+}
+function applyVP(){
+  document.getElementById('canvas').style.transform=`translate(${vp.x}px,${vp.y}px) scale(${vp.s})`;
+  document.getElementById('zoom-label').textContent=Math.round(vp.s*100)+'%';
+}
+
+// ═══════════════════ NODES ═══════════════════
+function renderNodes(){
+  const canvas=document.getElementById('canvas');
+  const existing=new Map([...canvas.querySelectorAll('.node-card')].map(el=>[el.dataset.id,el]));
+  const cur=new Set(nodes.map(n=>n.id));
+  existing.forEach((el,id)=>{ if(!cur.has(id)) el.remove(); });
+  nodes.forEach(nd=>{
+    let el=existing.get(nd.id);
+    if(!el){ el=document.createElement('div'); el.dataset.id=nd.id; canvas.appendChild(el); }
+    syncCard(el,nd);
+  });
+}
+
+function syncCard(el,nd){
+  const sel=nd.id===selId;
+  el.className=`node-card nc-${nd.type}${sel?' sel':''}`;
+  el.style.left=nd.x+'px'; el.style.top=nd.y+'px';
+
+  const hasCond=nd.conditions&&nd.conditions.length;
+  const hasFlag=nd.flags&&nd.flags.length;
+  const foot=nd.portrait||(nd.textSpeed!==30)||hasCond||hasFlag;
+
+  el.innerHTML=`
+    <div class="nc-drag"></div>
+    <div class="port port-in"  data-id="${nd.id}"></div>
+    <div class="nc-header" style="position:relative;z-index:1">
+      <span class="nc-badge b-${nd.type}">${TM[nd.type]?.label||nd.type}</span>
+      <span class="nc-speaker">${nd.speaker?h(nd.speaker):'<span style="color:var(--text3);font-weight:400">화자 없음</span>'}</span>
+      <span class="nc-id">${nd.id}</span>
+    </div>
+    <div class="nc-body" style="position:relative;z-index:1">${nd.text?h(nd.text):'<span style="color:var(--text3)">내용 없음</span>'}</div>
+    ${foot?`<div class="nc-footer" style="position:relative;z-index:1">
+      ${nd.portrait?`<span class="nc-tag">🖼 ${h(nd.portrait)}</span>`:''}
+      ${nd.textSpeed!==30?`<span class="nc-tag">⚡${nd.textSpeed}</span>`:''}
+      ${hasCond?`<span class="nc-tag" style="color:var(--purple)">◇ ${nd.conditions.length}</span>`:''}
+      ${hasFlag?`<span class="nc-tag" style="color:var(--yellow)">⚑ ${nd.flags.length}</span>`:''}
+    </div>`:''}
+    <div class="port port-out" data-id="${nd.id}"></div>`;
+
+  el.addEventListener('mousedown',e=>{
+    if(e.target.closest('.port-out')||e.target.closest('.port-in'))return;
+    nodeDragStart(e,nd.id);
+  });
+  el.querySelector('.port-out').addEventListener('mousedown',e=>{e.stopPropagation();startConnect(nd.id);});
+  el.querySelector('.port-in').addEventListener('mousedown',e=>{e.stopPropagation();if(connecting&&connecting!==nd.id)finishConnect(nd.id);});
+  el.addEventListener('click',e=>{if(e.target.closest('.port-in')||e.target.closest('.port-out'))return;if(connecting){if(connecting!==nd.id)finishConnect(nd.id);return;}selectNode(nd.id);});
+  el.addEventListener('contextmenu',e=>{e.preventDefault();selectNode(nd.id);showCtx(e.clientX,e.clientY,true);});
+}
+
+// ═══════════════════ EDGES ═══════════════════
+function renderEdges(){
+  const svg=document.getElementById('esvg');
+  svg.innerHTML='';
+  const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  Object.entries(TM).forEach(([t,m])=>{
+    const mk=document.createElementNS('http://www.w3.org/2000/svg','marker');
+    mk.setAttribute('id','a-'+t);mk.setAttribute('markerWidth','8');mk.setAttribute('markerHeight','8');
+    mk.setAttribute('refX','7');mk.setAttribute('refY','3');mk.setAttribute('orient','auto');
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d','M0,0 L0,6 L8,3 z');p.setAttribute('fill',m.col);
+    mk.appendChild(p);defs.appendChild(mk);
+  });
+  svg.appendChild(defs);
+
+  edges.forEach(ed=>{
+    const fn=nodes.find(n=>n.id===ed.from),tn=nodes.find(n=>n.id===ed.to); if(!fn||!tn) return;
+    const fe=document.querySelector(`.node-card[data-id="${fn.id}"]`),te=document.querySelector(`.node-card[data-id="${tn.id}"]`);
+    if(!fe||!te) return;
+    const fx=fn.x+fe.offsetWidth/2,fy=fn.y+fe.offsetHeight;
+    const tx2=tn.x+te.offsetWidth/2,ty2=tn.y;
+    const cy=Math.max(Math.abs(ty2-fy)*.5,50);
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',`M${fx},${fy} C${fx},${fy+cy} ${tx2},${ty2-cy} ${tx2},${ty2}`);
+    path.setAttribute('fill','none');path.setAttribute('stroke',TM[fn.type]?.col||'#555');
+    path.setAttribute('stroke-width','1.8');path.setAttribute('marker-end',`url(#a-${fn.type})`);
+    path.setAttribute('opacity','0.65');path.style.pointerEvents='stroke';path.style.cursor='pointer';
+    path.addEventListener('contextmenu',e=>{e.preventDefault();if(confirm('이 연결을 삭제할까요?')){edges=edges.filter(x=>x!==ed);renderAll();}});
+    if(ed.label){
+      const t2=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t2.setAttribute('x',(fx+tx2)/2);t2.setAttribute('y',(fy+ty2)/2-4);
+      t2.setAttribute('text-anchor','middle');t2.setAttribute('fill','#48526a');
+      t2.setAttribute('font-size','10');t2.setAttribute('font-family','JetBrains Mono');
+      t2.textContent=ed.label;svg.appendChild(t2);
+    }
+    svg.appendChild(path);
+  });
+
+  if(connecting&&connPrev){
+    const fn=nodes.find(n=>n.id===connecting),fe=document.querySelector(`.node-card[data-id="${connecting}"]`);
+    if(fn&&fe){
+      const fx=fn.x+fe.offsetWidth/2,fy=fn.y+fe.offsetHeight;
+      const cy=Math.max(Math.abs(connPrev.y-fy)*.5,50);
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d',`M${fx},${fy} C${fx},${fy+cy} ${connPrev.x},${connPrev.y-cy} ${connPrev.x},${connPrev.y}`);
+      path.setAttribute('fill','none');path.setAttribute('stroke','#4d8fff');
+      path.setAttribute('stroke-width','1.5');path.setAttribute('stroke-dasharray','6,4');
+      svg.appendChild(path);
+    }
+  }
+}
+
+// ═══════════════════ SELECT / INSPECTOR ═══════════════════
+function selectNode(id){
+  selId=id; renderAll(); renderInsp();
+}
+
+function renderInsp(){
+  const body=document.getElementById('insp-body');
+  const title=document.getElementById('insp-title');
+  if(!selId){title.textContent='인스펙터';body.innerHTML='<div class="insp-empty">노드를 선택하면<br>여기서 편집합니다</div>';return;}
+  const nd=nodes.find(n=>n.id===selId); if(!nd) return;
+  title.textContent=`[${TM[nd.type]?.label}] ${nd.id}`;
+
+  const cc=nd.conditions.length, fc=nd.flags.length;
+
+  body.innerHTML=`
+
+    <!-- 타입 -->
+    <div class="field">
+      <div class="flabel">노드 타입</div>
+      <select class="fselect" onchange="sf('type',this.value);renderAll()">
+        ${Object.entries(TM).map(([k,v])=>`<option value="${k}"${nd.type===k?' selected':''}>${v.label}</option>`).join('')}
+      </select>
+    </div>
+
+    <!-- ── 핵심: 화자 + 대사 ── -->
+    <div class="field">
+      <div class="flabel">화자</div>
+      <input class="finput" value="${ha(nd.speaker)}" placeholder="예: 마을 장로" oninput="sf('speaker',this.value);rc()">
+    </div>
+    <div class="field">
+      <div class="flabel">대사 내용</div>
+      <textarea class="ftextarea" placeholder="대사를 입력하세요…" oninput="sf('text',this.value);rc()">${h(nd.text)}</textarea>
+    </div>
+
+    <div class="idivider"></div>
+
+    <!-- ── 부가: 조건 ── -->
+    <div class="addon">
+      <div class="addon-head${cc?'':' closed'}" onclick="toggleAddon(this)">
+        <span class="ah-label" style="color:var(--purple)">◇ 조건 (Conditions)</span>
+        <span class="ah-count" id="cc-lbl">${cc?cc+'개':'없음'}</span>
+        <span class="ah-arrow${cc?' open':''}">▶</span>
+      </div>
+      <div class="addon-body${cc?'':' hidden'}" id="cond-body">
+        <div id="cond-list">${(nd.conditions||[]).map((c,i)=>`
+          <div class="crow">
+            <input value="${ha(c.key)}" placeholder="변수명" oninput="uc(${i},'key',this.value)">
+            <select class="c-op" onchange="uc(${i},'op',this.value)">
+              ${['==','!=','>','<','>=','<='].map(op=>`<option${c.op===op?' selected':''}>${op}</option>`).join('')}
+            </select>
+            <input value="${ha(c.value)}" placeholder="값" style="max-width:58px" oninput="uc(${i},'value',this.value)">
+            <button class="ic-btn" onclick="rc2(${i})"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg></button>
+          </div>`).join('')}</div>
+        <button class="add-btn" onclick="ac()">+ 조건 추가</button>
+      </div>
+    </div>
+
+    <!-- ── 부가: 플래그 ── -->
+    <div class="addon">
+      <div class="addon-head${fc?'':' closed'}" onclick="toggleAddon(this)">
+        <span class="ah-label" style="color:var(--yellow)">⚑ 플래그 (Flags)</span>
+        <span class="ah-count" id="fc-lbl">${fc?fc+'개':'없음'}</span>
+        <span class="ah-arrow${fc?' open':''}">▶</span>
+      </div>
+      <div class="addon-body${fc?'':' hidden'}" id="flag-body">
+        <div id="flag-list">${(nd.flags||[]).map((f,i)=>`
+          <div class="frow">
+            <input value="${ha(f.key)}" placeholder="플래그명 예: is_angry" oninput="uf(${i},'key',this.value)">
+            <span style="color:var(--text3);font-size:11px;flex-shrink:0">=</span>
+            <div class="toggle${f.value?' on':''}" onclick="tf(${i})" title="${f.value}"></div>
+            <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text3);width:28px;flex-shrink:0">${f.value?'true':'false'}</span>
+            <button class="ic-btn" onclick="rf(${i})"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg></button>
+          </div>`).join('')}</div>
+        <button class="add-btn" onclick="af()">+ 플래그 추가</button>
+      </div>
+    </div>
+
+    <div class="idivider"></div>
+
+    <!-- ── 시스템 ── -->
+    <div class="field">
+      <div class="flabel">초상화 파일명</div>
+      <input class="finput" value="${ha(nd.portrait)}" placeholder="예: merlin_happy.png" oninput="sf('portrait',this.value);rc()">
+    </div>
+    <div class="field">
+      <div class="flabel">텍스트 스피드</div>
+      <div class="slider-row">
+        <input type="range" min="1" max="100" value="${nd.textSpeed||30}"
+          oninput="sf('textSpeed',parseInt(this.value));rc();document.getElementById('tsv').textContent=this.value">
+        <span class="sval" id="tsv">${nd.textSpeed||30}</span>
+      </div>
+    </div>
+    ${nd.type==='loop'?`
+    <div class="field">
+      <div class="flabel">루프 대상 노드</div>
+      <select class="fselect" onchange="sf('loopTarget',this.value)">
+        <option value="">— 선택 —</option>
+        ${nodes.filter(n=>n.id!==selId).map(n=>`<option value="${n.id}"${nd.loopTarget===n.id?' selected':''}>${h(n.speaker||TM[n.type]?.label)} (${n.id})</option>`).join('')}
+      </select>
+    </div>`:''}
+    <div class="field">
+      <div class="flabel">메모 (내부용)</div>
+      <textarea class="ftextarea" style="min-height:46px" placeholder="출력 안됨" oninput="sf('note',this.value)">${h(nd.note||'')}</textarea>
+    </div>
+    <div style="display:flex;gap:7px">
+      <button class="btn" onclick="duplicateNode()">복제</button>
+      <button class="btn" style="color:var(--red);border-color:var(--red)" onclick="deleteSelected()">삭제</button>
+    </div>`;
+}
+
+// short helpers bound to selected node
+function sf(k,v){const nd=nodes.find(n=>n.id===selId);if(nd)nd[k]=v;}
+function rc(){const nd=nodes.find(n=>n.id===selId);const el=document.querySelector(`.node-card[data-id="${selId}"]`);if(nd&&el)syncCard(el,nd);renderEdges();renderMinimap();}
+function toggleAddon(head){const b=head.nextElementSibling,a=head.querySelector('.ah-arrow'),o=!b.classList.contains('hidden');b.classList.toggle('hidden',o);a.classList.toggle('open',!o);head.classList.toggle('closed',o);}
+
+// conditions
+function ac(){const nd=nodes.find(n=>n.id===selId);if(nd){nd.conditions.push({key:'',op:'==',value:''});renderInsp();rc();}}
+function rc2(i){const nd=nodes.find(n=>n.id===selId);if(nd){nd.conditions.splice(i,1);renderInsp();rc();}}
+function uc(i,k,v){const nd=nodes.find(n=>n.id===selId);if(nd){nd.conditions[i][k]=v;rc();const el=document.getElementById('cc-lbl');if(el)el.textContent=nd.conditions.length?nd.conditions.length+'개':'없음';}}
+// flags
+function af(){const nd=nodes.find(n=>n.id===selId);if(nd){nd.flags.push({key:'',value:false});renderInsp();rc();}}
+function rf(i){const nd=nodes.find(n=>n.id===selId);if(nd){nd.flags.splice(i,1);renderInsp();rc();}}
+function uf(i,k,v){const nd=nodes.find(n=>n.id===selId);if(nd){nd.flags[i][k]=v;rc();const el=document.getElementById('fc-lbl');if(el)el.textContent=nd.flags.length?nd.flags.length+'개':'없음';}}
+function tf(i){const nd=nodes.find(n=>n.id===selId);if(nd){nd.flags[i].value=!nd.flags[i].value;renderInsp();rc();}}
+
+// ═══════════════════ CONNECTING ═══════════════════
+function startConnect(id){
+  connecting=(id!==undefined?id:selId); if(!connecting) return;
+  document.getElementById('canvas-wrap').style.cursor='crosshair';
+  toast('연결할 노드를 클릭하세요. ESC로 취소.','');
+}
+function finishConnect(toId){
+  if(!connecting||connecting===toId){cancelConn();return;}
+  if(!edges.find(e=>e.from===connecting&&e.to===toId)){
+    edges.push({id:'E'+(nxtId++),from:connecting,to:toId,label:''});
+    toast('연결 완료!','ok');
+  }
+  cancelConn(); renderAll();
+}
+function cancelConn(){connecting=null;connPrev=null;document.getElementById('canvas-wrap').style.cursor='';renderEdges();}
+
+// ═══════════════════ NODE DRAG ═══════════════════
+function nodeDragStart(e,id){
+  if(connecting)return; e.stopPropagation();
+  const nd=nodes.find(n=>n.id===id); if(!nd) return;
+  const r=document.getElementById('canvas-wrap').getBoundingClientRect();
+  dragging={id,ox:(e.clientX-r.left-vp.x)/vp.s-nd.x,oy:(e.clientY-r.top-vp.y)/vp.s-nd.y};
+  // selectNode 대신 renderAll 없이 선택 상태만 업데이트
+  selId=id;
+  document.querySelectorAll('.node-card').forEach(el=>el.classList.toggle('sel',el.dataset.id===id));
+  renderInsp();updateSt();
+}
+
+// ═══════════════════ CANVAS EVENTS ═══════════════════
+const cw=document.getElementById('canvas-wrap');
+cw.addEventListener('mousedown',e=>{
+  if(e.target!==cw&&!e.target.closest('#esvg'))return;
+  if(connecting){cancelConn();return;}
+  panning={mx:e.clientX,my:e.clientY,vx:vp.x,vy:vp.y};
+});
+window.addEventListener('mousemove',e=>{
+  if(dragging){
+    const nd=nodes.find(n=>n.id===dragging.id); if(!nd) return;
+    const r=cw.getBoundingClientRect();
+    nd.x=Math.round((e.clientX-r.left-vp.x)/vp.s-dragging.ox);
+    nd.y=Math.round((e.clientY-r.top-vp.y)/vp.s-dragging.oy);
+    const el=document.querySelector(`.node-card[data-id="${dragging.id}"]`);
+    if(el){el.style.left=nd.x+'px';el.style.top=nd.y+'px';}
+    renderEdges();renderMinimap();return;
+  }
+  if(panning){vp.x=panning.vx+(e.clientX-panning.mx);vp.y=panning.vy+(e.clientY-panning.my);applyVP();renderMinimap();}
+  if(connecting){
+    const r = cw.getBoundingClientRect();
+    connPrev = {
+        x: (e.clientX - r.left - vp.x) / vp.s,
+        y: (e.clientY - r.top - vp.y) / vp.s
+    };
+    renderEdges();
+  }
+});
+
+window.addEventListener('mouseup',()=>{if(dragging){renderAll();}dragging=null;panning=null;});
+cw.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const d=e.deltaY>0?.88:1.13;
+  const r=cw.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  vp.x=mx-(mx-vp.x)*d;vp.y=my-(my-vp.y)*d;
+  vp.s=Math.max(.15,Math.min(3,vp.s*d));
+  applyVP();renderMinimap();
+},{passive:false});
+
+function doZoom(d){const r=cw.getBoundingClientRect(),mx=r.width/2,my=r.height/2;vp.x=mx-(mx-vp.x)*d;vp.y=my-(my-vp.y)*d;vp.s=Math.max(.15,Math.min(3,vp.s*d));applyVP();renderMinimap();}
+function resetView(){vp={x:60,y:60,s:1};applyVP();renderMinimap();}
+
+// ═══════════════════ CTX MENU ═══════════════════
+function showCtx(x,y,hasNode){
+  const m=document.getElementById('ctx');
+  document.getElementById('ci-child').style.display=hasNode?'':'none';
+  document.getElementById('ci-conn').style.display=hasNode?'':'none';
+  m.style.left=x+'px';m.style.top=y+'px';m.classList.add('show');
+}
+function canvasCtx(e){
+  e.preventDefault();
+  if(e.target===cw||e.target.closest('#esvg')){selId=null;renderAll();renderInsp();showCtx(e.clientX,e.clientY,false);}
+}
+document.addEventListener('click',()=>document.getElementById('ctx').classList.remove('show'));
+function ctxChild(){const p=selId;addNode('dialog');if(p&&nodes.length){edges.push({id:'E'+(nxtId++),from:p,to:nodes[nodes.length-1].id,label:''});renderAll();}}
+
+
+// ═══════════════════ DELETE / DUPE ═══════════════════
+function deleteSelected(){
+  if(!selId)return;if(!confirm('삭제할까요?'))return;
+  nodes=nodes.filter(n=>n.id!==selId);edges=edges.filter(e=>e.from!==selId&&e.to!==selId);
+  selId=null;renderAll();renderInsp();toast('삭제됨','err');
+}
+function duplicateNode(){
+  if(!selId)return;const nd=nodes.find(n=>n.id===selId);if(!nd)return;
+  const c=JSON.parse(JSON.stringify(nd));c.id='N'+(nxtId++);c.x+=40;c.y+=40;
+  nodes.push(c);renderAll();selectNode(c.id);toast('복제됨','ok');
+}
+
+// ═══════════════════ KEYBOARD ═══════════════════
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')cancelConn();
+  if(e.key==='Delete'&&selId&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))deleteSelected();
+});
+
+// ═══════════════════ NODE LIST ═══════════════════
+function renderList(){
+  const list=document.getElementById('node-list');
+  if(!nodes.length){list.innerHTML='<div style="color:var(--text3);font-size:11px;text-align:center;padding:14px">노드가 없습니다</div>';return;}
+  list.innerHTML=nodes.map(nd=>`
+    <div class="nli${nd.id===selId?' sel':''}" onclick="selectNode('${nd.id}');scrollToNode('${nd.id}')">
+      <div class="nli-dot" style="background:${TM[nd.type]?.col||'#888'}"></div>
+      <span class="nli-text">${h(nd.speaker||TM[nd.type]?.label||nd.type)}</span>
+      <span class="nli-id">${nd.id}</span>
+    </div>`).join('');
+}
+function scrollToNode(id){
+  const nd=nodes.find(n=>n.id===id);if(!nd)return;
+  const r=cw.getBoundingClientRect();
+  vp.x=r.width/2-nd.x*vp.s-115*vp.s;vp.y=r.height/2-nd.y*vp.s-60*vp.s;
+  applyVP();renderMinimap();
+}
+
+// ═══════════════════ AUTO LAYOUT ═══════════════════
+function autoLayout(){
+  if(!nodes.length)return;
+  const cm={},hp=new Set();
+  nodes.forEach(n=>{cm[n.id]=[];});
+  edges.forEach(e=>{if(cm[e.from])cm[e.from].push(e.to);hp.add(e.to);});
+  const roots=nodes.filter(n=>!hp.has(n.id));
+  const lm={},vis=new Set();
+  function assign(id,d){if(vis.has(id))return;vis.add(id);if(!lm[d])lm[d]=[];lm[d].push(id);(cm[id]||[]).forEach(c=>assign(c,d+1));}
+  roots.forEach(r=>assign(r.id,0));
+  nodes.forEach(n=>{if(!vis.has(n.id))assign(n.id,Object.keys(lm).length);});
+  Object.entries(lm).forEach(([d,ids])=>{
+    const tot=ids.length*280;
+    ids.forEach((id,i)=>{const nd=nodes.find(n=>n.id===id);if(nd){nd.x=i*280-tot/2+500;nd.y=parseInt(d)*160+60;}});
+  });
+  renderAll();toast('자동 정렬 완료','ok');
+}
+
+// ═══════════════════ MINIMAP ═══════════════════
+function renderMinimap(){
+  const c=document.getElementById('minimap'),ctx=c.getContext('2d');
+  ctx.clearRect(0,0,150,90);ctx.fillStyle='#12151d';ctx.fillRect(0,0,150,90);
+  if(!nodes.length)return;
+  const xs=nodes.map(n=>n.x),ys=nodes.map(n=>n.y);
+  const mnX=Math.min(...xs)-10,mnY=Math.min(...ys)-10,mxX=Math.max(...xs)+240,mxY=Math.max(...ys)+130;
+  const sc=Math.min(140/(mxX-mnX||1),80/(mxY-mnY||1));
+  edges.forEach(ed=>{
+    const f=nodes.find(n=>n.id===ed.from),t=nodes.find(n=>n.id===ed.to);if(!f||!t)return;
+    ctx.strokeStyle='#272c3e';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo((f.x+115-mnX)*sc+5,(f.y+60-mnY)*sc+5);
+    ctx.lineTo((t.x+115-mnX)*sc+5,(t.y+60-mnY)*sc+5);ctx.stroke();
+  });
+  nodes.forEach(nd=>{
+    ctx.fillStyle=nd.id===selId?'#4d8fff':(TM[nd.type]?.col||'#888');
+    ctx.globalAlpha=nd.id===selId?1:.7;
+    ctx.fillRect((nd.x-mnX)*sc+5,(nd.y-mnY)*sc+5,Math.max(8,230*sc),Math.max(4,120*sc));
+  });
+  ctx.globalAlpha=1;
+}
+
+// ═══════════════════ STATUS ═══════════════════
+function updateSt(){
+  document.getElementById('st-n').textContent=nodes.length;
+  document.getElementById('st-e').textContent=edges.length;
+  document.getElementById('st-s').textContent=selId||(connecting?'연결 중':'—');
+}
+
+// ═══════════════════ PALETTE DRAG ═══════════════════
+function palDrag(e,type){palType=type;e.dataTransfer.effectAllowed='copy';}
+function canvasDrop(e){
+  e.preventDefault();if(!palType)return;
+  const r=cw.getBoundingClientRect(),x=(e.clientX-r.left-vp.x)/vp.s-115,y=(e.clientY-r.top-vp.y)/vp.s-60;
+  const nd=mkNode(palType,x,y);nodes.push(nd);palType=null;renderAll();selectNode(nd.id);
+}
+
+// ═══════════════════ JSON ═══════════════════
+function getProj(){return{projectName:document.getElementById('proj-name').value,version:'2.0',nodes,edges};}
+function saveJSON(){
+  const d=getProj(),a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}));
+  a.download=(d.projectName||'dialogue')+'.json';a.click();
+  toast('저장 완료!','ok');closeModal('json-modal');
+}
+function loadJSON(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      nodes=d.nodes||[];edges=d.edges||[];
+      if(d.projectName)document.getElementById('proj-name').value=d.projectName;
+      const mx=Math.max(...[...nodes,...edges].map(x=>parseInt(x.id.replace(/\D/g,''))||0),0);
+      nxtId=mx+1;selId=null;renderAll();renderInsp();toast('불러오기 완료!','ok');
+    }catch(err){toast('파일 오류: '+err.message,'err');}
+  };
+  r.readAsText(f);ev.target.value='';
+}
+function showJson(){document.getElementById('json-pre').textContent=JSON.stringify(getProj(),null,2);openModal('json-modal');}
+
+// ═══════════════════ PREVIEW ═══════════════════
+let pvF={},pvId=null;
+function showPreview(){if(!nodes.length){toast('노드가 없습니다','err');return;}pvF={};pvId=nodes[0].id;openModal('pv-modal');renderPv();}
+function restartPv(){pvF={};pvId=nodes[0]?.id;renderPv();}
+function renderPv(){
+  const cc=document.getElementById('pv-content'),ch=document.getElementById('pv-choices');
+  document.getElementById('pv-flags').textContent=Object.keys(pvF).length?'Flags: '+Object.entries(pvF).map(([k,v])=>`${k}=${v}`).join(' | '):'';
+  if(!pvId){cc.innerHTML='<p style="color:var(--text3)">[대화 종료]</p>';ch.innerHTML='';return;}
+  const nd=nodes.find(n=>n.id===pvId);
+  if(!nd){cc.innerHTML='<p style="color:var(--red)">노드 없음</p>';return;}
+  (nd.flags||[]).forEach(f=>{if(f.key)pvF[f.key]=f.value;});
+  const nxt=edges.filter(e=>e.from===nd.id);
+  cc.innerHTML=`<div style="display:flex;gap:12px;align-items:flex-start">
+    <div style="background:var(--bg4);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${pvIco(nd.type)}</div>
+    <div>
+      <div style="font-weight:700;color:${TM[nd.type]?.col};margin-bottom:4px">${h(nd.speaker||TM[nd.type]?.label)}</div>
+      ${nd.portrait?`<div style="font-size:10px;color:var(--text3);margin-bottom:3px">🖼 ${h(nd.portrait)}</div>`:''}
+      <div style="line-height:1.75;font-size:14px">${h(nd.text)||'<span style="color:var(--text3)">(내용 없음)</span>'}</div>
+    </div>
+  </div>`;
+  if(nd.type==='leaf'){ch.innerHTML='<span style="color:var(--text3);font-size:12px">[대화 종료]</span>';return;}
+  if(nd.type==='loop'&&nd.loopTarget){pvId=nd.loopTarget;renderPv();return;}
+  if(!nxt.length){ch.innerHTML='<span style="color:var(--text3);font-size:12px">[다음 없음]</span>';return;}
+  if(nxt.length===1){ch.innerHTML=`<button class="btn primary" onclick="pvGo('${nxt[0].to}')">계속 →</button>`;return;}
+  ch.innerHTML=nxt.map(e=>{const tn=nodes.find(n=>n.id===e.to);return`<button class="btn" onclick="pvGo('${e.to}')" style="justify-content:flex-start">▸ ${h(e.label||tn?.text||tn?.speaker||e.to)}</button>`;}).join('');
+}
+function pvGo(id){pvId=id;renderPv();}
+function pvIco(t){return{root:'◎',dialog:'💬',choice:'☰',condition:'◇',flag:'⚑',hub:'⊕',loop:'↺',leaf:'✕'}[t]||'?';}
+
+// ═══════════════════ MODAL ═══════════════════
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
+
+// ═══════════════════ TOAST ═══════════════════
+let _tt;
+function toast(msg,type){const el=document.getElementById('toast');el.textContent=msg;el.className='show'+(type?' '+type:'');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2400);}
+
+// ═══════════════════ UTILS ═══════════════════
+function h(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function ha(s){if(!s)return'';return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+// ═══════════════════ PANEL RESIZE ═══════════════════
+(function(){
+  function makeResizer(resizerId, targetId, side){
+    const resizer = document.getElementById(resizerId);
+    const target  = document.getElementById(targetId);
+    let startX, startW;
+    resizer.addEventListener('mousedown', e=>{
+      e.preventDefault();
+      startX = e.clientX;
+      startW = target.getBoundingClientRect().width;
+      resizer.classList.add('dragging');
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+      function onMove(e){
+        const delta = e.clientX - startX;
+        const newW  = side === 'right'
+          ? Math.max(140, Math.min(520, startW + delta))
+          : Math.max(240, Math.min(600, startW - delta));
+        target.style.width = newW + 'px';
+      }
+      function onUp(){
+        resizer.classList.remove('dragging');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+      }
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+    });
+  }
+  makeResizer('sidebar-resizer',   'sidebar',   'right');
+  makeResizer('inspector-resizer', 'inspector', 'left');
+})();
+
+// ═══════════════════ INIT ═══════════════════
+renderAll();
+</script>
+</body>
+</html>
