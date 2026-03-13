@@ -15,20 +15,14 @@ function createCharacterCard(char, index) {
   const imgSrc = char.image
     ? char.image
     : "https://via.placeholder.com/120x120?text=No+Image";
-  let bgColor = "#fff";
-  if (char.tag === "SV") bgColor = "#ffe5e5"; // SV 태그면 연빨강 배경
-  if (char.tag === "DEE") bgColor = "#D8C7E8";
-  if (char.tag === "SF") bgColor = "#e5f0ff"; // SF 태그면 연파랑 배경
-  if (char.tag === "CC") bgColor = "#3b3b4a";
-  if (char.tag === "TC") bgColor = "#e8e8e8"; // ETC 태그면 연회색 배경
 
   const div = document.createElement("div");
   div.className = "character";
-  div.style.background = bgColor;
+  if (char.tag) div.dataset.tag = char.tag;
   div.innerHTML = `
     <a href="${char.html}" style="text-decoration:none; color:inherit;">
       <div class="char-number">#${index}</div>
-      <img src="${imgSrc}" alt="${char.name}" style="width:110px;height:110px;object-fit:cover;border-radius:8px;">
+      <img src="${imgSrc}" alt="${char.name}">
       <div class="character-name">${char.name}</div>
     </a>
   `;
@@ -65,25 +59,63 @@ function renderPage(page) {
   renderPagination(totalPages, page);
 }
 
-// 페이지네이션 렌더링
+// 페이지네이션 렌더링 (숫자 버튼 포함)
 function renderPagination(totalPages, page) {
   paginationEl.innerHTML = "";
+  if (totalPages <= 1) return;
+
+  // 이전 버튼
   const prevBtn = document.createElement("button");
-  prevBtn.innerText = "◀ 이전";
+  prevBtn.innerText = "◀";
+  prevBtn.className = "page-btn";
   prevBtn.disabled = page <= 1;
   prevBtn.onclick = () => renderPage(page - 1);
   paginationEl.appendChild(prevBtn);
 
-  const info = document.createElement("span");
-  info.innerText = ` ${page} / ${totalPages} `;
-  info.style.margin = "0 8px";
-  paginationEl.appendChild(info);
+  // 숫자 버튼 범위 계산 (현재 페이지 기준 앞뒤 2개)
+  const delta = 2;
+  const range = [];
+  for (let i = Math.max(1, page - delta); i <= Math.min(totalPages, page + delta); i++) {
+    range.push(i);
+  }
 
+  // 첫 페이지 + 말줄임
+  if (range[0] > 1) {
+    appendPageBtn(1, page);
+    if (range[0] > 2) appendEllipsis();
+  }
+
+  // 숫자 버튼들
+  range.forEach(n => appendPageBtn(n, page));
+
+  // 끝 페이지 + 말줄임
+  if (range[range.length - 1] < totalPages) {
+    if (range[range.length - 1] < totalPages - 1) appendEllipsis();
+    appendPageBtn(totalPages, page);
+  }
+
+  // 다음 버튼
   const nextBtn = document.createElement("button");
-  nextBtn.innerText = "다음 ▶";
+  nextBtn.innerText = "▶";
+  nextBtn.className = "page-btn";
   nextBtn.disabled = page >= totalPages;
   nextBtn.onclick = () => renderPage(page + 1);
   paginationEl.appendChild(nextBtn);
+
+  function appendPageBtn(n, currentPage) {
+    const btn = document.createElement("button");
+    btn.innerText = n;
+    btn.className = "page-btn" + (n === currentPage ? " active" : "");
+    btn.onclick = () => renderPage(n);
+    paginationEl.appendChild(btn);
+  }
+
+  function appendEllipsis() {
+    const span = document.createElement("span");
+    span.innerText = "…";
+    span.className = "page-ellipsis";
+    paginationEl.appendChild(span);
+  }
 }
 
 // 검색 필터링
