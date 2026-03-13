@@ -51,73 +51,98 @@
 
   <script>
   let posts = [];
+  let filteredPosts = [];
   const postsPerPage = 20;
   let currentPage = 1;
 
+  // JSON 로드
   async function loadPosts() {
-    const res = await fetch("uposts.json");
-    posts = await res.json();
+    const container = document.getElementById("postContainer");
+    try {
+      const res = await fetch("uposts.json");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      posts = await res.json();
+      filteredPosts = posts.slice();
+      renderPosts();
+    } catch (err) {
+      container.innerHTML = `
+        <div style="text-align:center; padding:40px; color:#888;">
+          <div style="font-size:2rem; margin-bottom:12px;">📭</div>
+          <div>게시물을 불러오지 못했습니다.</div>
+          <div style="font-size:13px; margin-top:6px; color:#aaa;">${err.message}</div>
+        </div>`;
+    }
+  }
+
+  // 검색 필터링
+  function filterPosts() {
+    const q = document.getElementById("searchInput").value.trim().toLowerCase();
+    filteredPosts = q
+      ? posts.filter(p => p.title && p.title.toLowerCase().includes(q))
+      : posts.slice();
+    currentPage = 1;
     renderPosts();
   }
 
-function renderPosts() {
-  const container = document.getElementById("postContainer");
-  container.innerHTML = "";
+  // 게시물 렌더링
+  function renderPosts() {
+    const container = document.getElementById("postContainer");
+    container.innerHTML = "";
 
-  const start = (currentPage - 1) * postsPerPage;
-  const end = start + postsPerPage;
-  const currentPosts = posts.slice(start, end);
-
-  currentPosts.forEach(post => {
-    const postItem = document.createElement("div");
-    postItem.className = "post-item";
-    postItem.innerHTML = `
-      <div class="post-title">${post.title}</div>
-      <div class="post-date">${post.date}</div>
-    `;
-
-    const postContent = document.createElement("div");
-    postContent.className = "post-content";
-
-    // 📝 글 내용 출력 — \n 줄바꿈 반영
-    let contentHTML = `<p style="white-space: pre-wrap;">${post.content}</p>`;
-
-    // 🖼️ 이미지가 있을 경우
-    if (post.image) {
-      contentHTML += `
-        <img src="${post.image}" alt="이미지" 
-             style="max-width:100%; margin-top:10px; border-radius:8px;">
-      `;
+    if (filteredPosts.length === 0) {
+      container.innerHTML = `<div style="text-align:center; padding:40px; color:#888;">검색 결과가 없습니다.</div>`;
+      document.getElementById("pagination").innerHTML = "";
+      return;
     }
 
-    // 🔊 오디오가 있을 경우
-    if (post.audio) {
-      contentHTML += `
-        <audio controls style="margin-top:10px; width:100%;">
-          <source src="${post.audio}" type="audio/mpeg">
-          브라우저가 오디오를 지원하지 않습니다.
-        </audio>
+    const start = (currentPage - 1) * postsPerPage;
+    const end = start + postsPerPage;
+    const currentPosts = filteredPosts.slice(start, end);
+
+    currentPosts.forEach(post => {
+      const postItem = document.createElement("div");
+      postItem.className = "post-item";
+      postItem.innerHTML = `
+        <div class="post-title">${post.title}</div>
+        <div class="post-date">${post.date}</div>
       `;
-    }
 
-    postContent.innerHTML = contentHTML;
+      const postContent = document.createElement("div");
+      postContent.className = "post-content";
 
-    postItem.addEventListener("click", () => {
-      const isOpen = postContent.style.display === "block";
-      document.querySelectorAll(".post-content").forEach(c => c.style.display = "none");
-      if (!isOpen) postContent.style.display = "block";
+      let contentHTML = `<p style="white-space: pre-wrap;">${post.content}</p>`;
+      if (post.image) {
+        contentHTML += `<img src="${post.image}" alt="이미지" style="max-width:100%; margin-top:10px; border-radius:8px;">`;
+      }
+      if (post.audio) {
+        contentHTML += `
+          <audio controls style="margin-top:10px; width:100%;">
+            <source src="${post.audio}" type="audio/mpeg">
+            브라우저가 오디오를 지원하지 않습니다.
+          </audio>`;
+      }
+      postContent.innerHTML = contentHTML;
+
+      postItem.addEventListener("click", () => {
+        const isOpen = postContent.style.display === "block";
+        document.querySelectorAll(".post-content").forEach(c => c.style.display = "none");
+        if (!isOpen) postContent.style.display = "block";
+      });
+
+      container.appendChild(postItem);
+      container.appendChild(postContent);
     });
 
-    container.appendChild(postItem);
-    container.appendChild(postContent);
-  });
     renderPagination();
   }
 
+  // 페이지네이션
   function renderPagination() {
     const pagination = document.getElementById("pagination");
     pagination.innerHTML = "";
-    const totalPages = Math.ceil(posts.length / postsPerPage);
+    const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+    if (totalPages <= 1) return;
+
     for (let i = 1; i <= totalPages; i++) {
       const btn = document.createElement("button");
       btn.innerText = i;
@@ -125,10 +150,18 @@ function renderPosts() {
       btn.addEventListener("click", () => {
         currentPage = i;
         renderPosts();
+        window.scrollTo({ top: 0, behavior: "smooth" });
       });
       pagination.appendChild(btn);
     }
   }
+
+  // 검색 이벤트 바인딩
+  document.getElementById("searchBtn").addEventListener("click", filterPosts);
+  document.getElementById("searchInput").addEventListener("input", filterPosts);
+  document.getElementById("searchInput").addEventListener("keypress", e => {
+    if (e.key === "Enter") filterPosts();
+  });
 
   loadPosts();
 </script>
