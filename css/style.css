@@ -117,57 +117,102 @@ h2 {
     text-align: center;
 }
 
-/* 전체 판: 노란 테두리 + 검은 배경 */
+/* 전체 판 컨테이너 */
 .character-list-container {
-  border: 5px solid #FFD369;
-  background-color: #333; /* 검은색 배경 */
-  padding: 20px;
-  margin: 20px 50px;
+  background: #f8f8f8;
+  border: none;
+  padding: 24px 16px;
+  margin: 10px 40px;
   display: flex;
-  justify-content: center; /* 중앙 정렬 */
+  justify-content: center;
+  border-radius: 16px;
 }
 
-/* 5x7 영역: 흰색 배경 */
+/* 그리드 영역 */
 .character-list {
   display: grid;
-  grid-template-columns: repeat(5, 120px);
-  grid-auto-rows: auto;
-  gap: 20px;
-  background-color: #ffffff; /* 흰색 배경 */
-  padding: 20px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  background: transparent;
+  padding: 0;
+  width: 100%;
+  max-width: 700px;
 }
 
-/* 각 캐릭터 칸 */
+/* 각 캐릭터 카드 */
 .character {
-  border: 3px solid #000000;
-  border-radius: 8px;
+  border: none;
+  border-radius: 14px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: 'Galmuri9';
-  transition: transform 0.2s, background 0.2s;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  transition: transform 0.22s cubic-bezier(.34,1.56,.64,1), box-shadow 0.22s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* 카드 상단 컬러 바 (태그 색상 반영) */
+.character::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 4px;
+  background: #FFD369;
+  position: absolute;
+  top: 0; left: 0;
+  transition: height 0.22s ease;
 }
 
 .character:hover {
-  transform: scale(1.05);
-  background-color: #f0f0f0;
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.13);
+}
+
+.character:hover::before {
+  height: 6px;
 }
 
 /* 이미지 */
 .character img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 8px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 14px 8px 6px 8px;
+  transition: filter 0.22s ease;
+}
+
+.character:hover img {
+  filter: brightness(1.06) saturate(1.1);
+}
+
+/* 번호 배지 */
+.char-number {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 10px;
+  color: #aaa;
+  font-family: 'Galmuri9';
+  background: rgba(255,255,255,0.85);
+  border-radius: 4px;
+  padding: 1px 4px;
+  line-height: 1.4;
 }
 
 /* 이름 */
-.character div {
+.character-name {
   font-weight: bold;
-  color: #000000;
+  color: #222;
   text-align: center;
+  font-size: 12px;
+  padding: 4px 6px 10px 6px;
+  letter-spacing: -0.01em;
 }
 
 /* 링크 */
@@ -177,7 +222,16 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  padding-top: 4px;
 }
+
+/* 태그별 상단 컬러 바 색상 */
+.character[data-tag="SV"]::before { background: #ffb3b3; }
+.character[data-tag="DEE"]::before { background: #c4a8e0; }
+.character[data-tag="SF"]::before { background: #a8c8ff; }
+.character[data-tag="CC"]::before { background: #888; }
+.character[data-tag="TC"]::before { background: #ccc; }
 
 .post-list {
   display: flex;
@@ -307,22 +361,24 @@ h2 {
     max-width: 100%;
   }
   .character-list-container {
-    margin: 8px 2px;
-    padding: 8px;
+    margin: 8px 4px;
+    padding: 12px 8px;
+    border-radius: 10px;
   }
   .character-list {
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding: 4px;
+    gap: 10px;
   }
   .character {
-    font-size: 12px;
-    padding: 4px 1px;
-    min-width: 0;
+    border-radius: 10px;
   }
   .character img {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 2px;
+    width: 60px;
+    height: 60px;
+    margin: 12px 4px 4px 4px;
+  }
+  .character-name {
+    font-size: 11px;
+    padding: 2px 4px 8px 4px;
   }
 }
