@@ -256,6 +256,12 @@
     "name": "파네",
     "image": "images/lim.png",
   "html": "charcons/char37.html"
+  },
+  {
+    "id": "char38",
+    "name": "플러그",
+    "image": "images/lim.png",
+  "html": "charcons/char38.html"
   }
 
 
