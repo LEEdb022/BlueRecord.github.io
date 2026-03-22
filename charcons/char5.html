@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>니알리브</title>
+    <link rel="stylesheet" href="../css/chardocstyle.css">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+</head>
+<body>
+  <!-- 갤러리 이미지 확대 모달 -->
+  <div id="galleryModal" class="gallery-modal">
+    <div class="gallery-modal-overlay" id="galleryModalOverlay"></div>
+    <img id="galleryModalImg" class="gallery-modal-img" src="" alt="Gallery Zoom">
+    <button id="galleryModalClose" class="gallery-modal-close" aria-label="닫기">×</button>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <!-- 헤더: 아바타 + 기본 메타 -->
+      <div class="header">
+
+    <!-- 관련문서 모음: 접기/펼치기 기능 포함 (wrap 내부, card 위) -->
+    <div id="relatedDocsContainer" class="related-docs">
+      <button id="toggleRelatedDocs" class="related-toggle">슈가잇벤쳐 ▼</button>
+      <div id="relatedDocsContent" class="related-content" style="display:none;">
+        <ul>
+          인물<a href="#">라구스</a>  <a href="#">판크리</a>  <a href="#">비터</a>
+          <!-- 필요에 따라 문서 추가 -->
+        </ul>
+      </div>
+    </div>
+
+    <h1 class="name">니알리브</h1>
+    <div class="subtitle"></div>
+    <div class="header-grid">
+      <div class="toc-area">
+        <div class="toc-title">목차</div>
+        <ol class="toc-list">
+          <li><a href="#section-one">개요</a></li>
+          <li>
+            <a href="#section-two">특징</a>
+            <ul>
+              <li><a href="#section-appearance">외모</a></li>
+              <li><a href="#section-details">세부요소</a></li>
+            </ul>
+          </li>
+          <li><a href="#section-thre">성격</a></li>
+          <li><a href="#section-four">작중행적</a></li>
+          <li><a href="#section-five">관계</a></li>
+          <li><a href="#section-meta">메타정보</a></li>
+          <li><a href="#section-gallery">갤러리</a></li>
+        </ol>
+      </div>
+      <div class="profile-meta-area">
+        <div class="profile">
+          
+        </div><!-- .profile -->
+      </div>
+      <div class="table-area">
+        <table class="table">
+          <tr>
+            <th colspan="2" style="text-align:center; font-weight:100%; font-size:17px;background:#23272f;color:#ffffff;">
+              니알리브<br> <span style="font-size: small; font-weight:0%">Nialiv</span></th>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align:center;background:#181c22;">
+              <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbvYfLm%2FbtsLaGP4cGE%2FAAAAAAAAAAAAAAAAAAAAAEwMnX_zIAnuJaYamMJbRwgLMZmDa2oKdFPNmR8H529R%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3DL%252BG3KYUObzuQSuA9WbA%252B6wb%252FwX0%253D" alt="캐릭터 이미지" style="max-width:600px;max-height:600px;border-radius:6px;box-shadow:0 1px 4px #222;">
+            </td>
+          </tr>
+          <tr>
+            <th>성별</th>
+            <td>남자</td>
+          </tr>
+          <tr>
+            <th>종족</th>
+            <td>케틀족</td>
+          </tr>
+          <tr>
+            <th>출신</th>
+            <td>나브루프 (nabrupu)</td>
+          </tr>
+          <tr>
+            <th>좋아하는것</th>
+            <td>성실함, 업무, 연구, 평화, 동료들</td>
+          </tr>
+          <tr>
+            <th>싫어하는것</th>
+            <td>불성실함, 죄책감</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+      </div><!-- .header -->
+
+      <!-- 본문: 좌측-설명 우측-기본정보 -->
+      <div class="grid">
+        <!-- 좌측: 소개 / 스토리 / 능력 -->
+        <div>
+          <!-- 개요 -->
+          <div class="panel">
+            <div class="section-title" id="section-one">개요</div>
+            <span class="quote-line">"오늘도 좋은 하루입니다."</span>
+            <div class="bio">나브루프에 사는 사이어서러 부대장. 늙은 나이에도 불구하고 연구실에서 다른 사이어서러들에게 엄청난 외모로 각광받고 있다. 모든 일에 충실하고 친절하며 부족한 부분을 보이는 일이 한번도 없다. 그야말로 엘리트. 매일매일 웃는 얼굴이다.
+              <!-- 배경, 세계관, 기본 설명 등 --></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 특징 -->
+          <div class="panel">
+            <div class="section-title" id="section-two">특징</div>
+            <div class="panel" style="margin-bottom:8px;">
+              <div class="section-title" id="section-appearance" style="font-size:17px;margin-bottom:4px;">외모</div>
+              <div>삐쭉삐쭉한 요리사 모자와 붉은 앞치마. 넓직한 칼.
+                  앞치마에 그려진 문양은 무얼 뜻하는지 그 누구도 모른다.(사실 내장이다)</div>
+            </div>
+            <div class="panel" style="margin-bottom:8px;">
+              <div class="section-title" id="section-details" style="font-size:17px;margin-bottom:4px;">세부요소</div>
+              <div>발명품을 가동시킬 때만 실무형 옷을 입지만, 연구에 몰두할 땐 실험복을 입는다.뿔에 달려있는것은 사력을 증가시켜주는 물건이다. 시력이 별로 좋지 못하다. 리더 사이어서러가 사라지기 전에는 사력에너지 가동 준비역할을 주로 했다.</div>
+            </div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 성격 -->
+          <div class="panel">
+            <div class="section-title" id="section-thre">성격</div>
+            <div class="bio">
+              모든 일에 충실하고 친절하며 부족한 부분을 보이는 일이 한번도 없다. 그야말로 엘리트. 매일매일 웃는 얼굴이다.<br>
+              평상시엔 가짜 성격을 드러내고 있다. 진짜 성격은 화가 많고 피해망상이 있고, 까내리는걸 좋아한다. 명성을 위해서라면 뭐든지 한다.G 죽이기, 뒷담까는 직원 실험체로 쓰기, 외모가꾸기 등 <br>중립 선</div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 작중행적 -->
+          <div class="panel">
+            <div class="section-title" id="section-four">작중행적</div>
+            <div class="section-title" style="font-size:17px;margin-bottom:4px;">과거사</div>
+            <div class="bio">원래 사이어서러 대장이었으나, 갈레르가 온 후에 자리를 뺏겼다.덤으로 명성도 뺏겨서 엄청난 복수심을 불태우다가 어떤 사건 이후로 갈레르를 포탈로 밀어버린다.<br>갈레르가 죽은 후 남겨진 아들을 대신 키운다. 죄책감이 아닌 갈레르의 아들도 끝까지 이용하다 말려 죽인다는 생각으로 학대하고 실험대상으로 쓴다.
+            
+            포탈 가동에는 리더 사이어서러의 피가 담긴 뿔이 필요했기 때문에 비터의 뿔을 뽑았다.</div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 관계 -->
+          <div class="panel">
+            <div class="section-title" id="section-five">관계</div>
+            <div class="bio"></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 메타정보 -->
+          <div class="panel">
+            <div class="section-title" id="section-meta">메타정보</div>
+            <div class="bio">너무오래되어서 뭐에 영향받았는지 잊어버렸다</div>
+          </div>
+        </div><!-- 좌측: 본문 영역 -->
+
+        <aside>
+          <div class="panel">
+            <div class="section-title" id="section-gallery">갤러리</div>
+            <div class="gallery">
+              <figure class="gallery-item">
+                <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbtBhZC%2FbtsFqKvVxVX%2FAAAAAAAAAAAAAAAAAAAAAG5WS3rBOuG66vQf5zdyZzmxa_x8MTCm6qe-KCUGfrSS%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3D00oD9l46IBkia2Bw2fWKW%252F3oZZY%253D" alt="XX">
+                <figcaption>구버전 라구스</figcaption>
+              </figure>
+            </div><!-- .gallery -->
+          </div><!-- .panel -->
+        </aside>
+        <!-- 다음 캐릭터 버튼 -->
+      <a href="char.html" class="next-button" id="nextCharacterBtn">다음 캐릭터 →</a>
+
+      <div class="footer">
+        <a class="back" href="../index.html">← 목록으로 돌아가기</a>
+      </div><!-- .footer -->
+  <script>
+  // 갤러리 이미지 클릭 확대 기능
+  document.addEventListener("DOMContentLoaded", function() {
+    const galleryImgs = document.querySelectorAll('.gallery img');
+    const modal = document.getElementById('galleryModal');
+    const modalImg = document.getElementById('galleryModalImg');
+    const modalOverlay = document.getElementById('galleryModalOverlay');
+    const modalClose = document.getElementById('galleryModalClose');
+    function openModal(src, alt) {
+      modalImg.src = src;
+      modalImg.alt = alt || '';
+      modal.classList.add('show');
+      setTimeout(()=>{modal.classList.add('visible');}, 10);
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modal.classList.remove('visible');
+      setTimeout(()=>{
+        modal.classList.remove('show');
+        modalImg.src = '';
+        document.body.style.overflow = '';
+      }, 250);
+    }
+    galleryImgs.forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function() {
+        openModal(this.src, this.alt);
+      });
+    });
+    modalOverlay.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', closeModal);
+    document.addEventListener('keydown', function(e) {
+      if (modal.classList.contains('show') && (e.key === 'Escape' || e.key === 'Esc')) closeModal();
+    });
+  });
+
+  // 페이지 로드 시 페이드 인
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+    // 관련문서 접기/펼치기 기능
+    const toggleBtn = document.getElementById("toggleRelatedDocs");
+    const content = document.getElementById("relatedDocsContent");
+    let opened = false;
+    if (toggleBtn && content) {
+      toggleBtn.addEventListener("click", function() {
+        opened = !opened;
+        content.style.display = opened ? "block" : "none";
+        toggleBtn.innerText = opened ? "슈가잇벤쳐 ▲" : "슈가잇벤쳐 ▼";
+      });
+    }
+  });
+
+  (function() {
+    const nextBtn = document.getElementById("nextCharacterBtn");
+    if (!nextBtn) return;
+
+    // 현재 페이지 파일명 추출
+    const path = window.location.pathname;
+    const filename = path.substring(path.lastIndexOf("/") + 1); // 예: "char1.html"
+    
+    // 파일명에서 숫자 추출 (char숫자.html)
+    const match = filename.match(/^char(\d+)\.html$/);
+
+    if (!match) {
+      nextBtn.style.display = "none"; // 형식이 맞지 않으면 버튼 숨김
+      return;
+    }
+
+    const currentNum = parseInt(match[1], 10); // 현재 번호
+    const nextNum = currentNum + 1;             // 다음 번호
+    const nextFile = `char${nextNum}.html`;     // 다음 파일명
+
+    // 버튼 href 설정
+    nextBtn.href = nextFile;
+
+    // 클릭 시 페이드 아웃 후 이동
+    nextBtn.addEventListener("click", function(e){
+      e.preventDefault();
+      const url = this.href;
+      document.body.classList.remove("fade-in");
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = url;
+      }, 500);
+    });
+  })();
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+

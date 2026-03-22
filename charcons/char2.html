@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>판크리</title>
+    <link rel="stylesheet" href="../css/chardocstyle.css">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+</head>
+<body>
+  <!-- 갤러리 이미지 확대 모달 -->
+  <div id="galleryModal" class="gallery-modal">
+    <div class="gallery-modal-overlay" id="galleryModalOverlay"></div>
+    <img id="galleryModalImg" class="gallery-modal-img" src="" alt="Gallery Zoom">
+    <button id="galleryModalClose" class="gallery-modal-close" aria-label="닫기">×</button>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <!-- 헤더: 아바타 + 기본 메타 -->
+      <div class="header">
+
+    <!-- 관련문서 모음: 접기/펼치기 기능 포함 (wrap 내부, card 위) -->
+    <div id="relatedDocsContainer" class="related-docs">
+      <button id="toggleRelatedDocs" class="related-toggle">슈가잇벤쳐 ▼</button>
+      <div id="relatedDocsContent" class="related-content" style="display:none;">
+        <ul>
+          인물<a href="#">라구스</a>  <a href="#">판크리</a>  <a href="#">비터</a>  <a href="#">?</a>
+          <!-- 필요에 따라 문서 추가 -->
+        </ul>
+      </div>
+    </div>
+
+    <h1 class="name">판크리</h1>
+    <div class="subtitle"></div>
+    <div class="header-grid">
+      <div class="toc-area">
+        <div class="toc-title">목차</div>
+        <ol class="toc-list">
+          <li><a href="#section-one">개요</a></li>
+          <li>
+            <a href="#section-two">특징</a>
+            <ul>
+              <li><a href="#section-appearance">외모</a></li>
+              <li><a href="#section-details">세부요소</a></li>
+            </ul>
+          </li>
+          <li><a href="#section-thre">성격</a></li>
+          <li><a href="#section-four">작중행적</a></li>
+          <li><a href="#section-five">관계</a></li>
+          <li><a href="#section-meta">메타정보</a></li>
+          <li><a href="#section-gallery">갤러리</a></li>
+        </ol>
+      </div>
+      <div class="profile-meta-area">
+        <div class="profile">
+          
+        </div><!-- .profile -->
+      </div>
+      <div class="table-area">
+        <table class="table">
+          <tr>
+            <th colspan="2" style="text-align:center; font-weight:100%; font-size:17px;background:#23272f;color:#ffffff;">
+              판크리<br> <span style="font-size: small; font-weight:0%">Pancre</span></th>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align:center;background:#181c22;">
+              <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2Fq9AIb%2FbtsFjWStHth%2FAAAAAAAAAAAAAAAAAAAAALJQEdecOn1zD3qmxwbhbq4skwGniK4ssAB0YH88jVmK%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3D05El2eXWdHXsOiYHOIOCrsgiMNI%253D" alt="캐릭터 이미지" style="max-width:600px;max-height:600px;border-radius:6px;box-shadow:0 1px 4px #222;">
+            </td>
+          </tr>
+          <tr>
+            <th>성별</th>
+            <td>여자</td>
+          </tr>
+          <tr>
+            <th>종족</th>
+            <td>케틀족</td>
+          </tr>
+          <tr>
+            <th>출신</th>
+            <td>이갈리븐 우드 (Egalivn wood)</td>
+          </tr>
+          <tr>
+            <th>좋아하는것</th>
+            <td>디저트, 모험, 새로운것, 노란색</td>
+          </tr>
+          <tr>
+            <th>싫어하는것</th>
+            <td>재미없는것, 느린것, 과정이 많은것</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+      </div><!-- .header -->
+
+      <!-- 본문: 좌측-설명 우측-기본정보 -->
+      <div class="grid">
+        <!-- 좌측: 소개 / 스토리 / 능력 -->
+        <div>
+          <!-- 개요 -->
+          <div class="panel">
+            <div class="section-title" id="section-one">개요</div>
+            <span class="quote-line">"오늘은 저쪽 숲길로 가볼까!"</span>
+            <div class="bio">아랫마을에 사는 모험가 꿈나무.
+              <!-- 배경, 세계관, 기본 설명 등 --></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 특징 -->
+          <div class="panel">
+            <div class="section-title" id="section-two">특징</div>
+            <div class="panel" style="margin-bottom:8px;">
+              <div class="section-title" id="section-appearance" style="font-size:17px;margin-bottom:4px;">외모</div>
+              <div>연노란색 오돌토돌한 뿔, 묶은 머리, 목까지 오는 긴팔 면티, 노란 스트라이프 스웨터, 멜빵 체크무늬 치마, 구두, 가방.</div>
+            </div>
+            <div class="panel" style="margin-bottom:8px;">
+              <div class="section-title" id="section-details" style="font-size:17px;margin-bottom:4px;">세부요소</div>
+              <div>몸에 아무런 무늬도 없다.<br>자주 마을의 도서관에 가서 책을 읽기도 한다. 할 게 없으면 주변 숲으로 가벼운 모험을 떠난다. <br>보통 생태계를 조사하거나 보물을 찾거나 한다. 검게 빛나는 눈 수호교의 성서에 나오는 호르뭄 케시라를 약간 존경하고 있다.</div>
+            </div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 성격 -->
+          <div class="panel">
+            <div class="section-title" id="section-thre">성격</div>
+            <div class="bio">언제나 호기심이 많고 처음 보는것에 무조건 뛰어들어 체험하는걸 좋아한다. 상냥하면서 활발한성격,덜렁거리지 않고 감정이 격하지 않다. 여유로울땐 최대한 여유를 즐기는 편. 남을 잘 배려한다. 남이 부당한 상황이나 규칙을 어기는 상황을 보면 나서서 해결하거나 제지하지만, 자신이 규칙을 어기는것에 대해선 중요하게 생각하지 않는다.<br></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 작중행적 -->
+          <div class="panel">
+            <div class="section-title" id="section-four">작중행적</div>
+            <div class="section-title" style="font-size:17px;margin-bottom:4px;">과거사</div>
+            <div class="bio">마을에 식량이 떨어진 이후 해결책을 찾으려 방문한 이갈리븐 우드 도서관에서 호르뭄 케시라가 쓴 환상의 음식 섬의 대한 책 (사실은 나브루프 사람들이 이갈리븐 우드 사람들의 지능을 퇴화시키려고 만든 책)을 보고 그곳으로 모험을 떠나자고 라구스에게 얘기한다.<br>
+            탐험하다가 수천년 전 살던 인간들의 잔해를 발견하고 그곳에서 우라늄 덩어리를 가져온 적 있지만 그것이 우라늄이라는 사실을 모른다.</div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 관계 -->
+          <div class="panel">
+            <div class="section-title" id="section-five">관계</div>
+            <div class="bio">라구스: 우리 마을 최고의 요리사이자 나의 친구야.<br></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 메타정보 -->
+          <div class="panel">
+            <div class="section-title" id="section-meta">메타정보</div>
+            <div class="bio">모티브 : 이자, 양, 대학생<br>이름은 이자 pancreas 일부 발췌</div>
+          </div>
+        </div><!-- 좌측: 본문 영역 -->
+
+        <aside>
+          <div class="panel">
+            <div class="section-title" id="section-gallery">갤러리</div>
+            <div class="gallery">
+              <figure class="gallery-item">
+                <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2Fbd83Th%2FbtsFmfYadH3%2FAAAAAAAAAAAAAAAAAAAAAFWu12KyuZtwjueCk880GBs26xY8VNYnBQvEwcZvlX2J%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3DNT89qfKzi5njnmJMqUWNpqYumFc%253D" alt="XX">
+                <figcaption>구버전 판크리</figcaption>
+              </figure>
+            </div><!-- .gallery -->
+          </div><!-- .panel -->
+        </aside>
+        <!-- 다음 캐릭터 버튼 -->
+      <a href="char.html" class="next-button" id="nextCharacterBtn">다음 캐릭터 →</a>
+
+      <div class="footer">
+        <a class="back" href="../index.html">← 목록으로 돌아가기</a>
+      </div><!-- .footer -->
+  <script>
+  // 갤러리 이미지 클릭 확대 기능
+  document.addEventListener("DOMContentLoaded", function() {
+    const galleryImgs = document.querySelectorAll('.gallery img');
+    const modal = document.getElementById('galleryModal');
+    const modalImg = document.getElementById('galleryModalImg');
+    const modalOverlay = document.getElementById('galleryModalOverlay');
+    const modalClose = document.getElementById('galleryModalClose');
+    function openModal(src, alt) {
+      modalImg.src = src;
+      modalImg.alt = alt || '';
+      modal.classList.add('show');
+      setTimeout(()=>{modal.classList.add('visible');}, 10);
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modal.classList.remove('visible');
+      setTimeout(()=>{
+        modal.classList.remove('show');
+        modalImg.src = '';
+        document.body.style.overflow = '';
+      }, 250);
+    }
+    galleryImgs.forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function() {
+        openModal(this.src, this.alt);
+      });
+    });
+    modalOverlay.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', closeModal);
+    document.addEventListener('keydown', function(e) {
+      if (modal.classList.contains('show') && (e.key === 'Escape' || e.key === 'Esc')) closeModal();
+    });
+  });
+
+  // 페이지 로드 시 페이드 인
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+    // 관련문서 접기/펼치기 기능
+    const toggleBtn = document.getElementById("toggleRelatedDocs");
+    const content = document.getElementById("relatedDocsContent");
+    let opened = false;
+    if (toggleBtn && content) {
+      toggleBtn.addEventListener("click", function() {
+        opened = !opened;
+        content.style.display = opened ? "block" : "none";
+        toggleBtn.innerText = opened ? "슈가잇벤쳐 ▲" : "슈가잇벤쳐 ▼";
+      });
+    }
+  });
+
+  (function() {
+    const nextBtn = document.getElementById("nextCharacterBtn");
+    if (!nextBtn) return;
+
+    // 현재 페이지 파일명 추출
+    const path = window.location.pathname;
+    const filename = path.substring(path.lastIndexOf("/") + 1); // 예: "char1.html"
+    
+    // 파일명에서 숫자 추출 (char숫자.html)
+    const match = filename.match(/^char(\d+)\.html$/);
+
+    if (!match) {
+      nextBtn.style.display = "none"; // 형식이 맞지 않으면 버튼 숨김
+      return;
+    }
+
+    const currentNum = parseInt(match[1], 10); // 현재 번호
+    const nextNum = currentNum + 1;             // 다음 번호
+    const nextFile = `char${nextNum}.html`;     // 다음 파일명
+
+    // 버튼 href 설정
+    nextBtn.href = nextFile;
+
+    // 클릭 시 페이드 아웃 후 이동
+    nextBtn.addEventListener("click", function(e){
+      e.preventDefault();
+      const url = this.href;
+      document.body.classList.remove("fade-in");
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = url;
+      }, 500);
+    });
+  })();
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+

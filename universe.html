@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>글 게시판</title>
+  <link rel="stylesheet" href="css/articlestyle.css">
+</head>
+<body>
+  <!-- 헤더 -->
+  <header>
+    <h1>블루 레코드</h1>
+
+    <div class="header-content">
+      <!-- 왼쪽: SNS 링크 -->
+      <div class="social-links">
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://tistory.com" target="_blank"><i class="fas fa-blog"></i></a>
+      </div>
+
+      <!-- 오른쪽: 프로필 이미지 -->
+      <div class="profile">
+        <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb2yJT5%2Fbtr1XxichTb%2FghHxI9JpXKxsHWPKt0kJ91%2Fimg.png" alt="내 프로필">
+      </div>
+    </div>
+  </header>
+
+  <!-- 검색창 (왼쪽 상단) -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="캐릭터 검색...">
+    <button type="button" id="searchBtn">검색</button>
+  </div>
+
+  <!-- 네비게이션 -->
+  <nav>
+    <ul>
+      <li><a href="index.html">캐릭터 리스트</a></li>
+      <li><a href="universe.html">기타설정</a></li>
+      <li><a href="art.html">그림</a></li>
+      <li><a href="writing.html">글</a></li>
+      <li><a href="comic.html">만화</a></li>
+      <li><a href="music.html">노래</a></li>
+      <li><a href="game.html">게임</a></li>
+    </ul>
+  </nav>
+
+  <!-- 게시판 영역 -->
+  <div class="post-container" id="postContainer"></div>
+  <div class="pagination" id="pagination"></div>
+
+  <script>
+  let posts = [];
+  let filteredPosts = [];
+  const postsPerPage = 20;
+  let currentPage = 1;
+
+  // JSON 로드
+  async function loadPosts() {
+    const container = document.getElementById("postContainer");
+    try {
+      const res = await fetch("uposts.json");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      posts = await res.json();
+      filteredPosts = posts.slice();
+      renderPosts();
+    } catch (err) {
+      container.innerHTML = `
+        <div style="text-align:center; padding:40px; color:#888;">
+          <div style="font-size:2rem; margin-bottom:12px;">📭</div>
+          <div>게시물을 불러오지 못했습니다.</div>
+          <div style="font-size:13px; margin-top:6px; color:#aaa;">${err.message}</div>
+        </div>`;
+    }
+  }
+
+  // 검색 필터링
+  function filterPosts() {
+    const q = document.getElementById("searchInput").value.trim().toLowerCase();
+    filteredPosts = q
+      ? posts.filter(p => p.title && p.title.toLowerCase().includes(q))
+      : posts.slice();
+    currentPage = 1;
+    renderPosts();
+  }
+
+  // 게시물 렌더링
+  function renderPosts() {
+    const container = document.getElementById("postContainer");
+    container.innerHTML = "";
+
+    if (filteredPosts.length === 0) {
+      container.innerHTML = `<div style="text-align:center; padding:40px; color:#888;">검색 결과가 없습니다.</div>`;
+      document.getElementById("pagination").innerHTML = "";
+      return;
+    }
+
+    const start = (currentPage - 1) * postsPerPage;
+    const end = start + postsPerPage;
+    const currentPosts = filteredPosts.slice(start, end);
+
+    currentPosts.forEach(post => {
+      const postItem = document.createElement("div");
+      postItem.className = "post-item";
+      postItem.innerHTML = `
+        <div class="post-title">${post.title}</div>
+        <div class="post-date">${post.date}</div>
+      `;
+
+      const postContent = document.createElement("div");
+      postContent.className = "post-content";
+
+      let contentHTML = `<p style="white-space: pre-wrap;">${post.content}</p>`;
+      if (post.image) {
+        contentHTML += `<img src="${post.image}" alt="이미지" style="max-width:100%; margin-top:10px; border-radius:8px;">`;
+      }
+      if (post.audio) {
+        contentHTML += `
+          <audio controls style="margin-top:10px; width:100%;">
+            <source src="${post.audio}" type="audio/mpeg">
+            브라우저가 오디오를 지원하지 않습니다.
+          </audio>`;
+      }
+      postContent.innerHTML = contentHTML;
+
+      postItem.addEventListener("click", () => {
+        const isOpen = postContent.style.display === "block";
+        document.querySelectorAll(".post-content").forEach(c => c.style.display = "none");
+        if (!isOpen) postContent.style.display = "block";
+      });
+
+      container.appendChild(postItem);
+      container.appendChild(postContent);
+    });
+
+    renderPagination();
+  }
+
+  // 페이지네이션
+  function renderPagination() {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+    if (totalPages <= 1) return;
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.innerText = i;
+      if (i === currentPage) btn.classList.add("active");
+      btn.addEventListener("click", () => {
+        currentPage = i;
+        renderPosts();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+      pagination.appendChild(btn);
+    }
+  }
+
+  // 검색 이벤트 바인딩
+  document.getElementById("searchBtn").addEventListener("click", filterPosts);
+  document.getElementById("searchInput").addEventListener("input", filterPosts);
+  document.getElementById("searchInput").addEventListener("keypress", e => {
+    if (e.key === "Enter") filterPosts();
+  });
+
+  loadPosts();
+</script>
+
+</body>
+</html>

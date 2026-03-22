@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="EUC-KR">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>?</title>
+    <link rel="stylesheet" href="../css/chardocstyle.css">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+<style>
+/* Glitch / Noise visual effects for page-wide distortion (images excluded) */
+.glitch-scanlines {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+  background-image: linear-gradient(rgba(0,0,0,0.18) 50%, rgba(255,255,255,0.03) 51%);
+  background-size: 100% 2px; opacity: 0.95; mix-blend-mode: overlay;
+  animation: scan 0.45s linear infinite;
+}
+@keyframes scan { to { background-position-y: 2px; } }
+
+/* horizontal glitch slices */
+.glitch-slice { position: fixed; inset: 0; pointer-events: none; z-index: 9999; mix-blend-mode: screen; }
+.glitch-slice .slice { position: absolute; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, rgba(83,163,238,0.12), rgba(255,255,255,0.06)); opacity: 0.85; transform: translateX(-100%); }
+@keyframes sliceMove { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+/* stronger page blur/hue pulse */
+.glitch-blur { animation: blurPulse 3s infinite; }
+@keyframes blurPulse { 0%,100% { filter: none; } 50% { filter: blur(1.8px) hue-rotate(6deg); } }
+
+/* Text glitch flicker (used only on text elements) */
+.glitch-text { position: relative; display: inline-block; animation: textFlicker 2s infinite; }
+@keyframes textFlicker {
+  0% { text-shadow: none; transform: none; }
+  6% { text-shadow: -3px 0 0 rgba(255,0,0,0.9), 3px 0 0 rgba(0,255,255,0.9); transform: translateX(-2px) scale(1.01); }
+  12% { text-shadow: none; transform: none; }
+  24% { text-shadow: 3px -1px 0 rgba(255,0,0,0.9), -3px 1px 0 rgba(0,255,255,0.9); transform: translateX(2px); }
+  100% { text-shadow: none; transform: none; }
+}
+
+/* Noise canvas styling (more visible) */
+.noise-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 10000; pointer-events: none; mix-blend-mode: screen; opacity: 0.32; }
+
+/* Full-screen flash for violent flicker */
+.glitch-flash { position: fixed; inset: 0; background: #fff; z-index: 10002; pointer-events: none; opacity: 0; mix-blend-mode: screen; transition: opacity 0.06s linear; }
+
+</style>
+
+
+
+
+</head>
+<body>
+  <!-- 갤러리 이미지 확대 모달 -->
+  <div id="galleryModal" class="gallery-modal">
+    <div class="gallery-modal-overlay" id="galleryModalOverlay"></div>
+    <img id="galleryModalImg" class="gallery-modal-img" src="" alt="Gallery Zoom">
+    <button id="galleryModalClose" class="gallery-modal-close" aria-label="닫기">×</button>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <!-- 헤더: 아바타 + 기본 메타 -->
+      <div class="header">
+
+    <!-- 관련문서 모음: 접기/펼치기 기능 포함 (wrap 내부, card 위) -->
+    <div id="relatedDocsContainer" class="related-docs">
+      <button id="toggleRelatedDocs" class="related-toggle">슈가잇벤쳐 ▼</button>
+      <div id="relatedDocsContent" class="related-content" style="display:none;">
+        <ul>
+          인물<a href="#">라구스</a>  <a href="#">판크리</a>  <a href="#">비터</a>  <a href="#">?</a>
+          <!-- 필요에 따라 문서 추가 -->
+        </ul>
+      </div>
+    </div>
+
+    <h1 class="name">?</h1>
+    <div class="subtitle"></div>
+    <div class="header-grid">
+      <div class="toc-area">
+        <div class="toc-title">목차</div>
+        <ol class="toc-list">
+          <li><a href="#section-one">개요</a></li>
+          <li>
+            <a href="#section-two">특징</a>
+            <ul>
+              <li><a href="#section-appearance">외모</a></li>
+              <li><a href="#section-details">세부요소</a></li>
+            </ul>
+          </li>
+          <li><a href="#section-thre">성격</a></li>
+          <li><a href="#section-four">작중행적</a></li>
+          <li><a href="#section-five">관계</a></li>
+          <li><a href="#section-meta">메타정보</a></li>
+          <li><a href="#section-gallery">갤러리</a></li>
+        </ol>
+      </div>
+      <div class="profile-meta-area">
+        <div class="profile">
+          
+        </div><!-- .profile -->
+      </div>
+      <div class="table-area">
+        <table class="table">
+          <tr>
+            <th colspan="2" style="text-align:center; font-weight:100%; font-size:17px;background:#23272f;color:#ffffff;">
+              G<br> <span style="font-size: small; font-weight:0%">?</span></th>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align:center;background:#181c22;">
+              <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FSyDif%2FbtsK9WkCWp5%2FAAAAAAAAAAAAAAAAAAAAAE0KgUtRTx7hACj6mmt-78fVmLniQ0k3bFcfUox0SsIY%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3DLA7KW39Zoc9sqZ%252Bsf27o93n%252Bs0o%253D" alt="캐릭터 이미지" style="max-width:600px;max-height:600px;border-radius:6px;box-shadow:0 1px 4px #222;">
+            </td>
+          </tr>
+          <tr>
+            <th>성별</th>
+            <td>남자</td>
+          </tr>
+          <tr>
+            <th>종족</th>
+            <td>케틀족</td>
+          </tr>
+          <tr>
+            <th>출신</th>
+            <td>나브루프 (nabrupu)</td>
+          </tr>
+          <tr>
+            <th>좋아하는것</th>
+            <td>???</td>
+          </tr>
+          <tr>
+            <th>싫어하는것</th>
+            <td>???</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+      </div><!-- .header -->
+
+      <!-- 본문: 좌측-설명 우측-기본정보 -->
+      <div class="grid">
+        <!-- 좌측: 소개 / 스토리 / 능력 -->
+        <div>
+          <!-- 개요 -->
+          <div class="panel">
+            <div class="section-title" id="section-one">개요</div>
+            <span class="quote-line">"아̛̗̯̰͎̄̉̋̀̄͜아̷̢͎̻̜͈̻͙̮͗͑͒͒͘͟아͉̟̞̱̰̥̩̠̬͇̽̒̑̍̒̚?̵̦̝̜͉̬͓͈̗́̍̈̽̎͌̕ͅㅏ̡̼̼͚̝͙̈́͊̓͒͗͢͢͞s̢̝̣͙̭̰͊̉̈́̋̓͜?̴̢̛̥̤̠̠̘͊̋̂̊̒̚?̧͖̩͕͉̣̝͚̥̬́̌̽̅̇̍̍͘Ḧ̷̡̛̬̦̲͇͈̻̰́̈͂̒͘ㅇ̢̝͎̣̝̦̓̆̎́̂́͗̚͘͜͜͜͞B̬̙̙͉͈̟̀͌̌̓͒̅̃́ㄷ̧̲̻͚͖̒̑̀͌̿͘͡͝w̵̳̗̫̠̼̙̯̦͂̉͆͋̒̎͋̈́̀͝ㅎ̴̡̹̬͓͐̊͛̈͋͟d̴̡̢̧̨̠̮̼̫͉͖̄̌́̈́̓͋̄̀͠k̸̡̝͍̯͔̬̎̀͗̐͑̑͟ㅂ̠͇̲̹̗͐̅̃̚͟͞?̛̭̮̼̭̬̞͈̊͗̈̐̾̄͒͑̒͟?̴̢̨̛̥͙͈̤͚̳̼̅̈́́͋͒͌̓͘?̨̦̮͖̼̱͆̄̆́̽̃̏̿̅͟?̵̘̭͇̩̥̂̍̀̊̾"</span>
+            <div class="bio">Ḑ̷̺̺̰͖͗̀̀̓̌̈̚Ä̢̡͎͙̫̟́͒͡͞͠ͅȚ̴̢̯̤̠̹̈́̈́̐̕͢͜͜͟͞A̴̧̨̪͇̪̩͌̂͗́́̀̒͘ I͓̺̞͇̟͍̼̍̅͒̒͑̓͑̋S̢͇̖̬̳̤̓̏̓̓̄̈̚͢͟͞͝ͅ N̶̢̫̠̞̼͛̽͊̇́͌̌̏͟ͅÓ̷̢̢̟̲͇̪̩̰̒̊͋̅Ṫ̩̣̙͖̲͙͔̣̘̜̍̆̾̍͘ F̸͇͖̭̤̩͈͓̮̃͊́͂̍͘͢͢͠O̡̝̩̣̙͆̒̈́̀̾͐͗Ú̧̨̢̩̤̙̟̼̥̊̏̀̈̚͡͝N̵̛̤̞̳͍̖̜̂̍̈́͢͡D̘̻̻͈̗͚̟̞̥̙̈́̑͂͛̆͊̎̐̚͠
+              <!-- 배경, 세계관, 기본 설명 등 --></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 특징 -->
+          <div class="panel">
+            <div class="section-title" id="section-two">특징</div>
+            <div class="panel" style="margin-bottom:8px;">
+              <div class="section-title" id="section-appearance" style="font-size:17px;margin-bottom:4px;">외모</div>
+              <div></div>
+            </div>
+            <div class="panel" style="margin-bottom:8px;">
+              <div class="section-title" id="section-details" style="font-size:17px;margin-bottom:4px;">세부요소</div>
+              <div></div>
+            </div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 성격 -->
+          <div class="panel">
+            <div class="section-title" id="section-thre">성격</div>
+            <div class="bio"><br></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 작중행적 -->
+          <div class="panel">
+            <div class="section-title" id="section-four">작중행적</div>
+            <div class="section-title" style="font-size:17px;margin-bottom:4px;">과거사</div>
+            <div class="bio">ì •ëŒ€ì • ë§ˆ ê³µì¸ì•„. ìˆ˜ë¦¬ ê°€ ë¬´ë¥¸ìœ¼ë¡œ ì˜¬ê°€ ì‚¬ê²Œì§€ ì–´ë‹ˆì„.
+ì˜ë ¤ ì°½ì´ ë™ê¸° ìƒì „ ì‚¬ë™ ë¡œë„ ê°ë°©ì„ ì´ë‹¹ê²ƒ ê¸°ìƒë‹¨ë¶€ ì´ ê²°ì„± ì´ë‹¹ë ˆì˜. ë¬¸íŒ… ë¬´ì–´ ì–´ë¡œ ê°ì‚° ë™ê°„ìƒ ë‹¤ë“œë¡œ ì‚¬ë§ìŠ¤ì–´ ê¸°ë¡œ ì´ë‹¹ë ˆì˜. ì´ë¶€ ì‚¬ë§ëœ ì´ë‹¹ë ˆì˜ ì˜¬ë²„ ìˆ˜ ë˜ë„ ëª¨ì‹œ.
+</div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 관계 -->
+          <div class="panel">
+            <div class="section-title" id="section-five">관계</div>
+            <div class="bio"><br></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 메타정보 -->
+          <div class="panel">
+            <div class="section-title" id="section-meta">메타정보</div>
+            <div class="bio">ë¡œë„ ê°ë°©ì„ ì´</div>
+          </div>
+        </div><!-- 좌측: 본문 영역 -->
+
+        <aside>
+          <div class="panel">
+            <div class="section-title" id="section-gallery">갤러리</div>
+            <div class="gallery">
+              <figure class="gallery-item">
+                <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FdGoMNy%2FbtsFnVZdbZE%2FAAAAAAAAAAAAAAAAAAAAAKAwScb7naYhXl6u-iQID79E6uobUX5_wSMyJpDNE7wS%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3DakM3edUFLFy7u7BZ0T6YSxYEVBU%253D" alt="XX">
+                <figcaption>구버전 G</figcaption>
+              </figure>
+            </div><!-- .gallery -->
+          </div><!-- .panel -->
+        </aside>
+        <!-- 다음 캐릭터 버튼 -->
+      <a href="char.html" class="next-button" id="nextCharacterBtn">다음 캐릭터 →</a>
+
+      <div class="footer">
+        <a class="back" href="../index.html">← 목록으로 돌아가기</a>
+      </div><!-- .footer -->
+  <script>
+  // 갤러리 이미지 클릭 확대 기능
+  document.addEventListener("DOMContentLoaded", function() {
+    const galleryImgs = document.querySelectorAll('.gallery img');
+    const modal = document.getElementById('galleryModal');
+    const modalImg = document.getElementById('galleryModalImg');
+    const modalOverlay = document.getElementById('galleryModalOverlay');
+    const modalClose = document.getElementById('galleryModalClose');
+    function openModal(src, alt) {
+      modalImg.src = src;
+      modalImg.alt = alt || '';
+      modal.classList.add('show');
+      setTimeout(()=>{modal.classList.add('visible');}, 10);
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modal.classList.remove('visible');
+      setTimeout(()=>{
+        modal.classList.remove('show');
+        modalImg.src = '';
+        document.body.style.overflow = '';
+      }, 250);
+    }
+    galleryImgs.forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function() {
+        openModal(this.src, this.alt);
+      });
+    });
+    modalOverlay.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', closeModal);
+    document.addEventListener('keydown', function(e) {
+      if (modal.classList.contains('show') && (e.key === 'Escape' || e.key === 'Esc')) closeModal();
+    });
+  });
+
+  // 페이지 로드 시 페이드 인
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+    // 관련문서 접기/펼치기 기능
+    const toggleBtn = document.getElementById("toggleRelatedDocs");
+    const content = document.getElementById("relatedDocsContent");
+    let opened = false;
+    if (toggleBtn && content) {
+      toggleBtn.addEventListener("click", function() {
+        opened = !opened;
+        content.style.display = opened ? "block" : "none";
+        toggleBtn.innerText = opened ? "슈가잇벤쳐 ▲" : "슈가잇벤쳐 ▼";
+      });
+    }
+  });
+
+  (function() {
+    const nextBtn = document.getElementById("nextCharacterBtn");
+    if (!nextBtn) return;
+
+    // 현재 페이지 파일명 추출
+    const path = window.location.pathname;
+    const filename = path.substring(path.lastIndexOf("/") + 1); // 예: "char1.html"
+    
+    // 파일명에서 숫자 추출 (char숫자.html)
+    const match = filename.match(/^char(\d+)\.html$/);
+
+    if (!match) {
+      nextBtn.style.display = "none"; // 형식이 맞지 않으면 버튼 숨김
+      return;
+    }
+
+    const currentNum = parseInt(match[1], 10); // 현재 번호
+    const nextNum = currentNum + 1;             // 다음 번호
+    const nextFile = `char${nextNum}.html`;     // 다음 파일명
+
+    // 버튼 href 설정
+    nextBtn.href = nextFile;
+
+    // 클릭 시 페이드 아웃 후 이동
+    nextBtn.addEventListener("click", function(e){
+      e.preventDefault();
+      const url = this.href;
+      document.body.classList.remove("fade-in");
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = url;
+      }, 500);
+    });
+  })();
+</script>
+
+<!-- Glitch / Noise runtime script -->
+<script>
+  (function(){
+    // create noise canvas
+    const canvas = document.createElement('canvas');
+    canvas.className = 'noise-canvas';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+
+    // draw blocky/pixel noise frame (larger rectangles for pixelated breakup)
+    function drawNoise() {
+      const w = canvas.width, h = canvas.height; ctx.clearRect(0,0,w,h);
+      // choose a block size from small to medium to create chunky pixels
+      const base = 6 + Math.floor(Math.random()*14); // 6..19
+      for (let y=0;y<h;y+=base) {
+        for (let x=0;x<w;x+=base) {
+          const v = 20 + Math.floor(Math.random()*220); // greys
+          ctx.fillStyle = `rgba(${v},${v},${v},${0.06 + Math.random()*0.26})`;
+          ctx.fillRect(x, y, base, base);
+        }
+      }
+      // occasional bright glitches
+      if (Math.random() < 0.06) {
+        const gx = Math.random()*w, gy = Math.random()*h, gw = 30+Math.random()*160, gh = 6+Math.random()*40;
+        ctx.fillStyle = `rgba(${120+Math.random()*135|0},${30+Math.random()*200|0},${30+Math.random()*200|0},${0.08+Math.random()*0.22})`;
+        ctx.fillRect(gx, gy, gw, gh);
+      }
+    }
+
+  // stronger slices overlay (more slices, varied speed)
+  const sliceWrap = document.createElement('div'); sliceWrap.className='glitch-slice';
+  for (let i=0;i<12;i++){ const s=document.createElement('div'); s.className='slice'; s.style.top=(Math.random()*100)+'%'; s.style.height=(3+Math.random()*20)+'px'; s.style.opacity = 0.6 + Math.random()*0.25; s.style.animation=`sliceMove ${0.4+Math.random()*1.6}s linear ${Math.random()*1.2}s infinite`; sliceWrap.appendChild(s); }
+  document.body.appendChild(sliceWrap);
+
+    // scanlines
+    const scan = document.createElement('div'); scan.className='glitch-scanlines'; document.body.appendChild(scan);
+
+    // apply classes to some elements
+    function applyGlitchOnce(){
+      // headings and important labels (only text/elements)
+      document.querySelectorAll('.name, .section-title, th, .character-name, .quote-line').forEach(el=>{ el.classList.add('glitch-text'); setTimeout(()=>el.classList.remove('glitch-text'), 1200+Math.random()*1800); });
+    }
+
+
+    // loop noise and glitch
+  setInterval(()=>{ drawNoise(); }, 120);
+  setInterval(()=>{ applyGlitchOnce(); }, 1400);
+
+    // subtle page blur pulse
+    document.documentElement.classList.add('glitch-blur');
+  })();
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+

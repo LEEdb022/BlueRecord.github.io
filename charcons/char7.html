@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>라디</title>
+    <link rel="stylesheet" href="../css/chardocstyle.css">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+</head>
+<body>
+  <!-- 갤러리 이미지 확대 모달 -->
+  <div id="galleryModal" class="gallery-modal">
+    <div class="gallery-modal-overlay" id="galleryModalOverlay"></div>
+    <img id="galleryModalImg" class="gallery-modal-img" src="" alt="Gallery Zoom">
+    <button id="galleryModalClose" class="gallery-modal-close" aria-label="닫기">×</button>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <!-- 헤더: 아바타 + 기본 메타 -->
+      <div class="header">
+
+    <!-- 관련문서 모음: 접기/펼치기 기능 포함 (wrap 내부, card 위) -->
+    <div id="relatedDocsContainer" class="related-docs">
+      <button id="toggleRelatedDocs" class="related-toggle">슈가잇벤쳐 ▼</button>
+      <div id="relatedDocsContent" class="related-content" style="display:none;">
+        <ul>
+          인물<a href="#">라구스</a>  <a href="#">판크리</a>  <a href="#">비터</a>
+          <!-- 필요에 따라 문서 추가 -->
+        </ul>
+      </div>
+    </div>
+
+    <h1 class="name">라디</h1>
+    <div class="subtitle"></div>
+    <div class="header-grid">
+      <div class="toc-area">
+        <div class="toc-title">목차</div>
+        <ol class="toc-list">
+          <li><a href="#section-one">개요</a></li>
+          <li>
+            <a href="#section-two">특징</a>
+            <ul>
+              <li><a href="#section-appearance">외모</a></li>
+              <li><a href="#section-details">세부요소</a></li>
+            </ul>
+          </li>
+          <li><a href="#section-thre">성격</a></li>
+          <li><a href="#section-four">작중행적</a></li>
+          <li><a href="#section-five">관계</a></li>
+          <li><a href="#section-meta">메타정보</a></li>
+          <li><a href="#section-gallery">갤러리</a></li>
+        </ol>
+      </div>
+      <div class="profile-meta-area">
+        <div class="profile">
+          
+        </div><!-- .profile -->
+      </div>
+      <div class="table-area">
+        <table class="table">
+          <tr>
+            <th colspan="2" style="text-align:center; font-weight:100%; font-size:17px;background:#23272f;color:#ffffff;">
+              라디<br> <span style="font-size: small; font-weight:0%">Radi</span></th>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align:center;background:#181c22;">
+              <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FchJBOz%2FbtsLePSfc6z%2FAAAAAAAAAAAAAAAAAAAAACE5JhhA8ijbN7IkAN0SHlDqdYIDVR3J82NgwKnDoido%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1761922799%26allow_ip%3D%26allow_referer%3D%26signature%3DC3Ul9uwz1XoPWmRDguGv9TiMVOc%253D" alt="캐릭터 이미지" style="max-width:600px;max-height:600px;border-radius:6px;box-shadow:0 1px 4px #222;">
+            </td>
+          </tr>
+          <tr>
+            <th>성별</th>
+            <td>남자</td>
+          </tr>
+          <tr>
+            <th>종족</th>
+            <td>케틀족</td>
+          </tr>
+          <tr>
+            <th>출신</th>
+            <td>이갈리븐 우드 (Egalivn wood)</td>
+          </tr>
+          <tr>
+            <th>좋아하는것</th>
+            <td>라니</td>
+          </tr>
+          <tr>
+            <th>싫어하는것</th>
+            <td>라니를 괴롭히는 사람, 라니가 슬픈것, 자신의 말이끝나지 않았는데 말을 끊어버리기</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+      </div><!-- .header -->
+
+      <!-- 본문: 좌측-설명 우측-기본정보 -->
+      <div class="grid">
+        <!-- 좌측: 소개 / 스토리 / 능력 -->
+        <div>
+          <!-- 개요 -->
+          <div class="panel">
+            <div class="section-title" id="section-one">개요</div>
+            <span class="quote-line">"아하하... 저는 괜찮아요...... 으윽."</span>
+            <div class="bio">여동생의 상점 일을 돕고 있는 자상한 오빠이다.
+              <!-- 배경, 세계관, 기본 설명 등 --></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 특징 -->
+          <div class="panel">
+            <div class="section-title" id="section-two">특징</div>
+            <div class="panel" style="margin-bottom:8px;">
+              <div class="section-title" id="section-appearance" style="font-size:17px;margin-bottom:4px;">외모</div>
+              <div>매일 주변을 탐사하느라 몸이 만신창이지만 여동생이 행복하다면 자신은 어떻게 되든 상관 없다. 몸이 아주 다부지다. 한쪽 팔이 없고 한쪽 눈이 멀었다. 귀가 잘려있다.</div>
+            </div>
+            <div class="panel" style="margin-bottom:8px;">
+              <div class="section-title" id="section-details" style="font-size:17px;margin-bottom:4px;">세부요소</div>
+              <div>남에게 걱정끼치는걸 피하려 한다.</div>
+            </div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 성격 -->
+          <div class="panel">
+            <div class="section-title" id="section-thre">성격</div>
+            <div class="bio">배려심 넘치는 성격에 약간 소심하다. 책임감이 아주 강하며, 때에 따라서 용감해진다.</div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 작중행적 -->
+          <div class="panel">
+            <div class="section-title" id="section-four">작중행적</div>
+            <div class="section-title" style="font-size:17px;margin-bottom:4px;">과거사</div>
+            <div class="bio"></div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 관계 -->
+          <div class="panel">
+            <div class="section-title" id="section-five">관계</div>
+            <div class="bio">라니: 여동생</div>
+          </div>
+          <div style="height:12px"></div>
+          <!-- 메타정보 -->
+          <div class="panel">
+            <div class="section-title" id="section-meta">메타정보</div>
+            <div class="bio">모티브 : <br> <br>이름은 radi attion에서 따옴</div>
+          </div>
+        </div><!-- 좌측: 본문 영역 -->
+
+        <aside>
+          <div class="panel">
+            <div class="section-title" id="section-gallery">갤러리</div>
+            <div class="gallery">
+              <figure class="gallery-item">
+                <img src="" alt="XX"></figcaption>
+              </figure>
+            </div><!-- .gallery -->
+          </div><!-- .panel -->
+        </aside>
+        <!-- 다음 캐릭터 버튼 -->
+      <a href="char.html" class="next-button" id="nextCharacterBtn">다음 캐릭터 →</a>
+
+      <div class="footer">
+        <a class="back" href="../index.html">← 목록으로 돌아가기</a>
+      </div><!-- .footer -->
+  <script>
+  // 갤러리 이미지 클릭 확대 기능
+  document.addEventListener("DOMContentLoaded", function() {
+    const galleryImgs = document.querySelectorAll('.gallery img');
+    const modal = document.getElementById('galleryModal');
+    const modalImg = document.getElementById('galleryModalImg');
+    const modalOverlay = document.getElementById('galleryModalOverlay');
+    const modalClose = document.getElementById('galleryModalClose');
+    function openModal(src, alt) {
+      modalImg.src = src;
+      modalImg.alt = alt || '';
+      modal.classList.add('show');
+      setTimeout(()=>{modal.classList.add('visible');}, 10);
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modal.classList.remove('visible');
+      setTimeout(()=>{
+        modal.classList.remove('show');
+        modalImg.src = '';
+        document.body.style.overflow = '';
+      }, 250);
+    }
+    galleryImgs.forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function() {
+        openModal(this.src, this.alt);
+      });
+    });
+    modalOverlay.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', closeModal);
+    document.addEventListener('keydown', function(e) {
+      if (modal.classList.contains('show') && (e.key === 'Escape' || e.key === 'Esc')) closeModal();
+    });
+  });
+
+  // 페이지 로드 시 페이드 인
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+    // 관련문서 접기/펼치기 기능
+    const toggleBtn = document.getElementById("toggleRelatedDocs");
+    const content = document.getElementById("relatedDocsContent");
+    let opened = false;
+    if (toggleBtn && content) {
+      toggleBtn.addEventListener("click", function() {
+        opened = !opened;
+        content.style.display = opened ? "block" : "none";
+        toggleBtn.innerText = opened ? "슈가잇벤쳐 ▲" : "슈가잇벤쳐 ▼";
+      });
+    }
+  });
+
+  (function() {
+    const nextBtn = document.getElementById("nextCharacterBtn");
+    if (!nextBtn) return;
+
+    // 현재 페이지 파일명 추출
+    const path = window.location.pathname;
+    const filename = path.substring(path.lastIndexOf("/") + 1); // 예: "char1.html"
+    
+    // 파일명에서 숫자 추출 (char숫자.html)
+    const match = filename.match(/^char(\d+)\.html$/);
+
+    if (!match) {
+      nextBtn.style.display = "none"; // 형식이 맞지 않으면 버튼 숨김
+      return;
+    }
+
+    const currentNum = parseInt(match[1], 10); // 현재 번호
+    const nextNum = currentNum + 1;             // 다음 번호
+    const nextFile = `char${nextNum}.html`;     // 다음 파일명
+
+    // 버튼 href 설정
+    nextBtn.href = nextFile;
+
+    // 클릭 시 페이드 아웃 후 이동
+    nextBtn.addEventListener("click", function(e){
+      e.preventDefault();
+      const url = this.href;
+      document.body.classList.remove("fade-in");
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = url;
+      }, 500);
+    });
+  })();
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+

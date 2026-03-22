@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>글 게시판</title>
+  <link rel="stylesheet" href="css/articlestyle.css">
+</head>
+<body>
+  <!-- 헤더 -->
+  <header>
+    <h1>블루 레코드</h1>
+
+    <div class="header-content">
+      <!-- 왼쪽: SNS 링크 -->
+      <div class="social-links">
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://tistory.com" target="_blank"><i class="fas fa-blog"></i></a>
+      </div>
+
+      <!-- 오른쪽: 프로필 이미지 -->
+      <div class="profile">
+        <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb2yJT5%2Fbtr1XxichTb%2FghHxI9JpXKxsHWPKt0kJ91%2Fimg.png" alt="내 프로필">
+      </div>
+    </div>
+  </header>
+
+  <!-- 검색창 (왼쪽 상단) -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="캐릭터 검색...">
+    <button type="button" id="searchBtn">검색</button>
+  </div>
+
+  <!-- 네비게이션 -->
+  <nav>
+    <ul>
+      <li><a href="index.html">캐릭터 리스트</a></li>
+      <li><a href="universe.html">기타설정</a></li>
+      <li><a href="art.html">그림</a></li>
+      <li><a href="writing.html">글</a></li>
+      <li><a href="comic.html">만화</a></li>
+      <li><a href="music.html">노래</a></li>
+      <li><a href="game.html">게임</a></li>
+    </ul>
+  </nav>
+
+  <!-- 게시판 영역 -->
+  <div class="post-container" id="postContainer"></div>
+  <div class="pagination" id="pagination"></div>
+
+  <script>
+  let posts = [];
+  const postsPerPage = 20;
+  let currentPage = 1;
+
+  async function loadPosts() {
+    const res = await fetch("gposts.json");
+    posts = await res.json();
+    renderPosts();
+  }
+
+function renderPosts() {
+  const container = document.getElementById("postContainer");
+  container.innerHTML = "";
+
+  const start = (currentPage - 1) * postsPerPage;
+  const end = start + postsPerPage;
+  const currentPosts = posts.slice(start, end);
+
+  currentPosts.forEach(post => {
+    const postItem = document.createElement("div");
+    postItem.className = "post-item";
+    postItem.innerHTML = `
+      <div class="post-title">${post.title}</div>
+      <div class="post-date">${post.date}</div>
+    `;
+
+    const postContent = document.createElement("div");
+    postContent.className = "post-content";
+
+    // 📝 글 내용 출력 — \n 줄바꿈 반영
+    let contentHTML = `<p style="white-space: pre-wrap;">${post.content}</p>`;
+
+    // 🖼️ 이미지가 있을 경우
+    if (post.image) {
+      contentHTML += `
+        <img src="${post.image}" alt="이미지" 
+             style="max-width:100%; margin-top:10px; border-radius:8px;">
+      `;
+    }
+
+    // 🔊 오디오가 있을 경우
+    if (post.audio) {
+      contentHTML += `
+        <audio controls style="margin-top:10px; width:100%;">
+          <source src="${post.audio}" type="audio/mpeg">
+          브라우저가 오디오를 지원하지 않습니다.
+        </audio>
+      `;
+    }
+
+    postContent.innerHTML = contentHTML;
+
+    postItem.addEventListener("click", () => {
+      const isOpen = postContent.style.display === "block";
+      document.querySelectorAll(".post-content").forEach(c => c.style.display = "none");
+      if (!isOpen) postContent.style.display = "block";
+    });
+
+    container.appendChild(postItem);
+    container.appendChild(postContent);
+  });
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    const totalPages = Math.ceil(posts.length / postsPerPage);
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.innerText = i;
+      if (i === currentPage) btn.classList.add("active");
+      btn.addEventListener("click", () => {
+        currentPage = i;
+        renderPosts();
+      });
+      pagination.appendChild(btn);
+    }
+  }
+
+  loadPosts();
+</script>
+
+</body>
+</html>

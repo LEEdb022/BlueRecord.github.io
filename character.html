@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>캐릭터 상세</title>
+  <style>
+    #character-detail { max-width: 600px; margin: 50px auto; text-align: center; }
+    #character-detail img { width: 200px; height: 200px; object-fit: cover; border-radius: 50%; }
+  </style>
+</head>
+<body>
+<div id="character-detail"></div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const charId = params.get("id");
+
+fetch("characters.json")
+  .then(res => res.json())
+  .then(data => {
+    const char = data.find(c => c.id === charId);
+    const container = document.getElementById("character-detail");
+    if (!char) {
+      container.innerText = "캐릭터를 찾을 수 없습니다.";
+      return;
+    }
+
+    // 먼저 이름과 이미지 표시
+    container.innerHTML = `
+      <h2>${char.name}</h2>
+      <img src="${char.image}" alt="${char.name}">
+      <div id="html-content">불러오는 중...</div>
+      <a href="index.html">← 목록으로 돌아가기</a>
+    `;
+
+    // HTML 파일 fetch
+    fetch(char.html)
+      .then(res => res.text())
+      .then(content => {
+        document.getElementById("html-content").innerHTML = content;
+      })
+      .catch(err => {
+        document.getElementById("html-content").innerText = "HTML 불러오기 실패";
+        console.error(err);
+      });
+  });
+</script>
+</body>
+</html>
